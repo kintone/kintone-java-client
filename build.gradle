@@ -1,0 +1,91 @@
+plugins {
+    id 'java'
+    id 'maven'
+    id 'com.diffplug.gradle.spotless' version '3.25.0'
+}
+
+version = '0.9.0'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.httpcomponents:httpclient:4.5.12'
+    implementation 'org.apache.httpcomponents:httpmime:4.5.12'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.3'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.3'
+
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+    testImplementation 'com.google.guava:guava:29.0-jre'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
+    testImplementation 'org.assertj:assertj-core:3.15.0'
+    testImplementation 'org.mock-server:mockserver-netty:5.10'
+
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
+}
+
+processResources {
+    filesMatching('config.properties') {
+        expand version: project.version
+    }
+}
+
+spotless {
+    java {
+        googleJavaFormat()
+        indentWithTabs(2)
+        indentWithSpaces(4)
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+task delombok {
+    description 'Delomboks the source code'
+    doFirst {
+        ant.taskdef(classname: 'lombok.delombok.ant.Tasks$Delombok', classpath: configurations.compileClasspath.asPath, name: 'delombok')
+        ant.mkdir(dir: 'build/src-delomboked')
+        ant.delombok(verbose: 'true', encoding: 'UTF-8', to: 'build/src-delomboked', classpath: configurations.compileClasspath.asPath) {
+            ant.fileset(dir: 'src/main/java') {
+                include(name: '**/*.java')
+            }
+        }
+    }
+}
+
+javadoc {
+    dependsOn delombok
+    source = files('build/src-delomboked')
+    options.overview("src/javadoc/overview.html")
+    options.locale("en_US")      // generates javadoc in English
+    options.noQualifiers("all")  // omits all package qualifiers
+    options.noTimestamp(true)    // don't write timestamps in generated pages
+    options.encoding('UTF-8')
+    options.docEncoding('UTF-8')
+    options.charSet('UTF-8')
+}
+
+task javadocUpdate(type: Copy) {
+    description 'Builds javadoc and copies to docs/javadoc'
+    dependsOn javadoc
+    from "${buildDir}/docs/javadoc"
+    into "${projectDir}/docs/javadoc"
+    include '**/*.html'
+    include '**/*.js'
+    include '**/*.css'
+}

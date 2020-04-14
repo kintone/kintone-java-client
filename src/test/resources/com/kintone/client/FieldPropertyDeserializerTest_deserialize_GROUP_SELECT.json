@@ -1,0 +1,21 @@
+{
+    "property": {
+        "type": "GROUP_SELECT",
+        "code": "groupselect",
+        "label": "Group selection field",
+        "noLabel": false,
+        "required": false,
+        "entities": [
+            {
+                "type": "GROUP",
+                "code": "group"
+            }
+        ],
+        "defaultValue": [
+            {
+                "type": "GROUP",
+                "code": "group"
+            }
+        ]
+    }
+}

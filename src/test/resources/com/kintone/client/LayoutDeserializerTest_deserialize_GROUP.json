@@ -1,0 +1,32 @@
+{
+  "layout": {
+    "type": "GROUP",
+    "code": "group",
+    "layout": [
+      {
+        "type": "ROW",
+        "fields": [
+          {
+            "type": "RECORD_NUMBER",
+            "code": "record_number",
+            "size": {
+              "width": "120"
+            }
+          }
+        ]
+      },
+      {
+        "type": "ROW",
+        "fields": [
+          {
+            "type": "CREATED_TIME",
+            "code": "created_time",
+            "size": {
+              "width": "200"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

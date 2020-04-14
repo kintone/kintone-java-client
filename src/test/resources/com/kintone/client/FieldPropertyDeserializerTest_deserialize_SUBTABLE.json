@@ -1,0 +1,38 @@
+{
+  "property": {
+    "type": "SUBTABLE",
+    "code": "table",
+    "label": "Subtable field",
+    "noLabel": false,
+    "fields": {
+      "number": {
+        "type": "NUMBER",
+        "code": "number",
+        "label": "Number field",
+        "noLabel": false,
+        "required": false,
+        "minValue": "",
+        "maxValue": "",
+        "digit": false,
+        "unique": false,
+        "defaultValue": "",
+        "displayScale": "",
+        "unit": "",
+        "unitPosition": "BEFORE"
+      },
+      "text": {
+        "type": "SINGLE_LINE_TEXT",
+        "code": "text",
+        "label": "Text field",
+        "noLabel": false,
+        "required": false,
+        "minLength": "",
+        "maxLength": "",
+        "expression": "",
+        "hideExpression": false,
+        "unique": false,
+        "defaultValue": ""
+      }
+    }
+  }
+}

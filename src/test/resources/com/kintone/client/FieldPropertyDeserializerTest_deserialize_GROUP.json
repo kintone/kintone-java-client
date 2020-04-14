@@ -1,0 +1,9 @@
+{
+  "property": {
+    "type": "GROUP",
+    "code": "group",
+    "label": "Field group",
+    "noLabel": false,
+    "openGroup": false
+  }
+}

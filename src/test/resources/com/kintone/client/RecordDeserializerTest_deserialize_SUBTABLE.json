@@ -1,0 +1,22 @@
+{
+  "record": {
+    "table": {
+      "type": "SUBTABLE",
+      "value": [
+        {
+          "id": "1",
+          "value": {
+            "number": {
+              "type": "NUMBER",
+              "value": "100"
+            },
+            "text": {
+              "type": "SINGLE_LINE_TEXT",
+              "value": "test"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

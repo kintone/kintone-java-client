@@ -1,0 +1,25 @@
+{
+  "property": {
+    "type": "RADIO_BUTTON",
+    "code": "radiobutton",
+    "label": "Radio button field",
+    "noLabel": true,
+    "required": true,
+    "options": {
+      "option 1": {
+        "label": "option 1",
+        "index": "0"
+      },
+      "option 2": {
+        "label": "option 2",
+        "index": "1"
+      },
+      "option 3": {
+        "label": "option 3",
+        "index": "2"
+      }
+    },
+    "defaultValue": "option 3",
+    "align": "VERTICAL"
+  }
+}

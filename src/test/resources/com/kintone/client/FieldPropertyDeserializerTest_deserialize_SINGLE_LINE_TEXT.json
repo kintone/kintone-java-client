@@ -1,0 +1,15 @@
+{
+  "property": {
+    "type": "SINGLE_LINE_TEXT",
+    "code": "text",
+    "label": "Text field",
+    "noLabel": false,
+    "required": false,
+    "minLength": "0",
+    "maxLength": "10",
+    "expression": "",
+    "hideExpression": false,
+    "unique": false,
+    "defaultValue": "test"
+  }
+}

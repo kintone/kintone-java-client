@@ -1,0 +1,22 @@
+{
+  "layout": {
+    "type": "SUBTABLE",
+    "code": "table",
+    "fields": [
+      {
+        "type": "SINGLE_LINE_TEXT",
+        "code": "text",
+        "size": {
+          "width": "100"
+        }
+      },
+      {
+        "type": "NUMBER",
+        "code": "number",
+        "size": {
+          "width": "200"
+        }
+      }
+    ]
+  }
+}

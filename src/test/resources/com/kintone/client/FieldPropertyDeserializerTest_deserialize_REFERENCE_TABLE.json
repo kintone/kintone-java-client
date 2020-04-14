@@ -1,0 +1,25 @@
+{
+  "property": {
+    "type": "REFERENCE_TABLE",
+    "code": "reference_table",
+    "label": "Related records field",
+    "noLabel": false,
+    "referenceTable": {
+      "relatedApp": {
+        "app": "1",
+        "code": ""
+      },
+      "condition": {
+        "field": "Record_number",
+        "relatedField": "Number"
+      },
+      "filterCond": "Number >= \"100\"",
+      "displayFields": [
+        "Record_number",
+        "Number"
+      ],
+      "sort": "Record_number desc",
+      "size": "5"
+    }
+  }
+}

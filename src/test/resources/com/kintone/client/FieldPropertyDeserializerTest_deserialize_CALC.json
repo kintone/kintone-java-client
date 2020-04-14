@@ -1,0 +1,15 @@
+{
+  "property": {
+    "type": "CALC",
+    "code": "calc",
+    "label": "Calc field",
+    "noLabel": false,
+    "required": false,
+    "expression": "number + 100",
+    "format": "NUMBER",
+    "displayScale": "4",
+    "hideExpression": false,
+    "unit": "$",
+    "unitPosition": "BEFORE"
+  }
+}

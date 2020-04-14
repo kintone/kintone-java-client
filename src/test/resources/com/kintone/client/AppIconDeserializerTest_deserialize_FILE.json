@@ -1,0 +1,11 @@
+{
+  "icon": {
+    "type": "FILE",
+    "file": {
+      "contentType": "image/png",
+      "fileKey": "abcd-efgh-0123",
+      "name": "test.png",
+      "size": 100
+    }
+  }
+}

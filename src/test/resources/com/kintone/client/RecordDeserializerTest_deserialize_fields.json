@@ -1,0 +1,104 @@
+{
+  "record": {
+    "calc": {
+      "type": "CALC",
+      "value": "100"
+    },
+    "check_box": {
+      "type": "CHECK_BOX",
+      "value": [
+        "option 1",
+        "option 2"
+      ]
+    },
+    "date": {
+      "type": "DATE",
+      "value": "2020-01-01"
+    },
+    "datetime": {
+      "type": "DATETIME",
+      "value": "2020-01-02T03:04:00Z"
+    },
+    "drop_down": {
+      "type": "DROP_DOWN",
+      "value": "option 2"
+    },
+    "file": {
+      "type": "FILE",
+      "value": [
+        {
+          "contentType": "image/jpeg",
+          "fileKey": "key",
+          "name": "test.jpg",
+          "size": "1000"
+        }
+      ]
+    },
+    "group_select": {
+      "type": "GROUP_SELECT",
+      "value": [
+        {
+          "code": "group",
+          "name": "Group"
+        }
+      ]
+    },
+    "link": {
+      "type": "LINK",
+      "value": "http://example.com/"
+    },
+    "lookup": {
+      "type": "NUMBER",
+      "value": "1"
+    },
+    "multi_select": {
+      "type": "MULTI_SELECT",
+      "value": [
+        "option 1",
+        "option 2"
+      ]
+    },
+    "number": {
+      "type": "NUMBER",
+      "value": "10"
+    },
+    "org_select": {
+      "type": "ORGANIZATION_SELECT",
+      "value": [
+        {
+          "code": "organization",
+          "name": "Organization"
+        }
+      ]
+    },
+    "radio_button": {
+      "type": "RADIO_BUTTON",
+      "value": "option 1"
+    },
+    "rich_text": {
+      "type": "RICH_TEXT",
+      "value": "<div>test</div>"
+    },
+    "text": {
+      "type": "SINGLE_LINE_TEXT",
+      "value": "test"
+    },
+    "text_area": {
+      "type": "MULTI_LINE_TEXT",
+      "value": "test"
+    },
+    "time": {
+      "type": "TIME",
+      "value": "23:59"
+    },
+    "user_select": {
+      "type": "USER_SELECT",
+      "value": [
+        {
+          "code": "user",
+          "name": "User"
+        }
+      ]
+    }
+  }
+}

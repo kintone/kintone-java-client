@@ -1,0 +1,36 @@
+{
+  "layout": {
+    "type": "ROW",
+    "fields": [
+      {
+        "type": "LABEL",
+        "label": "Label",
+        "size": {
+          "width": "100"
+        }
+      },
+      {
+        "type": "SPACER",
+        "elementId": "test",
+        "size": {
+          "width": "120",
+          "height": "80"
+        }
+      },
+      {
+        "type": "HR",
+        "size": {
+          "width": "150"
+        }
+      },
+      {
+        "type": "MULTI_LINE_TEXT",
+        "code": "text_area",
+        "size": {
+          "width": "320",
+          "innerHeight": "125"
+        }
+      }
+    ]
+  }
+}

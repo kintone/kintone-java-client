@@ -1,0 +1,42 @@
+{
+  "record": {
+    "updated_datetime": {
+      "type": "UPDATED_TIME",
+      "value": "2020-01-01T00:00:00Z"
+    },
+    "record_number": {
+      "type": "RECORD_NUMBER",
+      "value": "1"
+    },
+    "updated_by": {
+      "type": "MODIFIER",
+      "value": {
+        "code": "user",
+        "name": "User"
+      }
+    },
+    "text": {
+      "type": "SINGLE_LINE_TEXT",
+      "value": "test value"
+    },
+    "$revision": {
+      "type": "__REVISION__",
+      "value": "1"
+    },
+    "created_by": {
+      "type": "CREATOR",
+      "value": {
+        "code": "user",
+        "name": "User"
+      }
+    },
+    "created_datetime": {
+      "type": "CREATED_TIME",
+      "value": "2020-01-01T00:00:00Z"
+    },
+    "$id": {
+      "type": "__ID__",
+      "value": "1"
+    }
+  }
+}

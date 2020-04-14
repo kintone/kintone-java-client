@@ -1,0 +1,8 @@
+{
+  "property": {
+    "type": "UPDATED_TIME",
+    "code": "updated_time",
+    "label": "Updated datetime field",
+    "noLabel": true
+  }
+}

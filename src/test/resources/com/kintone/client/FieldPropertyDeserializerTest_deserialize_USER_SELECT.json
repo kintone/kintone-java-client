@@ -1,0 +1,24 @@
+{
+  "property": {
+    "type": "USER_SELECT",
+    "code": "userselect",
+    "label": "User selection field",
+    "noLabel": false,
+    "required": false,
+    "entities": [
+      {
+        "type": "ORGANIZATION",
+        "code": "org"
+      },
+      {
+        "type": "GROUP",
+        "code": "group"
+      },
+      {
+        "type": "USER",
+        "code": "user"
+      }
+    ],
+    "defaultValue": []
+  }
+}

@@ -1,0 +1,8 @@
+{
+    "property": {
+        "type": "MODIFIER",
+        "code": "modifier",
+        "label": "Modifier field",
+        "noLabel": false
+    }
+}

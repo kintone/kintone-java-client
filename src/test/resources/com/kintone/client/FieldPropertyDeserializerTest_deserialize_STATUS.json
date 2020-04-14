@@ -1,0 +1,8 @@
+{
+  "property": {
+    "type": "STATUS",
+    "code": "status",
+    "label": "Status field",
+    "enabled": true
+  }
+}

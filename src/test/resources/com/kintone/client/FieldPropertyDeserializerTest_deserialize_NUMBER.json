@@ -1,0 +1,17 @@
+{
+  "property": {
+    "type": "NUMBER",
+    "code": "number",
+    "label": "Number field",
+    "noLabel": true,
+    "required": true,
+    "minValue": "10",
+    "maxValue": "200",
+    "digit": true,
+    "unique": true,
+    "defaultValue": "50",
+    "displayScale": "3",
+    "unit": "points",
+    "unitPosition": "AFTER"
+  }
+}

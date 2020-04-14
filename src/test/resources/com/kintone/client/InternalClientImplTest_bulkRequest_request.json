@@ -1,0 +1,29 @@
+{
+  "requests": [
+    {
+      "method": "POST",
+      "api": "/k/v1/record.json",
+      "payload": {
+        "app": 1,
+        "record": {
+          "text": {
+            "value": "test value 1"
+          }
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "api": "/k/v1/record.json",
+      "payload": {
+        "app": 2,
+        "id": 1,
+        "record": {
+          "text": {
+            "value": "test value 2"
+          }
+        }
+      }
+    }
+  ]
+}

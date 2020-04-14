@@ -1,0 +1,28 @@
+{
+  "property": {
+    "type": "NUMBER",
+    "code": "lookup",
+    "label": "Lookup number field",
+    "noLabel": false,
+    "required": false,
+    "lookup": {
+      "relatedApp": {
+        "app": "1",
+        "code": ""
+      },
+      "relatedKeyField": "record_number",
+      "fieldMappings": [
+        {
+          "field": "number",
+          "relatedField": "other_number"
+        }
+      ],
+      "lookupPickerFields": [
+        "record_number",
+        "other_number"
+      ],
+      "filterCond": "record_number >= \"10\"",
+      "sort": "record_number desc"
+    }
+  }
+}

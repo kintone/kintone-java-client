@@ -1,0 +1,11 @@
+{
+  "property": {
+    "type": "TIME",
+    "code": "time",
+    "label": "Time field",
+    "noLabel": false,
+    "required": true,
+    "defaultValue": "05:00:00.000",
+    "defaultNowValue": false
+  }
+}

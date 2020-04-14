@@ -1,0 +1,10 @@
+{
+  "property": {
+    "type": "FILE",
+    "code": "file",
+    "label": "File field",
+    "noLabel": true,
+    "required": false,
+    "thumbnailSize": "500"
+  }
+}

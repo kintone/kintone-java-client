@@ -1,0 +1,10 @@
+{
+  "property": {
+    "type": "RICH_TEXT",
+    "code": "richtext",
+    "label": "Rich text field",
+    "noLabel": false,
+    "required": false,
+    "defaultValue": "<div><b>test value</b></div>"
+  }
+}

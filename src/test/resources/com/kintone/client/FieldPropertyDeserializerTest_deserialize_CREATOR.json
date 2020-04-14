@@ -1,0 +1,8 @@
+{
+  "property": {
+    "type": "CREATOR",
+    "code": "creator",
+    "label": "Creator field",
+    "noLabel": true
+  }
+}

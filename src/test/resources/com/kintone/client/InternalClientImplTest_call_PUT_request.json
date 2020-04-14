@@ -1,0 +1,9 @@
+{
+  "app": 1,
+  "id": 1,
+  "record": {
+    "text": {
+      "value": "test value"
+    }
+  }
+}

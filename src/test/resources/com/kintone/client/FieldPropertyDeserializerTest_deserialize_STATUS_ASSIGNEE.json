@@ -1,0 +1,8 @@
+{
+  "property": {
+    "type": "STATUS_ASSIGNEE",
+    "code": "assignee",
+    "label": "Assignee field",
+    "enabled": true
+  }
+}

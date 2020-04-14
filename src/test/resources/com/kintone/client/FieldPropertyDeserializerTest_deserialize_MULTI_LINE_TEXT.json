@@ -1,0 +1,10 @@
+{
+  "property": {
+    "type": "MULTI_LINE_TEXT",
+    "code": "textarea",
+    "label": "Text area field",
+    "noLabel": false,
+    "required": false,
+    "defaultValue": ""
+  }
+}

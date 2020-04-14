@@ -1,0 +1,14 @@
+{
+  "property": {
+    "type": "LINK",
+    "code": "link",
+    "label": "Link field",
+    "noLabel": false,
+    "required": false,
+    "protocol": "WEB",
+    "minLength": "1",
+    "maxLength": "128",
+    "unique": false,
+    "defaultValue": "http://example.com/"
+  }
+}

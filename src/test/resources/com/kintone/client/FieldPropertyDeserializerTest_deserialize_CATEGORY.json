@@ -1,0 +1,8 @@
+{
+  "property": {
+    "type": "CATEGORY",
+    "code": "category",
+    "label": "Category field",
+    "enabled": true
+  }
+}

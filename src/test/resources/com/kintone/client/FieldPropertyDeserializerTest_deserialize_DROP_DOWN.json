@@ -1,0 +1,24 @@
+{
+  "property": {
+    "type": "DROP_DOWN",
+    "code": "dropdown",
+    "label": "Drop-down field",
+    "noLabel": false,
+    "required": false,
+    "options": {
+      "option 3": {
+        "label": "option 3",
+        "index": "2"
+      },
+      "option 1": {
+        "label": "option 1",
+        "index": "0"
+      },
+      "option 2": {
+        "label": "option 2",
+        "index": "1"
+      }
+    },
+    "defaultValue": "option 1"
+  }
+}

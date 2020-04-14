@@ -1,0 +1,53 @@
+{
+  "record": {
+    "$id": {
+      "type": "__ID__",
+      "value": "1"
+    },
+    "$revision": {
+      "type": "__REVISION__",
+      "value": "2"
+    },
+    "assignee": {
+      "type": "STATUS_ASSIGNEE",
+      "value": []
+    },
+    "categories": {
+      "type": "CATEGORY",
+      "value": [
+        "Category A",
+        "Category B"
+      ]
+    },
+    "creator": {
+      "type": "CREATOR",
+      "value": {
+        "code": "user",
+        "name": "User"
+      }
+    },
+    "created_time": {
+      "type": "CREATED_TIME",
+      "value": "2020-01-01T00:00:00Z"
+    },
+    "record_number": {
+      "type": "RECORD_NUMBER",
+      "value": "APP-1"
+    },
+    "status": {
+      "type": "STATUS",
+      "value": "state 1"
+    },
+    "modifier": {
+      "type": "MODIFIER",
+      "value": {
+        "code": "user",
+        "name": "User"
+      }
+    },
+    "updated_time": {
+      "type": "UPDATED_TIME",
+      "value": "2020-01-02T03:04:00Z"
+    }
+  }
+}
