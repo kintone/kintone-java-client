@@ -1,0 +1,28 @@
+name: Generate Javadoc files and publish
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Cache gradle files
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-gradle-files
+      with:
+        path: .gradle
+        key: gradle-${{ env.cache-name }}-${{ hashFiles('build.gradle') }}
+    - name: Generate Javadoc
+      run: ./gradlew javadocUpdate
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        publish_dir: ./docs
