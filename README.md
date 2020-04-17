@@ -33,7 +33,7 @@ Specifically,
 ## Basic Usage
 
 Let show some short examples of this library.
-For more information, read [docs/index.md](https://kintone.github.io/kintone-java-client/index.md) and documents.
+For more information, read [docs/index.md](https://kintone.github.io/kintone-java-client/) and documents.
 
 ### Initialization
 
