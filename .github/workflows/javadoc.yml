@@ -17,12 +17,12 @@ jobs:
       env:
         cache-name: cache-gradle-files
       with:
-        path: .gradle
+        path: ~/.gradle/caches
         key: gradle-${{ env.cache-name }}-${{ hashFiles('build.gradle') }}
     - name: Generate Javadoc
       run: ./gradlew javadocUpdate
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
-        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./docs
