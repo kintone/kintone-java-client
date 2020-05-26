@@ -12,6 +12,10 @@ Specifically,
     ```
     dependencies {
         implementation 'com.kintone:kintone-java-client:0.9.0'
+        implementation 'org.apache.httpcomponents:httpclient:4.5.12'
+        implementation 'org.apache.httpcomponents:httpmime:4.5.12'
+        implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.3'
+        implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.3'
     }
     ```
 - For projects using Maven
@@ -22,7 +26,27 @@ Specifically,
         <artifactId>kintone-java-client</artifactId>
         <version>0.9.0</version>
     </dependency>
-    ```
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.12</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpmime</artifactId>
+      <version>4.5.12</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.10.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+      <version>2.10.3</version>
+    </dependency>
+  ```
 
 ## Basic Usage
 
