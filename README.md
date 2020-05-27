@@ -4,31 +4,22 @@ API client library for Kintone REST APIs on Java.
 
 ## Installation
 
-Download `kintone-java-client-0.9.0.jar` and imports it into your Java project.
-Specifically,
-
-- For projects using Gradle
-    1. Download the jar file.
-    2. Add dependency declaration in `build.gradle` of your project.
+- For projects using Gradle  
+    Add dependency declaration in `build.gradle` of your project.
     ```
     dependencies {
-         implementation files('{path to jar}/kintone-java-client-0.9.0.jar')
+        implementation 'com.kintone:kintone-java-client:0.9.0'
     }
     ```
-- For projects using Maven
-    1. Download the jar file.
-    2. Locally install the jar file by following command.
-    ```
-    $ mvn install:install-file -Dfile=kintone-java-client-0.9.0.jar -DgroupId=com.kintone -DartifactId=kintone-java-client -Dversion=0.9.0 -Dpackaging=jar
-    ```
-    3. Add dependency declaration in `pom.xml` of your project.
+- For projects using Maven  
+    Add dependency declaration in `pom.xml` of your project.
     ```
     <dependency>
         <groupId>com.kintone</groupId>
         <artifactId>kintone-java-client</artifactId>
         <version>0.9.0</version>
     </dependency>
-    ```
+  ```
 
 ## Basic Usage
 

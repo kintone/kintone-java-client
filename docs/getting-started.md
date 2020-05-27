@@ -25,56 +25,23 @@ client.close();
 
 ### Installation
 
-Download `kintone-java-client-0.9.0.jar` and import it into your Java project.
-
 #### For projects using Gradle
-
-1. Download the JAR file.
-2. Add dependency declaration in `build.gradle` of your project.
-    ```groovy
-    dependencies {
-         implementation files('{path to jar}/kintone-java-client-0.9.0.jar')
-         implementation 'org.apache.httpcomponents:httpclient:4.5.12'
-         implementation 'org.apache.httpcomponents:httpmime:4.5.12'
-         implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.3'
-         implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.3'
-    }
-    ```
+Add dependency declaration in `build.gradle` of your project.
+```groovy
+dependencies {
+     implementation 'com.kintone:kintone-java-client:0.9.0'
+}
+```
 
 #### For projects using Maven
-1. Download the JAR file.
-2. Locally install the jar file by following command.
-    ```shell
-    $ mvn install:install-file -Dfile=kintone-java-client-0.9.0.jar -DgroupId=com.kintone -DartifactId=kintone-java-client -Dversion=0.9.0 -Dpackaging=jar
-    ```
-3. Add dependency declaration in `pom.xml` of your project.
-    ```xml
-    <dependency>
-        <groupId>com.kintone</groupId>
-        <artifactId>kintone-java-client</artifactId>
-        <version>0.9.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>4.5.12</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpmime</artifactId>
-      <version>4.5.12</version>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>2.10.3</version>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.datatype</groupId>
-      <artifactId>jackson-datatype-jsr310</artifactId>
-      <version>2.10.3</version>
-    </dependency>
-    ```
+Add dependency declaration in `pom.xml` of your project.
+```xml
+<dependency>
+    <groupId>com.kintone</groupId>
+    <artifactId>kintone-java-client</artifactId>
+    <version>0.9.0</version>
+</dependency>
+```
 
 ### Setup Client
 
