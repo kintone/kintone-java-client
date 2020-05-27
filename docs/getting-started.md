@@ -25,8 +25,6 @@ client.close();
 
 ### Installation
 
-Download `kintone-java-client-0.9.0.jar` and import it into your Java project.
-
 #### For projects using Gradle
 Add dependency declaration in `build.gradle` of your project.
 ```groovy
