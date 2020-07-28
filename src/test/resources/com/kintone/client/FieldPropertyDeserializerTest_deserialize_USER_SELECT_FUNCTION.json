@@ -1,0 +1,16 @@
+{
+  "property": {
+    "type": "USER_SELECT",
+    "code": "userselect",
+    "label": "User selection field",
+    "noLabel": false,
+    "required": false,
+    "entities": [],
+    "defaultValue": [
+      {
+        "type": "FUNCTION",
+        "code": "LOGINUSER()"
+      }
+    ]
+  }
+}

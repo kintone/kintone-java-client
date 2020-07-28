@@ -10,6 +10,10 @@
       {
         "type": "ORGANIZATION",
         "code": "org"
+      },
+      {
+        "type": "FUNCTION",
+        "code": "PRIMARY_ORGANIZATION()"
       }
     ]
   }

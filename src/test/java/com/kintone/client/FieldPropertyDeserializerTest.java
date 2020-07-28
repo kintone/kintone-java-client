@@ -396,7 +396,10 @@ public class FieldPropertyDeserializerTest {
         assertThat(obj.getLabel()).isEqualTo("Department selection field");
         assertThat(obj.getNoLabel()).isTrue();
         assertThat(obj.getRequired()).isTrue();
-        assertThat(obj.getDefaultValue()).containsExactly(new Entity(EntityType.ORGANIZATION, "org"));
+        assertThat(obj.getDefaultValue()).hasSize(2);
+        assertThat(obj.getDefaultValue().get(0)).isEqualTo(new Entity(EntityType.ORGANIZATION, "org"));
+        assertThat(obj.getDefaultValue().get(1))
+                .isEqualTo(new Entity(EntityType.FUNCTION, "PRIMARY_ORGANIZATION()"));
         assertThat(obj.getEntities()).isEmpty();
     }
 
@@ -630,6 +633,27 @@ public class FieldPropertyDeserializerTest {
         assertThat(obj.getEntities().get(0)).isEqualTo(new Entity(EntityType.ORGANIZATION, "org"));
         assertThat(obj.getEntities().get(1)).isEqualTo(new Entity(EntityType.GROUP, "group"));
         assertThat(obj.getEntities().get(2)).isEqualTo(new Entity(EntityType.USER, "user"));
+    }
+
+    @Test
+    public void deserialize_USER_SELECT_FUNCTION() throws IOException {
+        URL url =
+                getClass()
+                        .getResource("FieldPropertyDeserializerTest_deserialize_USER_SELECT_FUNCTION.json");
+
+        TestObject result = mapper.readValue(url, TestObject.class);
+        assertThat(result.getProperty()).isInstanceOf(UserSelectFieldProperty.class);
+
+        UserSelectFieldProperty obj = (UserSelectFieldProperty) result.getProperty();
+        assertThat(obj.getType()).isEqualTo(FieldType.USER_SELECT);
+        assertThat(obj.getCode()).isEqualTo("userselect");
+        assertThat(obj.getLabel()).isEqualTo("User selection field");
+        assertThat(obj.getNoLabel()).isFalse();
+        assertThat(obj.getRequired()).isFalse();
+        assertThat(obj.getDefaultValue()).hasSize(1);
+        assertThat(obj.getDefaultValue().get(0))
+                .isEqualTo(new Entity(EntityType.FUNCTION, "LOGINUSER()"));
+        assertThat(obj.getEntities()).isEmpty();
     }
 
     @Test
