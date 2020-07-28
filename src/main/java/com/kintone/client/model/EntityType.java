@@ -28,5 +28,11 @@ public enum EntityType {
     * This value means "refer the value of Custom Field of the user profile". This value is only
     * used/valid for Get/Update Process Management Settings APIs.
     */
-    CUSTOM_FIELD
+    CUSTOM_FIELD,
+
+    /**
+    * This entity represents functions such as "LOGINUSER()" for the user selection field and
+    * "PRIMARY_ORGANIZATION()" for the organization selection field.
+    */
+    FUNCTION
 }
