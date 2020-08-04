@@ -35,6 +35,7 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -213,7 +214,9 @@ class InternalClientImpl extends InternalClient {
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.setCharset(StandardCharsets.UTF_8);
         builder.setBoundary(boundary);
+        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
         builder.setContentType(ContentType.MULTIPART_FORM_DATA);
+
         builder.addPart(
                 "file", new InputStreamBody(content, ContentType.create(contentType), filename));
 

@@ -2,6 +2,7 @@ package com.kintone.client;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.google.common.base.Charsets;
 import com.kintone.client.api.common.BulkRequestsRequest;
 import com.kintone.client.api.common.BulkRequestsResponseBody;
 import com.kintone.client.api.common.DownloadFileRequest;
@@ -357,6 +358,42 @@ public class InternalClientImplTest {
         assertThat(headers).containsEntry("Content-Type", "text/plain");
         assertThat(headers)
                 .containsEntry("Content-Disposition", "form-data; name=\"file\"; filename=\"test.txt\"");
+        assertThat(getMultipartContent(body)).isEqualTo("test");
+    }
+
+    @Test
+    public void upload_multibyte_character() throws IOException {
+        String boundary = "__END_OF_PART__";
+        String response = loadResource("InternalClientImplTest_upload_response.json");
+        HttpRequest httpRequest =
+                HttpRequest.request("/k/v1/file.json")
+                        .withMethod("POST")
+                        .withHeader("Content-Type", "multipart/form-data; boundary=" + boundary)
+                        .withHeader("X-Cybozu-Authorization", passwordAuth);
+        server
+                .when(httpRequest)
+                .respond(
+                        HttpResponse.response()
+                                .withStatusCode(200)
+                                .withHeader("Content-Type", "application/json")
+                                .withBody(response));
+
+        InternalClientImpl sut = setupClient();
+        UploadFileResponseBody resp;
+        try (InputStream in = new ByteArrayInputStream("test".getBytes())) {
+            resp = sut.upload("日本語ファイル名.jpg", "image/jpeg", in, Collections.emptyList()).getBody();
+        }
+        server.verify(httpRequest, VerificationTimes.once());
+        assertThat(resp.getFileKey()).isEqualTo("testkey");
+
+        String body = server.retrieveRecordedRequests(httpRequest)[0].getBodyAsString();
+        assertThat(body).startsWith("--" + boundary + "\r\n");
+        assertThat(body).endsWith("\r\n--" + boundary + "--\r\n");
+        Map<String, String> headers = getMultipartHeaders(body);
+        assertThat(headers).containsEntry("Content-Type", "image/jpeg");
+        String expect = "form-data; name=\"file\"; filename=\"日本語ファイル名.jpg\"";
+        expect = new String(expect.getBytes(Charsets.UTF_8), Charsets.ISO_8859_1);
+        assertThat(headers).containsEntry("Content-Disposition", expect);
         assertThat(getMultipartContent(body)).isEqualTo("test");
     }
 
