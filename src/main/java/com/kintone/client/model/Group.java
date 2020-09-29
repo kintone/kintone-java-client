@@ -1,5 +1,6 @@
 package com.kintone.client.model;
 
+import java.beans.ConstructorProperties;
 import lombok.Value;
 
 /** An object representing a Group value. */
@@ -23,6 +24,7 @@ public class Group {
         this("", code);
     }
 
+    @ConstructorProperties({"name", "code"})
     public Group(String name, String code) {
         this.name = name;
         this.code = code;
