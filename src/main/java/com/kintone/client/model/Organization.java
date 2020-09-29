@@ -1,5 +1,6 @@
 package com.kintone.client.model;
 
+import java.beans.ConstructorProperties;
 import lombok.Value;
 
 /** An object representing a Department value. */
@@ -23,6 +24,7 @@ public class Organization {
         this("", code);
     }
 
+    @ConstructorProperties({"name", "code"})
     public Organization(String name, String code) {
         this.name = name;
         this.code = code;

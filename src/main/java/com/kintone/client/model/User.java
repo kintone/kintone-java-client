@@ -1,5 +1,6 @@
 package com.kintone.client.model;
 
+import java.beans.ConstructorProperties;
 import lombok.Value;
 
 /** An object representing an User value. */
@@ -23,6 +24,7 @@ public class User {
         this("", code);
     }
 
+    @ConstructorProperties({"name", "code"})
     public User(String name, String code) {
         this.name = name;
         this.code = code;
