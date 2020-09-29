@@ -8,7 +8,7 @@ API client library for Kintone REST APIs on Java.
     Add dependency declaration in `build.gradle` of your project.
     ```
     dependencies {
-        implementation 'com.kintone:kintone-java-client:1.0.2'
+        implementation 'com.kintone:kintone-java-client:1.0.3'
     }
     ```
 - For projects using Maven  
@@ -17,7 +17,7 @@ API client library for Kintone REST APIs on Java.
     <dependency>
         <groupId>com.kintone</groupId>
         <artifactId>kintone-java-client</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
     </dependency>
   ```
 
