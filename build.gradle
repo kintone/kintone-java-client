@@ -6,7 +6,7 @@ plugins {
     id 'com.diffplug.gradle.spotless' version '3.25.0'
 }
 
-version = '1.0.3'
+version = '1.0.4'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -24,8 +24,8 @@ artifacts {
 }
 
 dependencies {
-    implementation 'org.apache.httpcomponents:httpclient:4.5.12'
-    implementation 'org.apache.httpcomponents:httpmime:4.5.12'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+    implementation 'org.apache.httpcomponents:httpmime:4.5.13'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.10.3'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.3'
 
@@ -105,9 +105,9 @@ task sourceJar(type: Jar) {
     from sourceSets.main.allJava
 }
 
-task javadocJar(type: Jar, dependsOn:javadoc) {
-     classifier = 'javadoc'
-     from javadoc.destinationDir
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
 }
 
 publishing {
