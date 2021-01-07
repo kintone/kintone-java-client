@@ -17,7 +17,7 @@ API client library for Kintone REST APIs on Java.
     <dependency>
         <groupId>com.kintone</groupId>
         <artifactId>kintone-java-client</artifactId>
-        <version>1.0.4</version>
+        <version>1.0.5</version>
     </dependency>
   ```
 
