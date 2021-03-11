@@ -43,6 +43,10 @@ import com.kintone.client.api.app.GetFormLayoutPreviewRequest;
 import com.kintone.client.api.app.GetFormLayoutPreviewResponseBody;
 import com.kintone.client.api.app.GetFormLayoutRequest;
 import com.kintone.client.api.app.GetFormLayoutResponseBody;
+import com.kintone.client.api.app.GetGeneralNotificationsPreviewRequest;
+import com.kintone.client.api.app.GetGeneralNotificationsPreviewResponseBody;
+import com.kintone.client.api.app.GetGeneralNotificationsRequest;
+import com.kintone.client.api.app.GetGeneralNotificationsResponseBody;
 import com.kintone.client.api.app.GetProcessManagementPreviewRequest;
 import com.kintone.client.api.app.GetProcessManagementPreviewResponseBody;
 import com.kintone.client.api.app.GetProcessManagementRequest;
@@ -67,6 +71,8 @@ import com.kintone.client.api.app.UpdateFormFieldsRequest;
 import com.kintone.client.api.app.UpdateFormFieldsResponseBody;
 import com.kintone.client.api.app.UpdateFormLayoutRequest;
 import com.kintone.client.api.app.UpdateFormLayoutResponseBody;
+import com.kintone.client.api.app.UpdateGeneralNotificationsRequest;
+import com.kintone.client.api.app.UpdateGeneralNotificationsResponseBody;
 import com.kintone.client.api.app.UpdateProcessManagementRequest;
 import com.kintone.client.api.app.UpdateProcessManagementResponseBody;
 import com.kintone.client.api.app.UpdateRecordAclRequest;
@@ -823,6 +829,55 @@ public class AppClientTest {
     }
 
     @Test
+    public void getGeneralNotifications_long() {
+        GetGeneralNotificationsResponseBody resp =
+                new GetGeneralNotificationsResponseBody(null, true, 1L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getGeneralNotifications(10L)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_GENERAL_NOTIFICATIONS);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetGeneralNotificationsRequest().setApp(10L));
+    }
+
+    @Test
+    public void getGeneralNotifications_GetGeneralNotificationsRequest() {
+        GetGeneralNotificationsRequest req = new GetGeneralNotificationsRequest().setApp(10L);
+        GetGeneralNotificationsResponseBody resp =
+                new GetGeneralNotificationsResponseBody(null, true, 1L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getGeneralNotifications(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_GENERAL_NOTIFICATIONS);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void getGeneralNotificationsPreview_long() {
+        GetGeneralNotificationsPreviewResponseBody resp =
+                new GetGeneralNotificationsPreviewResponseBody(null, true, 1L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getGeneralNotificationsPreview(10L)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_GENERAL_NOTIFICATIONS_PREVIEW);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetGeneralNotificationsPreviewRequest().setApp(10L));
+    }
+
+    @Test
+    public void getGeneralNotificationsPreview_GetGeneralNotificationsPreviewRequest() {
+        GetGeneralNotificationsPreviewRequest req =
+                new GetGeneralNotificationsPreviewRequest().setApp(10L);
+        GetGeneralNotificationsPreviewResponseBody resp =
+                new GetGeneralNotificationsPreviewResponseBody(null, true, 1L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getGeneralNotificationsPreview(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_GENERAL_NOTIFICATIONS_PREVIEW);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
     public void getProcessManagement_long() {
         GetProcessManagementResponseBody resp =
                 new GetProcessManagementResponseBody(true, null, null, 3L);
@@ -1263,6 +1318,17 @@ public class AppClientTest {
 
         assertThat(sut.updateFormLayout(req)).isEqualTo(resp);
         assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_FORM_LAYOUT);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void updateGeneralNotifications_UpdateGeneralNotificationsRequest() {
+        UpdateGeneralNotificationsRequest req = new UpdateGeneralNotificationsRequest();
+        UpdateGeneralNotificationsResponseBody resp = new UpdateGeneralNotificationsResponseBody(1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.updateGeneralNotifications(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_GENERAL_NOTIFICATIONS);
         assertThat(mockClient.getLastBody()).isEqualTo(req);
     }
 

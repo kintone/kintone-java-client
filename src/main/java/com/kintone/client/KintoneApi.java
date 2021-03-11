@@ -23,6 +23,8 @@ import com.kintone.client.api.app.GetFormFieldsPreviewResponseBody;
 import com.kintone.client.api.app.GetFormFieldsResponseBody;
 import com.kintone.client.api.app.GetFormLayoutPreviewResponseBody;
 import com.kintone.client.api.app.GetFormLayoutResponseBody;
+import com.kintone.client.api.app.GetGeneralNotificationsPreviewResponseBody;
+import com.kintone.client.api.app.GetGeneralNotificationsResponseBody;
 import com.kintone.client.api.app.GetProcessManagementPreviewResponseBody;
 import com.kintone.client.api.app.GetProcessManagementResponseBody;
 import com.kintone.client.api.app.GetRecordAclPreviewResponseBody;
@@ -35,6 +37,7 @@ import com.kintone.client.api.app.UpdateAppSettingsResponseBody;
 import com.kintone.client.api.app.UpdateFieldAclResponseBody;
 import com.kintone.client.api.app.UpdateFormFieldsResponseBody;
 import com.kintone.client.api.app.UpdateFormLayoutResponseBody;
+import com.kintone.client.api.app.UpdateGeneralNotificationsResponseBody;
 import com.kintone.client.api.app.UpdateProcessManagementResponseBody;
 import com.kintone.client.api.app.UpdateRecordAclResponseBody;
 import com.kintone.client.api.app.UpdateViewsResponseBody;
@@ -102,6 +105,12 @@ public enum KintoneApi {
     GET_FORM_LAYOUT(GET, "app/form/layout", GetFormLayoutResponseBody.class),
     GET_FORM_LAYOUT_PREVIEW(GET, "preview/app/form/layout", GetFormLayoutPreviewResponseBody.class),
     UPDATE_FORM_LAYOUT(PUT, "preview/app/form/layout", UpdateFormLayoutResponseBody.class),
+    GET_GENERAL_NOTIFICATIONS(
+            GET, "app/notifications/general", GetGeneralNotificationsResponseBody.class),
+    GET_GENERAL_NOTIFICATIONS_PREVIEW(
+            GET, "preview/app/notifications/general", GetGeneralNotificationsPreviewResponseBody.class),
+    UPDATE_GENERAL_NOTIFICATIONS(
+            PUT, "preview/app/notifications/general", UpdateGeneralNotificationsResponseBody.class),
     GET_VIEWS(GET, "app/views", GetViewsResponseBody.class),
     GET_VIEWS_PREVIEW(GET, "preview/app/views", GetViewsPreviewResponseBody.class),
     UPDATE_VIEWS(PUT, "preview/app/views", UpdateViewsResponseBody.class),
