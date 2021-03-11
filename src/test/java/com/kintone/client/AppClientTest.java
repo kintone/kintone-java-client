@@ -47,6 +47,10 @@ import com.kintone.client.api.app.GetGeneralNotificationsPreviewRequest;
 import com.kintone.client.api.app.GetGeneralNotificationsPreviewResponseBody;
 import com.kintone.client.api.app.GetGeneralNotificationsRequest;
 import com.kintone.client.api.app.GetGeneralNotificationsResponseBody;
+import com.kintone.client.api.app.GetPerRecordNotificationsPreviewRequest;
+import com.kintone.client.api.app.GetPerRecordNotificationsPreviewResponseBody;
+import com.kintone.client.api.app.GetPerRecordNotificationsRequest;
+import com.kintone.client.api.app.GetPerRecordNotificationsResponseBody;
 import com.kintone.client.api.app.GetProcessManagementPreviewRequest;
 import com.kintone.client.api.app.GetProcessManagementPreviewResponseBody;
 import com.kintone.client.api.app.GetProcessManagementRequest;
@@ -73,6 +77,8 @@ import com.kintone.client.api.app.UpdateFormLayoutRequest;
 import com.kintone.client.api.app.UpdateFormLayoutResponseBody;
 import com.kintone.client.api.app.UpdateGeneralNotificationsRequest;
 import com.kintone.client.api.app.UpdateGeneralNotificationsResponseBody;
+import com.kintone.client.api.app.UpdatePerRecordNotificationsRequest;
+import com.kintone.client.api.app.UpdatePerRecordNotificationsResponseBody;
 import com.kintone.client.api.app.UpdateProcessManagementRequest;
 import com.kintone.client.api.app.UpdateProcessManagementResponseBody;
 import com.kintone.client.api.app.UpdateRecordAclRequest;
@@ -878,6 +884,79 @@ public class AppClientTest {
     }
 
     @Test
+    public void getPerRecordNotifications_long() {
+        GetPerRecordNotificationsResponseBody resp =
+                new GetPerRecordNotificationsResponseBody(null, 1L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getPerRecordNotifications(10L)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_PRE_RECORD_NOTIFICATIONS);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetPerRecordNotificationsRequest().setApp(10L));
+    }
+
+    @Test
+    public void getPerRecordNotifications_long_String() {
+        GetPerRecordNotificationsResponseBody resp =
+                new GetPerRecordNotificationsResponseBody(null, 1L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getPerRecordNotifications(10L, "en")).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_PRE_RECORD_NOTIFICATIONS);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetPerRecordNotificationsRequest().setApp(10L).setLang("en"));
+    }
+
+    @Test
+    public void getPerRecordNotifications_GetPerRecordNotificationsRequest() {
+        GetPerRecordNotificationsRequest req = new GetPerRecordNotificationsRequest().setApp(10L);
+        GetPerRecordNotificationsResponseBody resp =
+                new GetPerRecordNotificationsResponseBody(null, 1L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getPerRecordNotifications(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_PRE_RECORD_NOTIFICATIONS);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void getPerRecordNotificationsPreview_long() {
+        GetPerRecordNotificationsPreviewResponseBody resp =
+                new GetPerRecordNotificationsPreviewResponseBody(null, 1L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getPerRecordNotificationsPreview(10L)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_PRE_RECORD_NOTIFICATIONS_PREVIEW);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetPerRecordNotificationsPreviewRequest().setApp(10L));
+    }
+
+    @Test
+    public void getPerRecordNotificationsPreview_long_String() {
+        GetPerRecordNotificationsPreviewResponseBody resp =
+                new GetPerRecordNotificationsPreviewResponseBody(null, 1L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getPerRecordNotificationsPreview(10L, "en")).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_PRE_RECORD_NOTIFICATIONS_PREVIEW);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetPerRecordNotificationsPreviewRequest().setApp(10L).setLang("en"));
+    }
+
+    @Test
+    public void getPerRecordNotificationsPreview_GetPerRecordNotificationsPreviewRequest() {
+        GetPerRecordNotificationsPreviewRequest req =
+                new GetPerRecordNotificationsPreviewRequest().setApp(10L);
+        GetPerRecordNotificationsPreviewResponseBody resp =
+                new GetPerRecordNotificationsPreviewResponseBody(null, 1L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getPerRecordNotificationsPreview(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_PRE_RECORD_NOTIFICATIONS_PREVIEW);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
     public void getProcessManagement_long() {
         GetProcessManagementResponseBody resp =
                 new GetProcessManagementResponseBody(true, null, null, 3L);
@@ -1329,6 +1408,17 @@ public class AppClientTest {
 
         assertThat(sut.updateGeneralNotifications(req)).isEqualTo(resp);
         assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_GENERAL_NOTIFICATIONS);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void updatePerRecordNotifications_UpdatePerRecordNotificationsRequest() {
+        UpdatePerRecordNotificationsRequest req = new UpdatePerRecordNotificationsRequest();
+        UpdatePerRecordNotificationsResponseBody resp = new UpdatePerRecordNotificationsResponseBody(1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.updatePerRecordNotifications(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_PRE_RECORD_NOTIFICATIONS);
         assertThat(mockClient.getLastBody()).isEqualTo(req);
     }
 

@@ -44,6 +44,10 @@ import com.kintone.client.api.app.GetGeneralNotificationsPreviewRequest;
 import com.kintone.client.api.app.GetGeneralNotificationsPreviewResponseBody;
 import com.kintone.client.api.app.GetGeneralNotificationsRequest;
 import com.kintone.client.api.app.GetGeneralNotificationsResponseBody;
+import com.kintone.client.api.app.GetPerRecordNotificationsPreviewRequest;
+import com.kintone.client.api.app.GetPerRecordNotificationsPreviewResponseBody;
+import com.kintone.client.api.app.GetPerRecordNotificationsRequest;
+import com.kintone.client.api.app.GetPerRecordNotificationsResponseBody;
 import com.kintone.client.api.app.GetProcessManagementPreviewRequest;
 import com.kintone.client.api.app.GetProcessManagementPreviewResponseBody;
 import com.kintone.client.api.app.GetProcessManagementRequest;
@@ -70,6 +74,8 @@ import com.kintone.client.api.app.UpdateFormLayoutRequest;
 import com.kintone.client.api.app.UpdateFormLayoutResponseBody;
 import com.kintone.client.api.app.UpdateGeneralNotificationsRequest;
 import com.kintone.client.api.app.UpdateGeneralNotificationsResponseBody;
+import com.kintone.client.api.app.UpdatePerRecordNotificationsRequest;
+import com.kintone.client.api.app.UpdatePerRecordNotificationsResponseBody;
 import com.kintone.client.api.app.UpdateProcessManagementRequest;
 import com.kintone.client.api.app.UpdateProcessManagementResponseBody;
 import com.kintone.client.api.app.UpdateRecordAclRequest;
@@ -807,6 +813,84 @@ public class AppClient {
     }
 
     /**
+    * Gets the per record notification settings of an App.
+    *
+    * @param app the App ID
+    * @return the response data. See {@link GetPerRecordNotificationsResponseBody}
+    */
+    public GetPerRecordNotificationsResponseBody getPerRecordNotifications(long app) {
+        GetPerRecordNotificationsRequest req = new GetPerRecordNotificationsRequest();
+        req.setApp(app);
+        return client.call(KintoneApi.GET_PRE_RECORD_NOTIFICATIONS, req, handlers);
+    }
+
+    /**
+    * Gets the per record notification settings of an App.
+    *
+    * @param app the App ID
+    * @param lang the localization language setting
+    * @return the response data. See {@link GetPerRecordNotificationsResponseBody}
+    */
+    public GetPerRecordNotificationsResponseBody getPerRecordNotifications(long app, String lang) {
+        GetPerRecordNotificationsRequest req = new GetPerRecordNotificationsRequest();
+        req.setApp(app);
+        req.setLang(lang);
+        return client.call(KintoneApi.GET_PRE_RECORD_NOTIFICATIONS, req, handlers);
+    }
+
+    /**
+    * Gets the per record notification settings of an App.
+    *
+    * @param request the request parameters. See {@link GetPerRecordNotificationsRequest}
+    * @return the response data. See {@link GetPerRecordNotificationsResponseBody}
+    */
+    public GetPerRecordNotificationsResponseBody getPerRecordNotifications(
+            GetPerRecordNotificationsRequest request) {
+        return client.call(KintoneApi.GET_PRE_RECORD_NOTIFICATIONS, request, handlers);
+    }
+
+    /**
+    * Gets the per record notification settings of an App. This API retrieves the pre-live settings
+    * that have not yet been deployed to the live App.
+    *
+    * @param app the App ID
+    * @return the response data. See {@link GetPerRecordNotificationsPreviewResponseBody}
+    */
+    public GetPerRecordNotificationsPreviewResponseBody getPerRecordNotificationsPreview(long app) {
+        GetPerRecordNotificationsPreviewRequest req = new GetPerRecordNotificationsPreviewRequest();
+        req.setApp(app);
+        return client.call(KintoneApi.GET_PRE_RECORD_NOTIFICATIONS_PREVIEW, req, handlers);
+    }
+
+    /**
+    * Gets the per record notification settings of an App. This API retrieves the pre-live settings
+    * that have not yet been deployed to the live App.
+    *
+    * @param app the App ID
+    * @param lang the localization language setting
+    * @return the response data. See {@link GetPerRecordNotificationsPreviewResponseBody}
+    */
+    public GetPerRecordNotificationsPreviewResponseBody getPerRecordNotificationsPreview(
+            long app, String lang) {
+        GetPerRecordNotificationsPreviewRequest req = new GetPerRecordNotificationsPreviewRequest();
+        req.setApp(app);
+        req.setLang(lang);
+        return client.call(KintoneApi.GET_PRE_RECORD_NOTIFICATIONS_PREVIEW, req, handlers);
+    }
+
+    /**
+    * Gets the per record notification settings of an App. This API retrieves the pre-live settings
+    * that have not yet been deployed to the live App.
+    *
+    * @param request the request parameters. See {@link GetPerRecordNotificationsPreviewRequest}
+    * @return the response data. See {@link GetPerRecordNotificationsPreviewResponseBody}
+    */
+    public GetPerRecordNotificationsPreviewResponseBody getPerRecordNotificationsPreview(
+            GetPerRecordNotificationsPreviewRequest request) {
+        return client.call(KintoneApi.GET_PRE_RECORD_NOTIFICATIONS_PREVIEW, request, handlers);
+    }
+
+    /**
     * Gets the process management settings of an App.
     *
     * @param app the App ID
@@ -1263,6 +1347,18 @@ public class AppClient {
     public UpdateGeneralNotificationsResponseBody updateGeneralNotifications(
             UpdateGeneralNotificationsRequest request) {
         return client.call(KintoneApi.UPDATE_GENERAL_NOTIFICATIONS, request, handlers);
+    }
+
+    /**
+    * Updates the per record notification settings of an App. This API updates the pre-live settings.
+    * After using this API, use the Deploy App Settings API to deploy the settings to the live App.
+    *
+    * @param request the request parameters. See {@link UpdatePerRecordNotificationsRequest}
+    * @return the response data. See {@link UpdatePerRecordNotificationsResponseBody}
+    */
+    public UpdatePerRecordNotificationsResponseBody updatePerRecordNotifications(
+            UpdatePerRecordNotificationsRequest request) {
+        return client.call(KintoneApi.UPDATE_PRE_RECORD_NOTIFICATIONS, request, handlers);
     }
 
     /**
