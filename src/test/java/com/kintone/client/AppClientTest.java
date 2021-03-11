@@ -59,6 +59,10 @@ import com.kintone.client.api.app.GetRecordAclPreviewRequest;
 import com.kintone.client.api.app.GetRecordAclPreviewResponseBody;
 import com.kintone.client.api.app.GetRecordAclRequest;
 import com.kintone.client.api.app.GetRecordAclResponseBody;
+import com.kintone.client.api.app.GetReminderNotificationsPreviewRequest;
+import com.kintone.client.api.app.GetReminderNotificationsPreviewResponseBody;
+import com.kintone.client.api.app.GetReminderNotificationsRequest;
+import com.kintone.client.api.app.GetReminderNotificationsResponseBody;
 import com.kintone.client.api.app.GetViewsPreviewRequest;
 import com.kintone.client.api.app.GetViewsPreviewResponseBody;
 import com.kintone.client.api.app.GetViewsRequest;
@@ -83,6 +87,8 @@ import com.kintone.client.api.app.UpdateProcessManagementRequest;
 import com.kintone.client.api.app.UpdateProcessManagementResponseBody;
 import com.kintone.client.api.app.UpdateRecordAclRequest;
 import com.kintone.client.api.app.UpdateRecordAclResponseBody;
+import com.kintone.client.api.app.UpdateReminderNotificationsRequest;
+import com.kintone.client.api.app.UpdateReminderNotificationsResponseBody;
 import com.kintone.client.api.app.UpdateViewsRequest;
 import com.kintone.client.api.app.UpdateViewsResponseBody;
 import com.kintone.client.model.Entity;
@@ -1094,6 +1100,79 @@ public class AppClientTest {
     }
 
     @Test
+    public void getReminderNotifications_long() {
+        GetReminderNotificationsResponseBody resp =
+                new GetReminderNotificationsResponseBody(null, "UTC", 1L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getReminderNotifications(10L)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_REMINDER_NOTIFICATIONS);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetReminderNotificationsRequest().setApp(10L));
+    }
+
+    @Test
+    public void getReminderNotifications_long_String() {
+        GetReminderNotificationsResponseBody resp =
+                new GetReminderNotificationsResponseBody(null, "UTC", 1L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getReminderNotifications(10L, "en")).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_REMINDER_NOTIFICATIONS);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetReminderNotificationsRequest().setApp(10L).setLang("en"));
+    }
+
+    @Test
+    public void getReminderNotifications_GetReminderNotificationsRequest() {
+        GetReminderNotificationsRequest req = new GetReminderNotificationsRequest().setApp(10L);
+        GetReminderNotificationsResponseBody resp =
+                new GetReminderNotificationsResponseBody(null, "UTC", 1L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getReminderNotifications(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_REMINDER_NOTIFICATIONS);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void getReminderNotificationsPreview_long() {
+        GetReminderNotificationsPreviewResponseBody resp =
+                new GetReminderNotificationsPreviewResponseBody(null, "UTC", 1L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getReminderNotificationsPreview(10L)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_REMINDER_NOTIFICATIONS_PREVIEW);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetReminderNotificationsPreviewRequest().setApp(10L));
+    }
+
+    @Test
+    public void getReminderNotificationsPreview_long_String() {
+        GetReminderNotificationsPreviewResponseBody resp =
+                new GetReminderNotificationsPreviewResponseBody(null, "UTC", 1L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getReminderNotificationsPreview(10L, "en")).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_REMINDER_NOTIFICATIONS_PREVIEW);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetReminderNotificationsPreviewRequest().setApp(10L).setLang("en"));
+    }
+
+    @Test
+    public void getReminderNotificationsPreview_GetReminderNotificationsPreviewRequest() {
+        GetReminderNotificationsPreviewRequest req =
+                new GetReminderNotificationsPreviewRequest().setApp(10L);
+        GetReminderNotificationsPreviewResponseBody resp =
+                new GetReminderNotificationsPreviewResponseBody(null, "UTC", 1L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getReminderNotificationsPreview(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_REMINDER_NOTIFICATIONS_PREVIEW);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
     public void getViews_long() {
         mockClient.setResponseBody(new GetViewsResponseBody(createTestViews(), 2));
 
@@ -1469,6 +1548,17 @@ public class AppClientTest {
 
         assertThat(sut.updateRecordAcl(req)).isEqualTo(resp);
         assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_RECORD_ACL);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void updateReminderNotifications_UpdateReminderNotificationsRequest() {
+        UpdateReminderNotificationsRequest req = new UpdateReminderNotificationsRequest();
+        UpdateReminderNotificationsResponseBody resp = new UpdateReminderNotificationsResponseBody(1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.updateReminderNotifications(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_REMINDER_NOTIFICATIONS);
         assertThat(mockClient.getLastBody()).isEqualTo(req);
     }
 

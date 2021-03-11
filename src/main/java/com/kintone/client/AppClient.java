@@ -56,6 +56,10 @@ import com.kintone.client.api.app.GetRecordAclPreviewRequest;
 import com.kintone.client.api.app.GetRecordAclPreviewResponseBody;
 import com.kintone.client.api.app.GetRecordAclRequest;
 import com.kintone.client.api.app.GetRecordAclResponseBody;
+import com.kintone.client.api.app.GetReminderNotificationsPreviewRequest;
+import com.kintone.client.api.app.GetReminderNotificationsPreviewResponseBody;
+import com.kintone.client.api.app.GetReminderNotificationsRequest;
+import com.kintone.client.api.app.GetReminderNotificationsResponseBody;
 import com.kintone.client.api.app.GetViewsPreviewRequest;
 import com.kintone.client.api.app.GetViewsPreviewResponseBody;
 import com.kintone.client.api.app.GetViewsRequest;
@@ -80,6 +84,8 @@ import com.kintone.client.api.app.UpdateProcessManagementRequest;
 import com.kintone.client.api.app.UpdateProcessManagementResponseBody;
 import com.kintone.client.api.app.UpdateRecordAclRequest;
 import com.kintone.client.api.app.UpdateRecordAclResponseBody;
+import com.kintone.client.api.app.UpdateReminderNotificationsRequest;
+import com.kintone.client.api.app.UpdateReminderNotificationsResponseBody;
 import com.kintone.client.api.app.UpdateViewsRequest;
 import com.kintone.client.api.app.UpdateViewsResponseBody;
 import com.kintone.client.model.app.App;
@@ -1036,6 +1042,84 @@ public class AppClient {
     }
 
     /**
+    * Gets the reminder notification settings of an App.
+    *
+    * @param app the App ID
+    * @return the response data. See {@link GetReminderNotificationsResponseBody}
+    */
+    public GetReminderNotificationsResponseBody getReminderNotifications(long app) {
+        GetReminderNotificationsRequest req = new GetReminderNotificationsRequest();
+        req.setApp(app);
+        return client.call(KintoneApi.GET_REMINDER_NOTIFICATIONS, req, handlers);
+    }
+
+    /**
+    * Gets the reminder notification settings of an App.
+    *
+    * @param app the App ID
+    * @param lang the localization language setting
+    * @return the response data. See {@link GetReminderNotificationsResponseBody}
+    */
+    public GetReminderNotificationsResponseBody getReminderNotifications(long app, String lang) {
+        GetReminderNotificationsRequest req = new GetReminderNotificationsRequest();
+        req.setApp(app);
+        req.setLang(lang);
+        return client.call(KintoneApi.GET_REMINDER_NOTIFICATIONS, req, handlers);
+    }
+
+    /**
+    * Gets the reminder notification settings of an App.
+    *
+    * @param request the request parameters. See {@link GetReminderNotificationsRequest}
+    * @return the response data. See {@link GetReminderNotificationsResponseBody}
+    */
+    public GetReminderNotificationsResponseBody getReminderNotifications(
+            GetReminderNotificationsRequest request) {
+        return client.call(KintoneApi.GET_REMINDER_NOTIFICATIONS, request, handlers);
+    }
+
+    /**
+    * Gets the reminder notification settings of an App. This API retrieves the pre-live settings
+    * that have not yet been deployed to the live App.
+    *
+    * @param app the App ID
+    * @return the response data. See {@link GetReminderNotificationsPreviewResponseBody}
+    */
+    public GetReminderNotificationsPreviewResponseBody getReminderNotificationsPreview(long app) {
+        GetReminderNotificationsPreviewRequest req = new GetReminderNotificationsPreviewRequest();
+        req.setApp(app);
+        return client.call(KintoneApi.GET_REMINDER_NOTIFICATIONS_PREVIEW, req, handlers);
+    }
+
+    /**
+    * Gets the reminder notification settings of an App. This API retrieves the pre-live settings
+    * that have not yet been deployed to the live App.
+    *
+    * @param app the App ID
+    * @param lang the localization language setting
+    * @return the response data. See {@link GetReminderNotificationsPreviewResponseBody}
+    */
+    public GetReminderNotificationsPreviewResponseBody getReminderNotificationsPreview(
+            long app, String lang) {
+        GetReminderNotificationsPreviewRequest req = new GetReminderNotificationsPreviewRequest();
+        req.setApp(app);
+        req.setLang(lang);
+        return client.call(KintoneApi.GET_REMINDER_NOTIFICATIONS_PREVIEW, req, handlers);
+    }
+
+    /**
+    * Gets the reminder notification settings of an App. This API retrieves the pre-live settings
+    * that have not yet been deployed to the live App.
+    *
+    * @param request the request parameters. See {@link GetReminderNotificationsPreviewRequest}
+    * @return the response data. See {@link GetReminderNotificationsPreviewResponseBody}
+    */
+    public GetReminderNotificationsPreviewResponseBody getReminderNotificationsPreview(
+            GetReminderNotificationsPreviewRequest request) {
+        return client.call(KintoneApi.GET_REMINDER_NOTIFICATIONS_PREVIEW, request, handlers);
+    }
+
+    /**
     * Gets the View settings of an App.
     *
     * @param app the App ID
@@ -1408,6 +1492,18 @@ public class AppClient {
     */
     public UpdateRecordAclResponseBody updateRecordAcl(UpdateRecordAclRequest request) {
         return client.call(KintoneApi.UPDATE_RECORD_ACL, request, handlers);
+    }
+
+    /**
+    * Updates the reminder notification settings of an App. This API updates the pre-live settings.
+    * After using this API, use the Deploy App Settings API to deploy the settings to the live App.
+    *
+    * @param request the request parameters. See {@link UpdateReminderNotificationsRequest}
+    * @return the response data. See {@link UpdateReminderNotificationsResponseBody}
+    */
+    public UpdateReminderNotificationsResponseBody updateReminderNotifications(
+            UpdateReminderNotificationsRequest request) {
+        return client.call(KintoneApi.UPDATE_REMINDER_NOTIFICATIONS, request, handlers);
     }
 
     /**
