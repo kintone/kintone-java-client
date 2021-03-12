@@ -299,8 +299,7 @@ class InternalClientImpl extends InternalClient {
         if (body == null) {
             return createRequest(method, path, null, null);
         } else {
-            HttpEntity entity =
-                    new ByteArrayEntity(mapper.format(body).getBytes(), ContentType.APPLICATION_JSON);
+            HttpEntity entity = new ByteArrayEntity(mapper.format(body), ContentType.APPLICATION_JSON);
             return createRequest(method, path, ContentType.APPLICATION_JSON.getMimeType(), entity);
         }
     }

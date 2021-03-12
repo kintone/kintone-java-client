@@ -37,9 +37,9 @@ class JsonMapper {
                 .build();
     }
 
-    String format(Object obj) {
+    byte[] format(Object obj) {
         try {
-            return mapper.writeValueAsString(obj);
+            return mapper.writeValueAsBytes(obj);
         } catch (JsonProcessingException e) {
             throw new KintoneRuntimeException("Failed to format request JSON", e);
         }
