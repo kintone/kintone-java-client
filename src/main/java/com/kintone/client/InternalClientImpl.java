@@ -50,7 +50,7 @@ class InternalClientImpl extends InternalClient {
     private final Auth auth;
     private final BasicAuth basicAuth;
     private final Long guestId;
-    private final String appendixUserAgent;
+    private final String userAgent;
     private final JsonMapper mapper;
 
     InternalClientImpl(
@@ -68,7 +68,7 @@ class InternalClientImpl extends InternalClient {
         this.auth = auth;
         this.basicAuth = basicAuth;
         this.guestId = guestId;
-        this.appendixUserAgent = appendixUserAgent;
+        this.userAgent = getUserAgent(appendixUserAgent);
         this.mapper = new JsonMapper();
         this.httpClient =
                 createHttpClient(
@@ -286,7 +286,7 @@ class InternalClientImpl extends InternalClient {
             builder.addHeader("Authorization", "Basic " + token);
         }
 
-        builder.addHeader("User-Agent", getUserAgent());
+        builder.addHeader("User-Agent", userAgent);
         if (entity != null) {
             builder.addHeader("Content-Type", contentType);
         }
@@ -304,8 +304,12 @@ class InternalClientImpl extends InternalClient {
         }
     }
 
-    private String getUserAgent() {
-        return "kintone-Java-Client@" + ConfigProperties.getVersion() + "/" + appendixUserAgent;
+    private static String getUserAgent(String appendixUserAgent) {
+        String userAgent = "kintone-Java-Client@" + ConfigProperties.getVersion();
+        if (appendixUserAgent != null && !appendixUserAgent.isEmpty()) {
+            return userAgent + "/" + appendixUserAgent;
+        }
+        return userAgent;
     }
 
     @Override
