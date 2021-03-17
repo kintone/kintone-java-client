@@ -29,8 +29,8 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.2'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.2'
 
-    compileOnly 'org.projectlombok:lombok:1.18.12'
-    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+    compileOnly 'org.projectlombok:lombok:1.18.18'
+    annotationProcessor 'org.projectlombok:lombok:1.18.18'
 
     testImplementation 'com.google.guava:guava:29.0-jre'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
