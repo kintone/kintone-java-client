@@ -83,13 +83,15 @@ public class RecordDeserializerTest {
         assertThat(record.getStatusAssigneeFieldValue()).isEmpty();
         assertThat(record.getCategoryFieldValue()).containsExactly("Category A", "Category B");
         assertThat(record.getCreatorFieldValue())
-                .isEqualToComparingFieldByField(new User("User", "user"));
+                .usingRecursiveComparison()
+                .isEqualTo(new User("User", "user"));
         assertThat(record.getCreatedTimeFieldValue())
                 .isEqualTo(ZonedDateTime.of(2020, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC));
         assertThat(record.getRecordNumberFieldValue()).isEqualTo("APP-1");
         assertThat(record.getStatusFieldValue()).isEqualTo("state 1");
         assertThat(record.getModifierFieldValue())
-                .isEqualToComparingFieldByField(new User("User", "user"));
+                .usingRecursiveComparison()
+                .isEqualTo(new User("User", "user"));
         assertThat(record.getUpdatedTimeFieldValue())
                 .isEqualTo(ZonedDateTime.of(2020, 1, 2, 3, 4, 0, 0, ZoneOffset.UTC));
     }

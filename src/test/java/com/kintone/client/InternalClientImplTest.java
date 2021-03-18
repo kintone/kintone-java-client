@@ -351,7 +351,8 @@ public class InternalClientImplTest {
         server.verify(httpRequest, VerificationTimes.once());
         assertThat(resp.getFileKey()).isEqualTo("testkey");
 
-        String body = server.retrieveRecordedRequests(httpRequest)[0].getBodyAsString();
+        HttpRequest recordedRequest = (HttpRequest) server.retrieveRecordedRequests(httpRequest)[0];
+        String body = recordedRequest.getBodyAsString();
         assertThat(body).startsWith("--" + boundary + "\r\n");
         assertThat(body).endsWith("\r\n--" + boundary + "--\r\n");
         Map<String, String> headers = getMultipartHeaders(body);
@@ -386,7 +387,8 @@ public class InternalClientImplTest {
         server.verify(httpRequest, VerificationTimes.once());
         assertThat(resp.getFileKey()).isEqualTo("testkey");
 
-        String body = server.retrieveRecordedRequests(httpRequest)[0].getBodyAsString();
+        HttpRequest recordedRequest = (HttpRequest) server.retrieveRecordedRequests(httpRequest)[0];
+        String body = recordedRequest.getBodyAsString();
         assertThat(body).startsWith("--" + boundary + "\r\n");
         assertThat(body).endsWith("\r\n--" + boundary + "--\r\n");
         Map<String, String> headers = getMultipartHeaders(body);
