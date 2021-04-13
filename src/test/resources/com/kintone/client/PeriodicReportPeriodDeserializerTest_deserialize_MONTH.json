@@ -1,0 +1,7 @@
+{
+  "property": {
+    "every": "MONTH",
+    "dayOfMonth": "END_OF_MONTH",
+    "time": "12:30"
+  }
+}
