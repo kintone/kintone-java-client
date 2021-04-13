@@ -1,0 +1,8 @@
+{
+  "property": {
+    "every": "YEAR",
+    "month": 12,
+    "dayOfMonth": 31,
+    "time": "23:59"
+  }
+}

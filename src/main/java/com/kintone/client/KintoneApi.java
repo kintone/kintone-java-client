@@ -33,6 +33,8 @@ import com.kintone.client.api.app.GetRecordAclPreviewResponseBody;
 import com.kintone.client.api.app.GetRecordAclResponseBody;
 import com.kintone.client.api.app.GetReminderNotificationsPreviewResponseBody;
 import com.kintone.client.api.app.GetReminderNotificationsResponseBody;
+import com.kintone.client.api.app.GetReportsPreviewResponseBody;
+import com.kintone.client.api.app.GetReportsResponseBody;
 import com.kintone.client.api.app.GetViewsPreviewResponseBody;
 import com.kintone.client.api.app.GetViewsResponseBody;
 import com.kintone.client.api.app.UpdateAppAclResponseBody;
@@ -46,6 +48,7 @@ import com.kintone.client.api.app.UpdatePerRecordNotificationsResponseBody;
 import com.kintone.client.api.app.UpdateProcessManagementResponseBody;
 import com.kintone.client.api.app.UpdateRecordAclResponseBody;
 import com.kintone.client.api.app.UpdateReminderNotificationsResponseBody;
+import com.kintone.client.api.app.UpdateReportsResponseBody;
 import com.kintone.client.api.app.UpdateViewsResponseBody;
 import com.kintone.client.api.common.BulkRequestsResponseBody;
 import com.kintone.client.api.common.DownloadFileResponseBody;
@@ -131,6 +134,9 @@ public enum KintoneApi {
             GET, "preview/app/notifications/reminder", GetReminderNotificationsPreviewResponseBody.class),
     UPDATE_REMINDER_NOTIFICATIONS(
             PUT, "preview/app/notifications/reminder", UpdateReminderNotificationsResponseBody.class),
+    GET_REPORTS(GET, "app/reports", GetReportsResponseBody.class),
+    GET_REPORTS_PREVIEW(GET, "preview/app/reports", GetReportsPreviewResponseBody.class),
+    UPDATE_REPORTS(PUT, "preview/app/reports", UpdateReportsResponseBody.class),
     GET_VIEWS(GET, "app/views", GetViewsResponseBody.class),
     GET_VIEWS_PREVIEW(GET, "preview/app/views", GetViewsPreviewResponseBody.class),
     UPDATE_VIEWS(PUT, "preview/app/views", UpdateViewsResponseBody.class),

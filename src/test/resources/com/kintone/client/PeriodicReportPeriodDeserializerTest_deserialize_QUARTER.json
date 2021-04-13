@@ -1,0 +1,8 @@
+{
+  "property": {
+    "every": "QUARTER",
+    "pattern": "MAR_JUN_SEP_DEC",
+    "dayOfMonth": "1",
+    "time": "00:00"
+  }
+}

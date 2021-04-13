@@ -60,6 +60,10 @@ import com.kintone.client.api.app.GetReminderNotificationsPreviewRequest;
 import com.kintone.client.api.app.GetReminderNotificationsPreviewResponseBody;
 import com.kintone.client.api.app.GetReminderNotificationsRequest;
 import com.kintone.client.api.app.GetReminderNotificationsResponseBody;
+import com.kintone.client.api.app.GetReportsPreviewRequest;
+import com.kintone.client.api.app.GetReportsPreviewResponseBody;
+import com.kintone.client.api.app.GetReportsRequest;
+import com.kintone.client.api.app.GetReportsResponseBody;
 import com.kintone.client.api.app.GetViewsPreviewRequest;
 import com.kintone.client.api.app.GetViewsPreviewResponseBody;
 import com.kintone.client.api.app.GetViewsRequest;
@@ -86,6 +90,8 @@ import com.kintone.client.api.app.UpdateRecordAclRequest;
 import com.kintone.client.api.app.UpdateRecordAclResponseBody;
 import com.kintone.client.api.app.UpdateReminderNotificationsRequest;
 import com.kintone.client.api.app.UpdateReminderNotificationsResponseBody;
+import com.kintone.client.api.app.UpdateReportsRequest;
+import com.kintone.client.api.app.UpdateReportsResponseBody;
 import com.kintone.client.api.app.UpdateViewsRequest;
 import com.kintone.client.api.app.UpdateViewsResponseBody;
 import com.kintone.client.model.app.App;
@@ -99,6 +105,8 @@ import com.kintone.client.model.app.View;
 import com.kintone.client.model.app.ViewId;
 import com.kintone.client.model.app.field.FieldProperty;
 import com.kintone.client.model.app.layout.Layout;
+import com.kintone.client.model.app.report.Report;
+import com.kintone.client.model.app.report.ReportId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -1120,6 +1128,81 @@ public class AppClient {
     }
 
     /**
+    * Gets the Graph settings of the App.
+    *
+    * @param app the App ID
+    * @return an object that maps the Graph names to the Graph settings
+    */
+    public Map<String, Report> getReports(long app) {
+        GetReportsRequest req = new GetReportsRequest();
+        req.setApp(app);
+        return getReports(req).getReports();
+    }
+
+    /**
+    * Gets the Graph settings of the App.
+    *
+    * @param app the App ID
+    * @param lang the localization language setting
+    * @return an object that maps the Graph names to the Graph settings
+    */
+    public Map<String, Report> getReports(long app, String lang) {
+        GetReportsRequest req = new GetReportsRequest();
+        req.setApp(app);
+        req.setLang(lang);
+        return getReports(req).getReports();
+    }
+
+    /**
+    * Gets the Graph settings of the App.
+    *
+    * @param request the request parameters. See {@link GetReportsRequest}
+    * @return the response data. See {@link GetReportsResponseBody}
+    */
+    public GetReportsResponseBody getReports(GetReportsRequest request) {
+        return client.call(KintoneApi.GET_REPORTS, request, handlers);
+    }
+
+    /**
+    * Gets the Graph settings of the App. This API retrieves the pre-live settings that have not yet
+    * been deployed to the live App.
+    *
+    * @param app the App ID
+    * @return an object that maps the Graph names to the Graph settings
+    */
+    public Map<String, Report> getReportsPreview(long app) {
+        GetReportsPreviewRequest req = new GetReportsPreviewRequest();
+        req.setApp(app);
+        return getReportsPreview(req).getReports();
+    }
+
+    /**
+    * Gets the Graph settings of the App. This API retrieves the pre-live settings that have not yet
+    * been deployed to the live App.
+    *
+    * @param app the App ID
+    * @param lang the localization language setting
+    * @return an object that maps the Graph names to the Graph settings
+    */
+    public Map<String, Report> getReportsPreview(long app, String lang) {
+        GetReportsPreviewRequest req = new GetReportsPreviewRequest();
+        req.setApp(app);
+        req.setLang(lang);
+        return getReportsPreview(req).getReports();
+    }
+
+    /**
+    * Gets the Graph settings of the App. This API retrieves the pre-live settings that have not yet
+    * been deployed to the live App.
+    *
+    * @param request the request parameters. See {@link GetReportsPreviewRequest}
+    * @return the response data. See {@link GetReportsPreviewResponseBody}
+    */
+    public GetReportsPreviewResponseBody getReportsPreview(GetReportsPreviewRequest request) {
+        return client.call(KintoneApi.GET_REPORTS_PREVIEW, request, handlers);
+    }
+
+    /**
     * Gets the View settings of an App.
     *
     * @param app the App ID
@@ -1504,6 +1587,46 @@ public class AppClient {
     public UpdateReminderNotificationsResponseBody updateReminderNotifications(
             UpdateReminderNotificationsRequest request) {
         return client.call(KintoneApi.UPDATE_REMINDER_NOTIFICATIONS, request, handlers);
+    }
+
+    /**
+    * Updates the Graph settings of an App. This API updates the pre-live settings. After using this
+    * API, use the Deploy App Settings API to deploy the settings to the live App.
+    *
+    * @param app the App ID
+    * @param reports an object that maps the Graph names to the Graph settings
+    * @return an object containing data of the Graph IDs
+    */
+    public Map<String, ReportId> updateReports(long app, Map<String, Report> reports) {
+        return updateReports(app, reports, null);
+    }
+
+    /**
+    * Updates the Graph settings of an App. This API updates the pre-live settings. After using this
+    * API, use the Deploy App Settings API to deploy the settings to the live App.
+    *
+    * @param app the App ID
+    * @param reports an object that maps the Graph names to the Graph settings
+    * @param revision the expected revision number of the App settings
+    * @return an object containing data of the Graph IDs
+    */
+    public Map<String, ReportId> updateReports(long app, Map<String, Report> reports, Long revision) {
+        UpdateReportsRequest req = new UpdateReportsRequest();
+        req.setApp(app);
+        req.setReports(reports);
+        req.setRevision(revision);
+        return updateReports(req).getReports();
+    }
+
+    /**
+    * Updates the Graph settings of an App. This API updates the pre-live settings. After using this
+    * API, use the Deploy App Settings API to deploy the settings to the live App.
+    *
+    * @param request the request parameters. See {@link UpdateReportsRequest}
+    * @return the response data. See {@link UpdateReportsResponseBody}
+    */
+    public UpdateReportsResponseBody updateReports(UpdateReportsRequest request) {
+        return client.call(KintoneApi.UPDATE_REPORTS, request, handlers);
     }
 
     /**

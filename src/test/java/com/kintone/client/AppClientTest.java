@@ -63,6 +63,10 @@ import com.kintone.client.api.app.GetReminderNotificationsPreviewRequest;
 import com.kintone.client.api.app.GetReminderNotificationsPreviewResponseBody;
 import com.kintone.client.api.app.GetReminderNotificationsRequest;
 import com.kintone.client.api.app.GetReminderNotificationsResponseBody;
+import com.kintone.client.api.app.GetReportsPreviewRequest;
+import com.kintone.client.api.app.GetReportsPreviewResponseBody;
+import com.kintone.client.api.app.GetReportsRequest;
+import com.kintone.client.api.app.GetReportsResponseBody;
 import com.kintone.client.api.app.GetViewsPreviewRequest;
 import com.kintone.client.api.app.GetViewsPreviewResponseBody;
 import com.kintone.client.api.app.GetViewsRequest;
@@ -89,6 +93,8 @@ import com.kintone.client.api.app.UpdateRecordAclRequest;
 import com.kintone.client.api.app.UpdateRecordAclResponseBody;
 import com.kintone.client.api.app.UpdateReminderNotificationsRequest;
 import com.kintone.client.api.app.UpdateReminderNotificationsResponseBody;
+import com.kintone.client.api.app.UpdateReportsRequest;
+import com.kintone.client.api.app.UpdateReportsResponseBody;
 import com.kintone.client.api.app.UpdateViewsRequest;
 import com.kintone.client.api.app.UpdateViewsResponseBody;
 import com.kintone.client.model.Entity;
@@ -115,6 +121,9 @@ import com.kintone.client.model.app.layout.FieldLayout;
 import com.kintone.client.model.app.layout.FieldSize;
 import com.kintone.client.model.app.layout.Layout;
 import com.kintone.client.model.app.layout.RowLayout;
+import com.kintone.client.model.app.report.ChartType;
+import com.kintone.client.model.app.report.Report;
+import com.kintone.client.model.app.report.ReportId;
 import com.kintone.client.model.record.FieldType;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -150,6 +159,14 @@ public class AppClientTest {
                         .setType(FieldType.SINGLE_LINE_TEXT)
                         .setSize(new FieldSize().setWidth(200));
         return new RowLayout().setFields(Collections.singletonList(field));
+    }
+
+    private Map<String, Report> createTestReports() {
+        return Collections.singletonMap("report1", createTestReport());
+    }
+
+    private Report createTestReport() {
+        return new Report().setId(100L).setChartType(ChartType.BAR);
     }
 
     private Map<String, View> createTestViews() {
@@ -1173,6 +1190,77 @@ public class AppClientTest {
     }
 
     @Test
+    public void getReports_long() {
+        mockClient.setResponseBody(new GetReportsResponseBody(createTestReports(), 2));
+
+        Map<String, Report> result = sut.getReports(1);
+        assertThat(result).hasSize(1);
+        assertThat(result).containsEntry("report1", createTestReport());
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_REPORTS);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetReportsRequest().setApp(1L).setLang(null));
+    }
+
+    @Test
+    public void getReports_long_String() {
+        mockClient.setResponseBody(new GetReportsResponseBody(createTestReports(), 2));
+
+        Map<String, Report> result = sut.getReports(1, "en");
+        assertThat(result).hasSize(1);
+        assertThat(result).containsEntry("report1", createTestReport());
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_REPORTS);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetReportsRequest().setApp(1L).setLang("en"));
+    }
+
+    @Test
+    public void getReports_GetReportsRequest() {
+        GetReportsRequest req = new GetReportsRequest();
+        GetReportsResponseBody resp = new GetReportsResponseBody(Collections.emptyMap(), 1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getReports(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_REPORTS);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void getReportsPreview_long() {
+        mockClient.setResponseBody(new GetReportsPreviewResponseBody(createTestReports(), 2));
+
+        Map<String, Report> result = sut.getReportsPreview(1);
+        assertThat(result).hasSize(1);
+        assertThat(result).containsEntry("report1", createTestReport());
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_REPORTS_PREVIEW);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetReportsPreviewRequest().setApp(1L).setLang(null));
+    }
+
+    @Test
+    public void getReportsPreview_long_String() {
+        mockClient.setResponseBody(new GetReportsPreviewResponseBody(createTestReports(), 2));
+
+        Map<String, Report> result = sut.getReportsPreview(1, "en");
+        assertThat(result).hasSize(1);
+        assertThat(result).containsEntry("report1", createTestReport());
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_REPORTS_PREVIEW);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetReportsPreviewRequest().setApp(1L).setLang("en"));
+    }
+
+    @Test
+    public void getReportsPreview_GetReportsPreviewRequest() {
+        GetReportsPreviewRequest req = new GetReportsPreviewRequest();
+        GetReportsPreviewResponseBody resp =
+                new GetReportsPreviewResponseBody(Collections.emptyMap(), 1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getReportsPreview(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_REPORTS_PREVIEW);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
     public void getViews_long() {
         mockClient.setResponseBody(new GetViewsResponseBody(createTestViews(), 2));
 
@@ -1559,6 +1647,46 @@ public class AppClientTest {
 
         assertThat(sut.updateReminderNotifications(req)).isEqualTo(resp);
         assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_REMINDER_NOTIFICATIONS);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void updateReports_long_Map() {
+        Map<String, ReportId> ids = Collections.singletonMap("report1", new ReportId(100));
+        mockClient.setResponseBody(new UpdateReportsResponseBody(ids, 2L));
+
+        Map<String, ReportId> result = sut.updateReports(1, createTestReports());
+        assertThat(result).hasSize(1);
+        assertThat(result).containsEntry("report1", new ReportId(100));
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_REPORTS);
+        assertThat(mockClient.getLastBody())
+                .usingRecursiveComparison()
+                .isEqualTo(new UpdateReportsRequest().setApp(1L).setReports(createTestReports()));
+    }
+
+    @Test
+    public void updateReports_long_Map_Long() {
+        Map<String, ReportId> ids = Collections.singletonMap("report2", new ReportId(200));
+        mockClient.setResponseBody(new UpdateReportsResponseBody(ids, 3L));
+
+        Map<String, ReportId> result = sut.updateReports(1, createTestReports(), 3L);
+        assertThat(result).hasSize(1);
+        assertThat(result).containsEntry("report2", new ReportId(200));
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_REPORTS);
+        assertThat(mockClient.getLastBody())
+                .usingRecursiveComparison()
+                .isEqualTo(
+                        new UpdateReportsRequest().setApp(1L).setReports(createTestReports()).setRevision(3L));
+    }
+
+    @Test
+    public void updateReports_UpdateReportsRequest() {
+        UpdateReportsRequest req = new UpdateReportsRequest();
+        UpdateReportsResponseBody resp = new UpdateReportsResponseBody(Collections.emptyMap(), 1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.updateReports(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_REPORTS);
         assertThat(mockClient.getLastBody()).isEqualTo(req);
     }
 
