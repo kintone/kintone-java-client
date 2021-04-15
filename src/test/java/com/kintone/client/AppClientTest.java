@@ -17,6 +17,10 @@ import com.kintone.client.api.app.GetAppAclPreviewRequest;
 import com.kintone.client.api.app.GetAppAclPreviewResponseBody;
 import com.kintone.client.api.app.GetAppAclRequest;
 import com.kintone.client.api.app.GetAppAclResponseBody;
+import com.kintone.client.api.app.GetAppActionsPreviewRequest;
+import com.kintone.client.api.app.GetAppActionsPreviewResponseBody;
+import com.kintone.client.api.app.GetAppActionsRequest;
+import com.kintone.client.api.app.GetAppActionsResponseBody;
 import com.kintone.client.api.app.GetAppCustomizePreviewRequest;
 import com.kintone.client.api.app.GetAppCustomizePreviewResponseBody;
 import com.kintone.client.api.app.GetAppCustomizeRequest;
@@ -73,6 +77,8 @@ import com.kintone.client.api.app.GetViewsRequest;
 import com.kintone.client.api.app.GetViewsResponseBody;
 import com.kintone.client.api.app.UpdateAppAclRequest;
 import com.kintone.client.api.app.UpdateAppAclResponseBody;
+import com.kintone.client.api.app.UpdateAppActionsRequest;
+import com.kintone.client.api.app.UpdateAppActionsResponseBody;
 import com.kintone.client.api.app.UpdateAppCustomizeRequest;
 import com.kintone.client.api.app.UpdateAppCustomizeResponseBody;
 import com.kintone.client.api.app.UpdateAppSettingsRequest;
@@ -100,7 +106,9 @@ import com.kintone.client.api.app.UpdateViewsResponseBody;
 import com.kintone.client.model.Entity;
 import com.kintone.client.model.EntityType;
 import com.kintone.client.model.User;
+import com.kintone.client.model.app.ActionId;
 import com.kintone.client.model.app.App;
+import com.kintone.client.model.app.AppAction;
 import com.kintone.client.model.app.AppDeployStatus;
 import com.kintone.client.model.app.AppRightEntity;
 import com.kintone.client.model.app.CustomizeScope;
@@ -513,6 +521,74 @@ public class AppClientTest {
 
         assertThat(sut.getAppAclPreview(req)).isEqualTo(resp);
         assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APP_ACL_PREVIEW);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void getAppActions_long() {
+        Map<String, AppAction> actions = Collections.singletonMap("action1", new AppAction());
+        GetAppActionsResponseBody resp = new GetAppActionsResponseBody(actions, 2L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getAppActions(1L)).isEqualTo(actions);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APP_ACTIONS);
+        assertThat(mockClient.getLastBody()).isEqualTo(new GetAppActionsRequest().setApp(1L));
+    }
+
+    @Test
+    public void getAppActions_long_String() {
+        Map<String, AppAction> actions = Collections.singletonMap("action1", new AppAction());
+        GetAppActionsResponseBody resp = new GetAppActionsResponseBody(actions, 2L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getAppActions(1L, "en")).isEqualTo(actions);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APP_ACTIONS);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetAppActionsRequest().setApp(1L).setLang("en"));
+    }
+
+    @Test
+    public void getAppActions_GetAppActionsRequest() {
+        GetAppActionsRequest req = new GetAppActionsRequest();
+        GetAppActionsResponseBody resp = new GetAppActionsResponseBody(null, 2L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getAppActions(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APP_ACTIONS);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void getAppActionsPreview_long() {
+        Map<String, AppAction> actions = Collections.singletonMap("action1", new AppAction());
+        GetAppActionsPreviewResponseBody resp = new GetAppActionsPreviewResponseBody(actions, 2L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getAppActionsPreview(1L)).isEqualTo(actions);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APP_ACTIONS_PREVIEW);
+        assertThat(mockClient.getLastBody()).isEqualTo(new GetAppActionsPreviewRequest().setApp(1L));
+    }
+
+    @Test
+    public void getAppActionsPreview_long_String() {
+        Map<String, AppAction> actions = Collections.singletonMap("action1", new AppAction());
+        GetAppActionsPreviewResponseBody resp = new GetAppActionsPreviewResponseBody(actions, 2L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getAppActionsPreview(1L, "en")).isEqualTo(actions);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APP_ACTIONS_PREVIEW);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetAppActionsPreviewRequest().setApp(1L).setLang("en"));
+    }
+
+    @Test
+    public void getAppActionsPreview_GetAppActionsPreviewRequest() {
+        GetAppActionsPreviewRequest req = new GetAppActionsPreviewRequest();
+        GetAppActionsPreviewResponseBody resp = new GetAppActionsPreviewResponseBody(null, 2L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getAppActionsPreview(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APP_ACTIONS_PREVIEW);
         assertThat(mockClient.getLastBody()).isEqualTo(req);
     }
 
@@ -1392,6 +1468,44 @@ public class AppClientTest {
 
         assertThat(sut.updateAppAcl(req)).isEqualTo(resp);
         assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_APP_ACL);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void updateAppActions_long_Map() {
+        Map<String, AppAction> actions = Collections.singletonMap("action1", new AppAction());
+        Map<String, ActionId> ids = Collections.singletonMap("action1", new ActionId(100));
+        mockClient.setResponseBody(new UpdateAppActionsResponseBody(ids, 1L));
+
+        assertThat(sut.updateAppActions(1L, actions)).isEqualTo(ids);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_APP_ACTIONS);
+        assertThat(mockClient.getLastBody())
+                .usingRecursiveComparison()
+                .isEqualTo(new UpdateAppActionsRequest().setApp(1L).setActions(actions));
+    }
+
+    @Test
+    public void updateAppActions_long_Map_Long() {
+        Map<String, AppAction> actions = Collections.singletonMap("action1", new AppAction());
+        Map<String, ActionId> ids = Collections.singletonMap("action1", new ActionId(100));
+        mockClient.setResponseBody(new UpdateAppActionsResponseBody(ids, 1L));
+
+        assertThat(sut.updateAppActions(1L, actions, 2L)).isEqualTo(ids);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_APP_ACTIONS);
+        assertThat(mockClient.getLastBody())
+                .usingRecursiveComparison()
+                .isEqualTo(new UpdateAppActionsRequest().setApp(1L).setActions(actions).setRevision(2L));
+    }
+
+    @Test
+    public void updateAppActions_UpdateAppActionsRequest() {
+        UpdateAppActionsRequest req = new UpdateAppActionsRequest();
+        UpdateAppActionsResponseBody resp =
+                new UpdateAppActionsResponseBody(Collections.emptyMap(), 1L);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.updateAppActions(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_APP_ACTIONS);
         assertThat(mockClient.getLastBody()).isEqualTo(req);
     }
 

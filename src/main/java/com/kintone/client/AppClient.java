@@ -14,6 +14,10 @@ import com.kintone.client.api.app.GetAppAclPreviewRequest;
 import com.kintone.client.api.app.GetAppAclPreviewResponseBody;
 import com.kintone.client.api.app.GetAppAclRequest;
 import com.kintone.client.api.app.GetAppAclResponseBody;
+import com.kintone.client.api.app.GetAppActionsPreviewRequest;
+import com.kintone.client.api.app.GetAppActionsPreviewResponseBody;
+import com.kintone.client.api.app.GetAppActionsRequest;
+import com.kintone.client.api.app.GetAppActionsResponseBody;
 import com.kintone.client.api.app.GetAppCustomizePreviewRequest;
 import com.kintone.client.api.app.GetAppCustomizePreviewResponseBody;
 import com.kintone.client.api.app.GetAppCustomizeRequest;
@@ -70,6 +74,8 @@ import com.kintone.client.api.app.GetViewsRequest;
 import com.kintone.client.api.app.GetViewsResponseBody;
 import com.kintone.client.api.app.UpdateAppAclRequest;
 import com.kintone.client.api.app.UpdateAppAclResponseBody;
+import com.kintone.client.api.app.UpdateAppActionsRequest;
+import com.kintone.client.api.app.UpdateAppActionsResponseBody;
 import com.kintone.client.api.app.UpdateAppCustomizeRequest;
 import com.kintone.client.api.app.UpdateAppCustomizeResponseBody;
 import com.kintone.client.api.app.UpdateAppSettingsRequest;
@@ -94,7 +100,9 @@ import com.kintone.client.api.app.UpdateReportsRequest;
 import com.kintone.client.api.app.UpdateReportsResponseBody;
 import com.kintone.client.api.app.UpdateViewsRequest;
 import com.kintone.client.api.app.UpdateViewsResponseBody;
+import com.kintone.client.model.app.ActionId;
 import com.kintone.client.model.app.App;
+import com.kintone.client.model.app.AppAction;
 import com.kintone.client.model.app.AppRightEntity;
 import com.kintone.client.model.app.DeployApp;
 import com.kintone.client.model.app.DeployStatus;
@@ -433,6 +441,82 @@ public class AppClient {
     */
     public GetAppAclPreviewResponseBody getAppAclPreview(GetAppAclPreviewRequest request) {
         return client.call(KintoneApi.GET_APP_ACL_PREVIEW, request, handlers);
+    }
+
+    /**
+    * Gets the Action settings of the App.
+    *
+    * @param app the app ID
+    * @return an object that maps the Action name to the Action settings
+    */
+    public Map<String, AppAction> getAppActions(long app) {
+        GetAppActionsRequest req = new GetAppActionsRequest();
+        req.setApp(app);
+        return getAppActions(req).getActions();
+    }
+
+    /**
+    * Gets the Action settings of the App.
+    *
+    * @param app the app ID
+    * @param lang the localization language setting
+    * @return an object that maps the Action name to the Action settings
+    */
+    public Map<String, AppAction> getAppActions(long app, String lang) {
+        GetAppActionsRequest req = new GetAppActionsRequest();
+        req.setApp(app);
+        req.setLang(lang);
+        return getAppActions(req).getActions();
+    }
+
+    /**
+    * Gets the Action settings of the App.
+    *
+    * @param request the request parameters. See {@link GetAppActionsRequest}
+    * @return the response data. See {@link GetAppActionsResponseBody}
+    */
+    public GetAppActionsResponseBody getAppActions(GetAppActionsRequest request) {
+        return client.call(KintoneApi.GET_APP_ACTIONS, request, handlers);
+    }
+
+    /**
+    * Gets the Action settings of the App. This API retrieves the pre-live settings that have not yet
+    * been deployed to the live App.
+    *
+    * @param app the app ID
+    * @return an object that maps the Action name to the Action settings
+    */
+    public Map<String, AppAction> getAppActionsPreview(long app) {
+        GetAppActionsPreviewRequest req = new GetAppActionsPreviewRequest();
+        req.setApp(app);
+        return getAppActionsPreview(req).getActions();
+    }
+
+    /**
+    * Gets the Action settings of the App. This API retrieves the pre-live settings that have not yet
+    * been deployed to the live App.
+    *
+    * @param app the app ID
+    * @param lang the localization language setting
+    * @return an object that maps the Action name to the Action settings
+    */
+    public Map<String, AppAction> getAppActionsPreview(long app, String lang) {
+        GetAppActionsPreviewRequest req = new GetAppActionsPreviewRequest();
+        req.setApp(app);
+        req.setLang(lang);
+        return getAppActionsPreview(req).getActions();
+    }
+
+    /**
+    * Gets the Action settings of the App. This API retrieves the pre-live settings that have not yet
+    * been deployed to the live App.
+    *
+    * @param request the request parameters. See {@link GetAppActionsPreviewRequest}
+    * @return the response data. See {@link GetAppActionsPreviewResponseBody}
+    */
+    public GetAppActionsPreviewResponseBody getAppActionsPreview(
+            GetAppActionsPreviewRequest request) {
+        return client.call(KintoneApi.GET_APP_ACTIONS_PREVIEW, request, handlers);
     }
 
     /**
@@ -1329,6 +1413,50 @@ public class AppClient {
     */
     public UpdateAppAclResponseBody updateAppAcl(UpdateAppAclRequest request) {
         return client.call(KintoneApi.UPDATE_APP_ACL, request, handlers);
+    }
+
+    /**
+    * Updates the Action settings of the App. This API updates the pre-live settings. After using
+    * this API, use the Deploy App Settings API to deploy the settings to the live App.
+    *
+    * @param app the App ID
+    * @param actions the object that maps the Action name to the Action settings
+    * @return an object containing data of the Action IDs
+    */
+    public Map<String, ActionId> updateAppActions(long app, Map<String, AppAction> actions) {
+        UpdateAppActionsRequest req = new UpdateAppActionsRequest();
+        req.setApp(app);
+        req.setActions(actions);
+        return updateAppActions(req).getActions();
+    }
+
+    /**
+    * Updates the Action settings of the App. This API updates the pre-live settings. After using
+    * this API, use the Deploy App Settings API to deploy the settings to the live App.
+    *
+    * @param app the App ID
+    * @param actions the object that maps the Action name to the Action settings
+    * @param revision The expected revision number of the App settings
+    * @return an object containing data of the Action IDs
+    */
+    public Map<String, ActionId> updateAppActions(
+            long app, Map<String, AppAction> actions, Long revision) {
+        UpdateAppActionsRequest req = new UpdateAppActionsRequest();
+        req.setApp(app);
+        req.setActions(actions);
+        req.setRevision(revision);
+        return updateAppActions(req).getActions();
+    }
+
+    /**
+    * Updates the Action settings of the App. This API updates the pre-live settings. After using
+    * this API, use the Deploy App Settings API to deploy the settings to the live App.
+    *
+    * @param request the request parameters. See {@link UpdateAppActionsRequest}
+    * @return the response data. See {@link UpdateAppActionsResponseBody}
+    */
+    public UpdateAppActionsResponseBody updateAppActions(UpdateAppActionsRequest request) {
+        return client.call(KintoneApi.UPDATE_APP_ACTIONS, request, handlers);
     }
 
     /**

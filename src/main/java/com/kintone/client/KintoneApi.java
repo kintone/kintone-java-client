@@ -10,6 +10,8 @@ import com.kintone.client.api.app.DeployAppResponseBody;
 import com.kintone.client.api.app.EvaluateRecordAclResponseBody;
 import com.kintone.client.api.app.GetAppAclPreviewResponseBody;
 import com.kintone.client.api.app.GetAppAclResponseBody;
+import com.kintone.client.api.app.GetAppActionsPreviewResponseBody;
+import com.kintone.client.api.app.GetAppActionsResponseBody;
 import com.kintone.client.api.app.GetAppCustomizePreviewResponseBody;
 import com.kintone.client.api.app.GetAppCustomizeResponseBody;
 import com.kintone.client.api.app.GetAppResponseBody;
@@ -38,6 +40,7 @@ import com.kintone.client.api.app.GetReportsResponseBody;
 import com.kintone.client.api.app.GetViewsPreviewResponseBody;
 import com.kintone.client.api.app.GetViewsResponseBody;
 import com.kintone.client.api.app.UpdateAppAclResponseBody;
+import com.kintone.client.api.app.UpdateAppActionsResponseBody;
 import com.kintone.client.api.app.UpdateAppCustomizeResponseBody;
 import com.kintone.client.api.app.UpdateAppSettingsResponseBody;
 import com.kintone.client.api.app.UpdateFieldAclResponseBody;
@@ -150,6 +153,9 @@ public enum KintoneApi {
     GET_PROCESS_MANAGEMENT_PREVIEW(
             GET, "preview/app/status", GetProcessManagementPreviewResponseBody.class),
     UPDATE_PROCESS_MANAGEMENT(PUT, "preview/app/status", UpdateProcessManagementResponseBody.class),
+    GET_APP_ACTIONS(GET, "app/actions", GetAppActionsResponseBody.class),
+    GET_APP_ACTIONS_PREVIEW(GET, "preview/app/actions", GetAppActionsPreviewResponseBody.class),
+    UPDATE_APP_ACTIONS(PUT, "preview/app/actions", UpdateAppActionsResponseBody.class),
     GET_APP_CUSTOMIZE(GET, "app/customize", GetAppCustomizeResponseBody.class),
     GET_APP_CUSTOMIZE_PREVIEW(GET, "preview/app/customize", GetAppCustomizePreviewResponseBody.class),
     UPDATE_APP_CUSTOMIZE(PUT, "preview/app/customize", UpdateAppCustomizeResponseBody.class),
