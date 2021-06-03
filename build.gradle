@@ -4,6 +4,7 @@ plugins {
     id 'signing'
     id 'maven-publish'
     id 'com.diffplug.gradle.spotless' version '3.25.0'
+    id 'com.github.hierynomus.license' version '0.15.0'
 }
 
 version = '1.2.0'
@@ -38,6 +39,10 @@ dependencies {
     testImplementation 'org.mock-server:mockserver-netty:5.11.2'
 
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.1'
+}
+
+downloadLicenses {
+    dependencyConfiguration = "testRuntimeClasspath"
 }
 
 processResources {

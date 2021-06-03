@@ -1,0 +1,79 @@
+---
+- - :permit
+  - Apache-2.0
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-06-03 00:56:26.027980587 Z
+- - :permit
+  - MIT
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-06-03 00:56:26.027980587 Z
+- - :permit
+  - BSD
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-06-03 00:56:26.027980587 Z
+- - :permit
+  - BSD License 3
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-06-03 00:56:26.027980587 Z
+- - :permit
+  - Eclipse Public License v2.0
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-06-03 00:56:26.027980587 Z
+- - :permit
+  - Mozilla Public License 2.0
+  - :who:
+    :why:
+    :versions: []
+    :when: 2021-06-03 00:56:26.027980587 Z
+- - :approve
+  - jakarta.activation-api
+  - :who:
+    :why: Eclipse Distribution License 1.0
+    :versions:
+    - 1.2.1
+    :when: 2021-06-03 00:56:26.027980587 Z
+- - :approve
+  - jakarta.xml.bind-api
+  - :who:
+    :why: Eclipse Distribution License 1.0
+    :versions:
+    - 2.3.2
+    :when: 2021-06-03 00:56:26.027980587 Z
+- - :approve
+  - javax.activation-api
+  - :who:
+    :why: CDDL/GPLv2+CE
+    :versions:
+    - 1.2.0
+    :when: 2021-06-03 00:56:26.027980587 Z
+- - :approve
+  - javax.servlet-api
+  - :who:
+    :why: CDDL/GPLv2+CE
+    :versions:
+    - 4.0.1
+    :when: 2021-06-03 00:56:26.027980587 Z
+- - :approve
+  - jaxb-api
+  - :who:
+    :why: CDDL/GPLv2+CE
+    :versions:
+    - 2.4.0-b180830.0359
+    :when: 2021-06-03 00:56:26.027980587 Z
+- - :approve
+  - mailapi
+  - :who:
+    :why: CDDL/GPLv2+CE
+    :versions:
+    - 1.6.2
+    :when: 2021-06-03 00:56:26.027980587 Z
