@@ -1,0 +1,33 @@
+name: scan with Yamory
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  scan: 
+    name: scan gradle
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Cache gradle files
+      uses: actions/cache@v1
+      env:
+        cache-name: cache-gradle-files
+      with:
+        path: ~/.gradle/caches
+        key: gradle-${{ env.cache-name }}-${{ hashFiles('build.gradle') }}
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+    - name: run Yamory
+      run: ./gradlew --no-daemon dependencies --console=plain | bash -c "$(curl -sSf -L https://localscanner.yamory.io/script/gradle)" -- --configuration runtimeClasspath
+      env:
+        PROJECT_GROUP_KEY: kintone-java-client
+        YAMORY_API_KEY: ${{ secrets.YAMORY_API_KEY }}
