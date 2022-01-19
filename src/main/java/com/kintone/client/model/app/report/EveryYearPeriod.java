@@ -10,15 +10,15 @@ import lombok.Data;
 public class EveryYearPeriod implements PeriodicReportPeriod {
 
     /**
-    * The month when the Periodic Report will be generated. The month is returned as an integer,
-    * ranging from 1 (January) to 12 (December).
-    */
+     * The month when the Periodic Report will be generated. The month is returned as an integer,
+     * ranging from 1 (January) to 12 (December).
+     */
     private Integer month;
 
     /**
-    * The day when the Periodic Report will be generated. The day is returned as an integer, ranging
-    * from 1 to 31.
-    */
+     * The day when the Periodic Report will be generated. The day is returned as an integer, ranging
+     * from 1 to 31.
+     */
     private Integer dayOfMonth;
 
     /** The time when the Periodic Report will be generated. */

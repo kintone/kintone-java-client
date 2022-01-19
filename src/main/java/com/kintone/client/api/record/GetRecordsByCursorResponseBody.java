@@ -16,10 +16,10 @@ public class GetRecordsByCursorResponseBody implements KintoneResponseBody {
     private final List<Record> records;
 
     /**
-    * Tests whether there are more records that can be acquired from the cursor.
-    *
-    * @return true if there are more records that can be acquired from the cursor.
-    */
+     * Tests whether there are more records that can be acquired from the cursor.
+     *
+     * @return true if there are more records that can be acquired from the cursor.
+     */
     public boolean hasNext() {
         return this.next;
     }

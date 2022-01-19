@@ -18,18 +18,18 @@ public class UpdateAppSettingsRequest implements KintoneRequest {
     private String description;
 
     /**
-    * An object containing information of the App icon (optional). If set to null, leaves this
-    * setting unchanged.
-    */
+     * An object containing information of the App icon (optional). If set to null, leaves this
+     * setting unchanged.
+     */
     private AppIcon icon;
 
     /** The color theme (optional). If set to null, leaves this setting unchanged. */
     private String theme;
 
     /**
-    * The expected revision number of the App settings (optional). The request will fail if the
-    * revision number is not the latest revision. The revision will not be checked if this parameter
-    * is null, or -1 is specified.
-    */
+     * The expected revision number of the App settings (optional). The request will fail if the
+     * revision number is not the latest revision. The revision will not be checked if this parameter
+     * is null, or -1 is specified.
+     */
     private Long revision;
 }

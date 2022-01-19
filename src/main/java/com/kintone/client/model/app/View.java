@@ -44,9 +44,9 @@ public class View {
     private Device device;
 
     /**
-    * The pagination settings. Specify one of the following:
-    *
-    * @return true if enable (default)
-    */
+     * The pagination settings. Specify one of the following:
+     *
+     * @return true if enable (default)
+     */
     private Boolean pager;
 }

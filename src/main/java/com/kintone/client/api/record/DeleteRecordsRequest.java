@@ -15,10 +15,10 @@ public class DeleteRecordsRequest implements KintoneRequest {
     private List<Long> ids;
 
     /**
-    * The expected revision numbers (optional). The first id number will correspond to the first
-    * revision number in the list, the second id to the second revision number, and so on. If a
-    * element is null or -1, the revision number will not be checked for the corresponding record ID.
-    * Set to null to ignore the revisions for all deleting records.
-    */
+     * The expected revision numbers (optional). The first id number will correspond to the first
+     * revision number in the list, the second id to the second revision number, and so on. If a
+     * element is null or -1, the revision number will not be checked for the corresponding record ID.
+     * Set to null to ignore the revisions for all deleting records.
+     */
     private List<Long> revisions;
 }

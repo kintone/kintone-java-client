@@ -5,9 +5,9 @@ import com.kintone.client.model.record.FieldType;
 import lombok.Data;
 
 /**
-* An object containing the properties of the Created date-time field for getting and setting the
-* field settings.
-*/
+ * An object containing the properties of the Created date-time field for getting and setting the
+ * field settings.
+ */
 @Data
 @JsonIgnoreProperties(value = "type", allowGetters = true)
 public class CreatedTimeFieldProperty implements FieldProperty {

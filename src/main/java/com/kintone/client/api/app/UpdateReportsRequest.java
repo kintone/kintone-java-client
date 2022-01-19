@@ -13,18 +13,18 @@ public class UpdateReportsRequest implements KintoneRequest {
     private Long app;
 
     /**
-    * An object listing Graph information (required).
-    *
-    * <p>The key of the object is the graph's unique identifier, which is equal to the name of the
-    * graph in its default language settings. The values of the key are the various graph settings
-    * associated with that graph.
-    */
+     * An object listing Graph information (required).
+     *
+     * <p>The key of the object is the graph's unique identifier, which is equal to the name of the
+     * graph in its default language settings. The values of the key are the various graph settings
+     * associated with that graph.
+     */
     private Map<String, Report> reports;
 
     /**
-    * The expected revision number of the App settings (optional). The request will fail if the
-    * revision number is not the latest revision. The revision will not be checked if this parameter
-    * is null, or -1 is specified.
-    */
+     * The expected revision number of the App settings (optional). The request will fail if the
+     * revision number is not the latest revision. The revision will not be checked if this parameter
+     * is null, or -1 is specified.
+     */
     private Long revision;
 }

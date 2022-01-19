@@ -8,10 +8,10 @@ import lombok.Data;
 public class Report {
 
     /**
-    * The ID of the graph.
-    *
-    * <p>This field is ignored for the request object of Update Graphs API.
-    */
+     * The ID of the graph.
+     *
+     * <p>This field is ignored for the request object of Update Graphs API.
+     */
     private Long id;
 
     /** The chart type of the graph. */

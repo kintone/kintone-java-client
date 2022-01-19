@@ -11,8 +11,8 @@ import lombok.RequiredArgsConstructor;
 public class BulkRequestsResponseBody implements KintoneResponseBody {
 
     /**
-    * The response from each API request. The order of the response is the same as the order of the
-    * requests.
-    */
+     * The response from each API request. The order of the response is the same as the order of the
+     * requests.
+     */
     private final List<KintoneResponseBody> results;
 }

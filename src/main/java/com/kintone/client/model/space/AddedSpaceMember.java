@@ -11,10 +11,10 @@ public class AddedSpaceMember {
     private final Entity entity;
 
     /**
-    * The Space Admin settings of the Space member
-    *
-    * @return true if the Space Member is the Space Administrator.
-    */
+     * The Space Admin settings of the Space member
+     *
+     * @return true if the Space Member is the Space Administrator.
+     */
     private final boolean isAdmin;
 
     /** The "Include Affiliated Departments" setting of the Department Space Member. */

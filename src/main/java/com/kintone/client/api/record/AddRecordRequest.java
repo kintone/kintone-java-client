@@ -12,8 +12,8 @@ public class AddRecordRequest implements KintoneRequest {
     private Long app;
 
     /**
-    * The record object. Field codes and values are specified in this object. If set to null, the
-    * record will be added with default field values.
-    */
+     * The record object. Field codes and values are specified in this object. If set to null, the
+     * record will be added with default field values.
+     */
     private Record record;
 }

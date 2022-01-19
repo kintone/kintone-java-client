@@ -21,10 +21,10 @@ public class GetSpaceResponseBody implements KintoneResponseBody {
     private final long defaultThread;
 
     /**
-    * The "Private" settings of the Space.
-    *
-    * @return true if the Space is private.
-    */
+     * The "Private" settings of the Space.
+     *
+     * @return true if the Space is private.
+     */
     private final boolean isPrivate;
 
     /** An object containing information of the creator of the Space. */
@@ -52,24 +52,24 @@ public class GetSpaceResponseBody implements KintoneResponseBody {
     private final long memberCount;
 
     /**
-    * The "Enable multiple threads." setting.
-    *
-    * @return true if the Space is a multi-threaded Space.
-    */
+     * The "Enable multiple threads." setting.
+     *
+     * @return true if the Space is a multi-threaded Space.
+     */
     private final boolean useMultiThread;
 
     /**
-    * The Guest Space setting.
-    *
-    * @return true if the Space is a Guest Space.
-    */
+     * The Guest Space setting.
+     *
+     * @return true if the Space is a Guest Space.
+     */
     private final boolean isGuest;
 
     /**
-    * The "Block users from joining or leaving the space and following or unfollowing the threads."
-    * setting.
-    *
-    * @return true if users cannot join/leave the Space or follow/unfollow threads.
-    */
+     * The "Block users from joining or leaving the space and following or unfollowing the threads."
+     * setting.
+     *
+     * @return true if users cannot join/leave the Space or follow/unfollow threads.
+     */
     private final boolean fixedMember;
 }

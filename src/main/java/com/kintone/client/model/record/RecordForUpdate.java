@@ -20,9 +20,9 @@ public class RecordForUpdate {
     private final UpdateKey updateKey;
 
     /**
-    * Field codes and values are specified in this object. If set to null, the record will not be
-    * updated.
-    */
+     * Field codes and values are specified in this object. If set to null, the record will not be
+     * updated.
+     */
     private final Record record;
 
     /** The expected revision number (optional). */

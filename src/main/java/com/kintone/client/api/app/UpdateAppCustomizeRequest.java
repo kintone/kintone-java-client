@@ -16,21 +16,21 @@ public class UpdateAppCustomizeRequest implements KintoneRequest {
     private CustomizeScope scope;
 
     /**
-    * An object containing data of JavaScript and CSS files for the desktop (optional). If set to
-    * null, leaves this setting unchanged.
-    */
+     * An object containing data of JavaScript and CSS files for the desktop (optional). If set to
+     * null, leaves this setting unchanged.
+     */
     private CustomizeBody desktop;
 
     /**
-    * An object containing data of JavaScript and CSS files for the mobile (optional). If set to
-    * null, leaves this setting unchanged.
-    */
+     * An object containing data of JavaScript and CSS files for the mobile (optional). If set to
+     * null, leaves this setting unchanged.
+     */
     private CustomizeBody mobile;
 
     /**
-    * The expected revision number of the App settings (optional). The request will fail if the
-    * revision number is not the latest revision. The revision will not be checked if this parameter
-    * is null, or -1 is specified.
-    */
+     * The expected revision number of the App settings (optional). The request will fail if the
+     * revision number is not the latest revision. The revision will not be checked if this parameter
+     * is null, or -1 is specified.
+     */
     private Long revision;
 }

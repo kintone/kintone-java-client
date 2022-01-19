@@ -8,24 +8,24 @@ import java.io.InputStream;
 public interface HttpResponse extends Closeable {
 
     /**
-    * Returns the size of content in bytes.
-    *
-    * @return the content length
-    */
+     * Returns the size of content in bytes.
+     *
+     * @return the content length
+     */
     Long getContentLength();
 
     /**
-    * Returns the MIME type of the response.
-    *
-    * @return the MIME type
-    */
+     * Returns the MIME type of the response.
+     *
+     * @return the MIME type
+     */
     String getContentType();
 
     /**
-    * Gets the content of the response.
-    *
-    * @return the content data stream
-    * @throws IOException if an I/O error occurs
-    */
+     * Gets the content of the response.
+     *
+     * @return the content data stream
+     * @throws IOException if an I/O error occurs
+     */
     InputStream getContent() throws IOException;
 }

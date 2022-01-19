@@ -4,9 +4,9 @@ package com.kintone.client.model.app.layout;
 public interface Layout {
 
     /**
-    * Returns the type of row.
-    *
-    * @return the type of row
-    */
+     * Returns the type of row.
+     *
+     * @return the type of row
+     */
     LayoutType getType();
 }

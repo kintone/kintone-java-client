@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 import lombok.Data;
 
 /**
-* An object containing the properties of a Number field for getting and setting the field settings.
-*/
+ * An object containing the properties of a Number field for getting and setting the field settings.
+ */
 @Data
 @JsonIgnoreProperties(value = "type", allowGetters = true)
 public class NumberFieldProperty implements FieldProperty {
@@ -19,24 +19,24 @@ public class NumberFieldProperty implements FieldProperty {
     private String label;
 
     /**
-    * The "Hide field name" option.
-    *
-    * @return true if the field's name will be hidden
-    */
+     * The "Hide field name" option.
+     *
+     * @return true if the field's name will be hidden
+     */
     private Boolean noLabel;
 
     /**
-    * The "Required field" option.
-    *
-    * @return true if the field will be a required field.
-    */
+     * The "Required field" option.
+     *
+     * @return true if the field will be a required field.
+     */
     private Boolean required;
 
     /**
-    * The "Prohibit duplicate values" option.
-    *
-    * @return true if duplicate values will be prohibited.
-    */
+     * The "Prohibit duplicate values" option.
+     *
+     * @return true if duplicate values will be prohibited.
+     */
     private Boolean unique;
 
     /** The maximum number of characters for the field */
@@ -49,10 +49,10 @@ public class NumberFieldProperty implements FieldProperty {
     private BigDecimal defaultValue;
 
     /**
-    * The "Use thousands separators" option.
-    *
-    * @return true if thousands separators will be displayed for the number.
-    */
+     * The "Use thousands separators" option.
+     *
+     * @return true if thousands separators will be displayed for the number.
+     */
     private Boolean digit;
 
     /** The number of decimal places to display for the field. */

@@ -11,12 +11,12 @@ public class NotificationTarget {
     private Entity entity;
 
     /**
-    * The "Include affiliated departments" setting of the Department.
-    *
-    * <ul>
-    *   <li>true: Affiliated departments do inherit this notification settings
-    *   <li>false: Affiliated departments do not inherit this notification settings
-    * </ul>
-    */
+     * The "Include affiliated departments" setting of the Department.
+     *
+     * <ul>
+     *   <li>true: Affiliated departments do inherit this notification settings
+     *   <li>false: Affiliated departments do not inherit this notification settings
+     * </ul>
+     */
     private Boolean includeSubs;
 }

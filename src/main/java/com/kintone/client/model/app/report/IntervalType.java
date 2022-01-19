@@ -3,9 +3,9 @@ package com.kintone.client.model.app.report;
 import lombok.Getter;
 
 /**
-* An enum for representing the time interval types used to determine when to generate the Periodic
-* Reports.
-*/
+ * An enum for representing the time interval types used to determine when to generate the Periodic
+ * Reports.
+ */
 public enum IntervalType {
 
     /** Generates the Periodic Reports every year */

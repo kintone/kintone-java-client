@@ -23,73 +23,73 @@ public class BulkRequestsRequest implements KintoneRequest {
     private final List<BulkRequestContent> requests = new ArrayList<>();
 
     /**
-    * Add a request of Add Record API.
-    *
-    * @param request a request object for Add Record API
-    */
+     * Add a request of Add Record API.
+     *
+     * @param request a request object for Add Record API
+     */
     public void registerAddRecord(AddRecordRequest request) {
         register(KintoneApi.ADD_RECORD, request);
     }
 
     /**
-    * Add a request of Add Records API.
-    *
-    * @param request a request object for Add Records API
-    */
+     * Add a request of Add Records API.
+     *
+     * @param request a request object for Add Records API
+     */
     public void registerAddRecords(AddRecordsRequest request) {
         register(KintoneApi.ADD_RECORDS, request);
     }
 
     /**
-    * Add a request of Update Record API.
-    *
-    * @param request a request object for Update Record API
-    */
+     * Add a request of Update Record API.
+     *
+     * @param request a request object for Update Record API
+     */
     public void registerUpdateRecord(UpdateRecordRequest request) {
         register(KintoneApi.UPDATE_RECORD, request);
     }
 
     /**
-    * Add a request of Update Records API.
-    *
-    * @param request a request object for Update Records API
-    */
+     * Add a request of Update Records API.
+     *
+     * @param request a request object for Update Records API
+     */
     public void registerUpdateRecords(UpdateRecordsRequest request) {
         register(KintoneApi.UPDATE_RECORDS, request);
     }
 
     /**
-    * Add a request of Delete Records API.
-    *
-    * @param request a request object for Delete Records API
-    */
+     * Add a request of Delete Records API.
+     *
+     * @param request a request object for Delete Records API
+     */
     public void registerDeleteRecords(DeleteRecordsRequest request) {
         register(KintoneApi.DELETE_RECORDS, request);
     }
 
     /**
-    * Add a request of Update Record Status API.
-    *
-    * @param request a request object for Update Record Status API
-    */
+     * Add a request of Update Record Status API.
+     *
+     * @param request a request object for Update Record Status API
+     */
     public void registerUpdateRecordStatus(UpdateRecordStatusRequest request) {
         register(KintoneApi.UPDATE_RECORD_STATUS, request);
     }
 
     /**
-    * Add a request of Update Record Statuses API.
-    *
-    * @param request a request object for Update Record Statuses API
-    */
+     * Add a request of Update Record Statuses API.
+     *
+     * @param request a request object for Update Record Statuses API
+     */
     public void registerUpdateRecordStatuses(UpdateRecordStatusesRequest request) {
         register(KintoneApi.UPDATE_RECORD_STATUSES, request);
     }
 
     /**
-    * Add a request of Update Record Assignees API.
-    *
-    * @param request a request object for Update Record Assignees API
-    */
+     * Add a request of Update Record Assignees API.
+     *
+     * @param request a request object for Update Record Assignees API
+     */
     public void registerUpdateRecordAssignees(UpdateRecordAssigneesRequest request) {
         register(KintoneApi.UPDATE_RECORD_ASSIGNEES, request);
     }

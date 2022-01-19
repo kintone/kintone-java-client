@@ -38,12 +38,12 @@ public class SpaceClient {
     private final List<ResponseHandler> handlers;
 
     /**
-    * Adds Guest users to kintone. This does not affiliate Guest users with any Guest Spaces, and
-    * does not send any invitation emails. To affiliate a Guest user with a Guest Space, follow up
-    * this API call with the Update Space Guests API.
-    *
-    * @param guests the list of Guest user data
-    */
+     * Adds Guest users to kintone. This does not affiliate Guest users with any Guest Spaces, and
+     * does not send any invitation emails. To affiliate a Guest user with a Guest Space, follow up
+     * this API call with the Update Space Guests API.
+     *
+     * @param guests the list of Guest user data
+     */
     public void addGuests(List<GuestUser> guests) {
         AddGuestsRequest req = new AddGuestsRequest();
         req.setGuests(guests);
@@ -51,36 +51,36 @@ public class SpaceClient {
     }
 
     /**
-    * Adds Guest users to kintone. This does not affiliate Guest users with any Guest Spaces, and
-    * does not send any invitation emails. To affiliate a Guest user with a Guest Space, follow up
-    * this API call with the Update Space Guests API.
-    *
-    * @param request the request parameters. See {@link AddGuestsRequest}
-    * @return the response data. See {@link AddGuestsResponseBody}
-    */
+     * Adds Guest users to kintone. This does not affiliate Guest users with any Guest Spaces, and
+     * does not send any invitation emails. To affiliate a Guest user with a Guest Space, follow up
+     * this API call with the Update Space Guests API.
+     *
+     * @param request the request parameters. See {@link AddGuestsRequest}
+     * @return the response data. See {@link AddGuestsResponseBody}
+     */
     public AddGuestsResponseBody addGuests(AddGuestsRequest request) {
         return client.call(KintoneApi.ADD_GUESTS, request, handlers);
     }
 
     /**
-    * Creates a Space from a Space template.
-    *
-    * @param request the request parameters. See {@link AddSpaceFromTemplateRequest}
-    * @return the response data. See {@link AddSpaceFromTemplateResponseBody}
-    */
+     * Creates a Space from a Space template.
+     *
+     * @param request the request parameters. See {@link AddSpaceFromTemplateRequest}
+     * @return the response data. See {@link AddSpaceFromTemplateResponseBody}
+     */
     public AddSpaceFromTemplateResponseBody addSpaceFromTemplate(
             AddSpaceFromTemplateRequest request) {
         return client.call(KintoneApi.ADD_SPACE_FROM_TEMPLATE, request, handlers);
     }
 
     /**
-    * Adds a comment to a Thread of a Space.
-    *
-    * @param spaceId the Space ID
-    * @param threadId the Thread ID
-    * @param comment An object including comment details
-    * @return the comment ID of the created comment
-    */
+     * Adds a comment to a Thread of a Space.
+     *
+     * @param spaceId the Space ID
+     * @param threadId the Thread ID
+     * @param comment An object including comment details
+     * @return the comment ID of the created comment
+     */
     public long addThreadComment(long spaceId, long threadId, ThreadComment comment) {
         AddThreadCommentRequest req = new AddThreadCommentRequest();
         req.setSpace(spaceId);
@@ -90,21 +90,21 @@ public class SpaceClient {
     }
 
     /**
-    * Adds a comment to a Thread of a Space.
-    *
-    * @param request the request parameters. See {@link AddThreadCommentRequest}
-    * @return the response data. See {@link AddThreadCommentResponseBody}
-    */
+     * Adds a comment to a Thread of a Space.
+     *
+     * @param request the request parameters. See {@link AddThreadCommentRequest}
+     * @return the response data. See {@link AddThreadCommentResponseBody}
+     */
     public AddThreadCommentResponseBody addThreadComment(AddThreadCommentRequest request) {
         return client.call(KintoneApi.ADD_THREAD_COMMENT, request, handlers);
     }
 
     /**
-    * Deletes a Guest user from kintone. If you would like to remove a user from a Guest Space
-    * without deleting their account, use the Update Guest Members API.
-    *
-    * @param guests a list of email addresses of Guest users
-    */
+     * Deletes a Guest user from kintone. If you would like to remove a user from a Guest Space
+     * without deleting their account, use the Update Guest Members API.
+     *
+     * @param guests a list of email addresses of Guest users
+     */
     public void deleteGuests(List<String> guests) {
         DeleteGuestsRequest req = new DeleteGuestsRequest();
         req.setGuests(guests);
@@ -112,21 +112,21 @@ public class SpaceClient {
     }
 
     /**
-    * Deletes a Guest user from kintone. If you would like to remove a user from a Guest Space
-    * without deleting their account, use the Update Guest Members API.
-    *
-    * @param request the request parameters. See {@link DeleteGuestsRequest}
-    * @return the response data. See {@link DeleteGuestsResponseBody}
-    */
+     * Deletes a Guest user from kintone. If you would like to remove a user from a Guest Space
+     * without deleting their account, use the Update Guest Members API.
+     *
+     * @param request the request parameters. See {@link DeleteGuestsRequest}
+     * @return the response data. See {@link DeleteGuestsResponseBody}
+     */
     public DeleteGuestsResponseBody deleteGuests(DeleteGuestsRequest request) {
         return client.call(KintoneApi.DELETE_GUESTS, request, handlers);
     }
 
     /**
-    * Deletes a Space.
-    *
-    * @param spaceId the Space ID
-    */
+     * Deletes a Space.
+     *
+     * @param spaceId the Space ID
+     */
     public void deleteSpace(long spaceId) {
         DeleteSpaceRequest req = new DeleteSpaceRequest();
         req.setId(spaceId);
@@ -134,21 +134,21 @@ public class SpaceClient {
     }
 
     /**
-    * Deletes a Space.
-    *
-    * @param request the request parameters. See {@link DeleteSpaceRequest}
-    * @return the response data. See {@link DeleteSpaceResponseBody}
-    */
+     * Deletes a Space.
+     *
+     * @param request the request parameters. See {@link DeleteSpaceRequest}
+     * @return the response data. See {@link DeleteSpaceResponseBody}
+     */
     public DeleteSpaceResponseBody deleteSpace(DeleteSpaceRequest request) {
         return client.call(KintoneApi.DELETE_SPACE, request, handlers);
     }
 
     /**
-    * Gets information of a Space.
-    *
-    * @param spaceId ths Space ID
-    * @return the response data. See {@link GetSpaceResponseBody}
-    */
+     * Gets information of a Space.
+     *
+     * @param spaceId ths Space ID
+     * @return the response data. See {@link GetSpaceResponseBody}
+     */
     public GetSpaceResponseBody getSpace(long spaceId) {
         GetSpaceRequest req = new GetSpaceRequest();
         req.setId(spaceId);
@@ -156,22 +156,22 @@ public class SpaceClient {
     }
 
     /**
-    * Gets information of a Space.
-    *
-    * @param request the request parameters. See {@link GetSpaceRequest}
-    * @return the response data. See {@link GetSpaceResponseBody}
-    */
+     * Gets information of a Space.
+     *
+     * @param request the request parameters. See {@link GetSpaceRequest}
+     * @return the response data. See {@link GetSpaceResponseBody}
+     */
     public GetSpaceResponseBody getSpace(GetSpaceRequest request) {
         return client.call(KintoneApi.GET_SPACE, request, handlers);
     }
 
     /**
-    * Gets the list of Space members of a Space.
-    *
-    * @param spaceId the Space ID
-    * @return a list of Space members. Guest users, inactive users and deleted users will not be
-    *     included.
-    */
+     * Gets the list of Space members of a Space.
+     *
+     * @param spaceId the Space ID
+     * @return a list of Space members. Guest users, inactive users and deleted users will not be
+     *     included.
+     */
     public List<AddedSpaceMember> getSpaceMembers(long spaceId) {
         GetSpaceMembersRequest req = new GetSpaceMembersRequest();
         req.setId(spaceId);
@@ -179,21 +179,21 @@ public class SpaceClient {
     }
 
     /**
-    * Gets the list of Space members of a Space.
-    *
-    * @param request the request parameters. See {@link GetSpaceMembersRequest}
-    * @return the response data. See {@link GetSpaceMembersResponseBody}
-    */
+     * Gets the list of Space members of a Space.
+     *
+     * @param request the request parameters. See {@link GetSpaceMembersRequest}
+     * @return the response data. See {@link GetSpaceMembersResponseBody}
+     */
     public GetSpaceMembersResponseBody getSpaceMembers(GetSpaceMembersRequest request) {
         return client.call(KintoneApi.GET_SPACE_MEMBERS, request, handlers);
     }
 
     /**
-    * Updates the body of a Space.
-    *
-    * @param spaceId the Space ID
-    * @param body the contents of the body as an HTML string
-    */
+     * Updates the body of a Space.
+     *
+     * @param spaceId the Space ID
+     * @param body the contents of the body as an HTML string
+     */
     public void updateSpaceBody(long spaceId, String body) {
         UpdateSpaceBodyRequest req = new UpdateSpaceBodyRequest();
         req.setId(spaceId);
@@ -202,21 +202,21 @@ public class SpaceClient {
     }
 
     /**
-    * Updates the body of a Space.
-    *
-    * @param request the request parameters. See {@link UpdateSpaceBodyRequest}
-    * @return the response data. See {@link UpdateSpaceBodyResponseBody}
-    */
+     * Updates the body of a Space.
+     *
+     * @param request the request parameters. See {@link UpdateSpaceBodyRequest}
+     * @return the response data. See {@link UpdateSpaceBodyResponseBody}
+     */
     public UpdateSpaceBodyResponseBody updateSpaceBody(UpdateSpaceBodyRequest request) {
         return client.call(KintoneApi.UPDATE_SPACE_BODY, request, handlers);
     }
 
     /**
-    * Updates the Guest members of a Space.
-    *
-    * @param spaceId the Space ID
-    * @param guests a list of email addresses of Guest users
-    */
+     * Updates the Guest members of a Space.
+     *
+     * @param spaceId the Space ID
+     * @param guests a list of email addresses of Guest users
+     */
     public void updateSpaceGuests(long spaceId, List<String> guests) {
         UpdateSpaceGuestsRequest req = new UpdateSpaceGuestsRequest();
         req.setId(spaceId);
@@ -225,21 +225,21 @@ public class SpaceClient {
     }
 
     /**
-    * Updates the Guest members of a Space.
-    *
-    * @param request the request parameters. See {@link UpdateSpaceGuestsRequest}
-    * @return the response data. See {@link UpdateSpaceGuestsResponseBody}
-    */
+     * Updates the Guest members of a Space.
+     *
+     * @param request the request parameters. See {@link UpdateSpaceGuestsRequest}
+     * @return the response data. See {@link UpdateSpaceGuestsResponseBody}
+     */
     public UpdateSpaceGuestsResponseBody updateSpaceGuests(UpdateSpaceGuestsRequest request) {
         return client.call(KintoneApi.UPDATE_SPACE_GUESTS, request, handlers);
     }
 
     /**
-    * Updates the members of a Space.
-    *
-    * @param spaceId the Space ID
-    * @param members a list of members of the Space
-    */
+     * Updates the members of a Space.
+     *
+     * @param spaceId the Space ID
+     * @param members a list of members of the Space
+     */
     public void updateSpaceMembers(long spaceId, List<SpaceMember> members) {
         UpdateSpaceMembersRequest req = new UpdateSpaceMembersRequest();
         req.setId(spaceId);
@@ -248,22 +248,22 @@ public class SpaceClient {
     }
 
     /**
-    * Updates the Members of a Space.
-    *
-    * @param request the request parameters. See {@link UpdateSpaceMembersRequest}
-    * @return the response data. See {@link UpdateSpaceMembersResponseBody}
-    */
+     * Updates the Members of a Space.
+     *
+     * @param request the request parameters. See {@link UpdateSpaceMembersRequest}
+     * @return the response data. See {@link UpdateSpaceMembersResponseBody}
+     */
     public UpdateSpaceMembersResponseBody updateSpaceMembers(UpdateSpaceMembersRequest request) {
         return client.call(KintoneApi.UPDATE_SPACE_MEMBERS, request, handlers);
     }
 
     /**
-    * Updates a Thread of a Space.
-    *
-    * @param threadId the Thread ID
-    * @param name the new name of the Thread
-    * @param body the contents of the Thread body
-    */
+     * Updates a Thread of a Space.
+     *
+     * @param threadId the Thread ID
+     * @param name the new name of the Thread
+     * @param body the contents of the Thread body
+     */
     public void updateThread(long threadId, String name, String body) {
         UpdateThreadRequest req = new UpdateThreadRequest();
         req.setId(threadId);
@@ -273,11 +273,11 @@ public class SpaceClient {
     }
 
     /**
-    * Updates a Thread of a Space.
-    *
-    * @param request the request parameters. See {@link UpdateThreadRequest}
-    * @return the response data. See {@link UpdateThreadResponseBody}
-    */
+     * Updates a Thread of a Space.
+     *
+     * @param request the request parameters. See {@link UpdateThreadRequest}
+     * @return the response data. See {@link UpdateThreadResponseBody}
+     */
     public UpdateThreadResponseBody updateThread(UpdateThreadRequest request) {
         return client.call(KintoneApi.UPDATE_THREAD, request, handlers);
     }

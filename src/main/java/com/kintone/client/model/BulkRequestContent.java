@@ -14,8 +14,8 @@ public class BulkRequestContent {
     private final KintoneApi api;
 
     /**
-    * The parameters to be passed onto the API of the request. Contents and formats will change
-    * depending on the API.
-    */
+     * The parameters to be passed onto the API of the request. Contents and formats will change
+     * depending on the API.
+     */
     private final KintoneRequest payload;
 }

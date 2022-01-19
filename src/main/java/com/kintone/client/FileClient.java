@@ -20,13 +20,13 @@ public class FileClient {
     private final List<ResponseHandler> handlers;
 
     /**
-    * Downloads files from an attachment field in an app.
-    *
-    * @param fileKey the value that is set on the Attachment field in the response data returned when
-    *     using the Get Record API
-    * @return the content data stream
-    * @throws IOException if an I/O error occurs
-    */
+     * Downloads files from an attachment field in an app.
+     *
+     * @param fileKey the value that is set on the Attachment field in the response data returned when
+     *     using the Get Record API
+     * @return the content data stream
+     * @throws IOException if an I/O error occurs
+     */
     public InputStream downloadFile(String fileKey) throws IOException {
         DownloadFileRequest req = new DownloadFileRequest();
         req.setFileKey(fileKey);
@@ -34,23 +34,23 @@ public class FileClient {
     }
 
     /**
-    * Downloads files from an attachment field in an app.
-    *
-    * @param request the request parameters. See {@link DownloadFileRequest}
-    * @return the response data. See {@link DownloadFileResponseBody}
-    */
+     * Downloads files from an attachment field in an app.
+     *
+     * @param request the request parameters. See {@link DownloadFileRequest}
+     * @return the response data. See {@link DownloadFileResponseBody}
+     */
     public DownloadFileResponseBody downloadFile(DownloadFileRequest request) {
         return client.download(request, handlers);
     }
 
     /**
-    * Uploads a file to Kintone.
-    *
-    * @param path the file to upload
-    * @param contentType the Content Type of the file.
-    * @return the fileKey of the uploaded file
-    * @throws IOException if an I/O error occurs
-    */
+     * Uploads a file to Kintone.
+     *
+     * @param path the file to upload
+     * @param contentType the Content Type of the file.
+     * @return the fileKey of the uploaded file
+     * @throws IOException if an I/O error occurs
+     */
     public String uploadFile(Path path, String contentType) throws IOException {
         UploadFileRequest req = new UploadFileRequest();
         req.setContentType(contentType);
@@ -62,11 +62,11 @@ public class FileClient {
     }
 
     /**
-    * Uploads a file to Kintone.
-    *
-    * @param request the request parameters. See {@link UploadFileRequest}
-    * @return the response data. See {@link UploadFileResponseBody}
-    */
+     * Uploads a file to Kintone.
+     *
+     * @param request the request parameters. See {@link UploadFileRequest}
+     * @return the response data. See {@link UploadFileResponseBody}
+     */
     public UploadFileResponseBody uploadFile(UploadFileRequest request) {
         return client
                 .upload(request.getFilename(), request.getContentType(), request.getContent(), handlers)

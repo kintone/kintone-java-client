@@ -13,8 +13,8 @@ public enum DeployStatus {
     FAIL,
 
     /**
-    * The deployment of App settings was canceled, due to the deployment of other App settings
-    * failing.
-    */
+     * The deployment of App settings was canceled, due to the deployment of other App settings
+     * failing.
+     */
     CANCEL
 }

@@ -17,8 +17,8 @@ public class ReferenceTable {
     private String filterCond;
 
     /**
-    * A list of field codes of fields specified in the "Datasource App Fields to Display" setting.
-    */
+     * A list of field codes of fields specified in the "Datasource App Fields to Display" setting.
+     */
     private List<String> displayFields;
 
     /** The "Display Order" setting, in a query format. */

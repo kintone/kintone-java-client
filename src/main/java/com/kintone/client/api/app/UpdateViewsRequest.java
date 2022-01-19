@@ -13,18 +13,18 @@ public class UpdateViewsRequest implements KintoneRequest {
     private Long app;
 
     /**
-    * An object of data of Views (required).
-    *
-    * <p>A key is the view name and the value is its view settings. Update Views API will replace all
-    * current Views with the Views listed in the request. View names that are not stated in this map
-    * will be deleted.
-    */
+     * An object of data of Views (required).
+     *
+     * <p>A key is the view name and the value is its view settings. Update Views API will replace all
+     * current Views with the Views listed in the request. View names that are not stated in this map
+     * will be deleted.
+     */
     private Map<String, View> views;
 
     /**
-    * The expected revision number of the App settings (optional). The request will fail if the
-    * revision number is not the latest revision. The revision will not be checked if this parameter
-    * is null, or -1 is specified.
-    */
+     * The expected revision number of the App settings (optional). The request will fail if the
+     * revision number is not the latest revision. The revision will not be checked if this parameter
+     * is null, or -1 is specified.
+     */
     private Long revision;
 }

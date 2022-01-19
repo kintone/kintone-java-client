@@ -14,12 +14,12 @@ public class Group {
     private final String code;
 
     /**
-    * Constructor to create a group value used for editing Group Selection fields. When adding or
-    * updating values of Group Selection field, the "name" parameter will be ignored. This
-    * constructor only sets the "code" field while leaves the "name" field empty.
-    *
-    * @param code the code of the group.
-    */
+     * Constructor to create a group value used for editing Group Selection fields. When adding or
+     * updating values of Group Selection field, the "name" parameter will be ignored. This
+     * constructor only sets the "code" field while leaves the "name" field empty.
+     *
+     * @param code the code of the group.
+     */
     public Group(String code) {
         this("", code);
     }
