@@ -27,8 +27,8 @@ artifacts {
 dependencies {
     implementation 'org.apache.httpcomponents:httpclient:4.5.13'
     implementation 'org.apache.httpcomponents:httpmime:4.5.13'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.2'
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.1'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.1'
 
     compileOnly 'org.projectlombok:lombok:1.18.18'
     annotationProcessor 'org.projectlombok:lombok:1.18.18'
