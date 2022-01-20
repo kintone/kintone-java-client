@@ -19,15 +19,15 @@ public class UpdateRecordRequest implements KintoneRequest {
     private UpdateKey updateKey;
 
     /**
-    * Field codes and values are specified in this object. If set to null, the record will not be
-    * updated.
-    */
+     * Field codes and values are specified in this object. If set to null, the record will not be
+     * updated.
+     */
     private Record record;
 
     /**
-    * The expected revision number (optional). If the value does not match, an error will occur and
-    * the record will not be updated. If the value is null or -1, the revision number will not be
-    * checked.
-    */
+     * The expected revision number (optional). If the value does not match, an error will occur and
+     * the record will not be updated. If the value is null or -1, the revision number will not be
+     * checked.
+     */
     private Long revision;
 }

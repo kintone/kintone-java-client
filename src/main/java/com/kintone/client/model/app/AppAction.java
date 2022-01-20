@@ -19,9 +19,9 @@ public class AppAction {
     private Long index;
 
     /**
-    * An object containing the Target option that specifies the destination app where data is to be
-    * copied.
-    */
+     * An object containing the Target option that specifies the destination app where data is to be
+     * copied.
+     */
     private RelatedApp destApp;
 
     /** An array of objects containing the "Field Mappings" options. */

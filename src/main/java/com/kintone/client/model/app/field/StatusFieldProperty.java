@@ -5,9 +5,9 @@ import com.kintone.client.model.record.FieldType;
 import lombok.Data;
 
 /**
-* An object containing the properties of the Process management status field for getting the field
-* settings.
-*/
+ * An object containing the properties of the Process management status field for getting the field
+ * settings.
+ */
 @Data
 @JsonIgnoreProperties(value = "type", allowGetters = true)
 public class StatusFieldProperty implements FieldProperty {
@@ -19,10 +19,10 @@ public class StatusFieldProperty implements FieldProperty {
     private String label;
 
     /**
-    * Whether the process management feature is enabled.
-    *
-    * @return true if the process management feature is enabled
-    */
+     * Whether the process management feature is enabled.
+     *
+     * @return true if the process management feature is enabled
+     */
     private Boolean enabled;
 
     /** {@inheritDoc} */

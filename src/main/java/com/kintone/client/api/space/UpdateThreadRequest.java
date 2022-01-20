@@ -11,8 +11,8 @@ public class UpdateThreadRequest implements KintoneRequest {
     private Long id;
 
     /**
-    * The new name of the Thread (optional). The name will not be updated if this parameter is null.
-    */
+     * The new name of the Thread (optional). The name will not be updated if this parameter is null.
+     */
     private String name;
 
     /** The contents of the Thread body (optional). If set to null, leaves this setting unchanged. */

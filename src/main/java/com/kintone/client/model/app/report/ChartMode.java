@@ -4,9 +4,9 @@ package com.kintone.client.model.app.report;
 public enum ChartMode {
 
     /**
-    * NORMAL refers to "Clustered graph" for BAR or COLUMN chart type, or "Non-stacked graph" for
-    * AREA or SPLINE_AREA chart type.
-    */
+     * NORMAL refers to "Clustered graph" for BAR or COLUMN chart type, or "Non-stacked graph" for
+     * AREA or SPLINE_AREA chart type.
+     */
     NORMAL,
 
     /** Stacked graph */

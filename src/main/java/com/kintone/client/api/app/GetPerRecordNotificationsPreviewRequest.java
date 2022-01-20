@@ -11,8 +11,8 @@ public class GetPerRecordNotificationsPreviewRequest implements KintoneRequest {
     private Long app;
 
     /**
-    * The localization language setting (optional). If set to null, the default names will be
-    * retrieved.
-    */
+     * The localization language setting (optional). If set to null, the default names will be
+     * retrieved.
+     */
     private String lang;
 }

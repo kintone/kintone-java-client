@@ -23,26 +23,26 @@ public class AppRightEntity {
     private Boolean recordEditable;
 
     /**
-    * The record add permission of the entity
-    *
-    * @return true if records can be added.
-    */
+     * The record add permission of the entity
+     *
+     * @return true if records can be added.
+     */
     private Boolean recordAddable;
 
     /** The record delete permission of the entity. */
     private Boolean recordDeletable;
 
     /**
-    * The file import permission of the entity.
-    *
-    * @return true if files are importable
-    */
+     * The file import permission of the entity.
+     *
+     * @return true if files are importable
+     */
     private Boolean recordImportable;
 
     /**
-    * The file export permission of the entity.
-    *
-    * @return true if files are exportable
-    */
+     * The file export permission of the entity.
+     *
+     * @return true if files are exportable
+     */
     private Boolean recordExportable;
 }

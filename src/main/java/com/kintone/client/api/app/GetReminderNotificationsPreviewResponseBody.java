@@ -10,15 +10,15 @@ import lombok.Value;
 public class GetReminderNotificationsPreviewResponseBody implements KintoneResponseBody {
 
     /**
-    * An array of objects consisting of "Notification Trigger" options. These options define when the
-    * notifications will be sent out, under what conditions, and the recipients.
-    */
+     * An array of objects consisting of "Notification Trigger" options. These options define when the
+     * notifications will be sent out, under what conditions, and the recipients.
+     */
     private final List<ReminderNotification> notifications;
 
     /**
-    * The timezone that determines the Reminder notification's timing. This reflects the "Reminder
-    * Time Zone" dropdown option.
-    */
+     * The timezone that determines the Reminder notification's timing. This reflects the "Reminder
+     * Time Zone" dropdown option.
+     */
     private String timezone;
 
     /** The revision number of the App settings. */

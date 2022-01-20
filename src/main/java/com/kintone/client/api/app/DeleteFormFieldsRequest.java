@@ -12,10 +12,10 @@ public class DeleteFormFieldsRequest implements KintoneRequest {
     private Long app;
 
     /**
-    * The expected revision number of the App settings (optional). The request will fail if the
-    * revision number is not the latest revision. The revision will not be checked if this parameter
-    * is null, or -1 is specified.
-    */
+     * The expected revision number of the App settings (optional). The request will fail if the
+     * revision number is not the latest revision. The revision will not be checked if this parameter
+     * is null, or -1 is specified.
+     */
     private Long revision;
 
     /** The list of field codes of the fields to delete (required). */

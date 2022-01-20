@@ -15,14 +15,14 @@ public class CreateCursorRequest implements KintoneRequest {
     private List<String> fields;
 
     /**
-    * The query string (optional). This parameter will specify what records will be responded when
-    * using the Get Cursor API.
-    */
+     * The query string (optional). This parameter will specify what records will be responded when
+     * using the Get Cursor API.
+     */
     private String query;
 
     /**
-    * The maximum number of records the Get Cursor API can retrieve from this cursor with one request
-    * (optional).
-    */
+     * The maximum number of records the Get Cursor API can retrieve from this cursor with one request
+     * (optional).
+     */
     private Long size;
 }

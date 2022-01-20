@@ -13,16 +13,16 @@ public class GetRecordCommentsResponseBody implements KintoneResponseBody {
     private final List<PostedRecordComment> comments;
 
     /**
-    * A boolean that indicates whether there are old comments.
-    *
-    * @return true if older comments exist.
-    */
+     * A boolean that indicates whether there are old comments.
+     *
+     * @return true if older comments exist.
+     */
     private final boolean older;
 
     /**
-    * A boolean that indicates whether there are new comments.
-    *
-    * @return true if newer comments exist.
-    */
+     * A boolean that indicates whether there are new comments.
+     *
+     * @return true if newer comments exist.
+     */
     private final boolean newer;
 }

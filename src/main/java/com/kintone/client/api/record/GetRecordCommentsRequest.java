@@ -18,9 +18,9 @@ public class GetRecordCommentsRequest implements KintoneRequest {
     private Order order;
 
     /**
-    * The offset of comments to retrieve (optional). This skips the retrieval of the first number of
-    * comments.
-    */
+     * The offset of comments to retrieve (optional). This skips the retrieval of the first number of
+     * comments.
+     */
     private Long offset;
 
     /** The number of records to retrieve (optional). */

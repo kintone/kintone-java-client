@@ -17,10 +17,10 @@ public class SubtableFieldProperty implements FieldProperty {
     private String label;
 
     /**
-    * The "Hide field name" option.
-    *
-    * @return true if the field's name will be hidden
-    */
+     * The "Hide field name" option.
+     *
+     * @return true if the field's name will be hidden
+     */
     private Boolean noLabel;
 
     /** An object containing data of fields in a table. */

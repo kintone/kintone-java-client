@@ -25,9 +25,9 @@ public class GetAppResponseBody implements KintoneResponseBody {
     private final Long spaceId;
 
     /**
-    * If the App was created inside a Space, it will return the Thread ID of the Thread of the space
-    * it belongs to.
-    */
+     * If the App was created inside a Space, it will return the Thread ID of the Thread of the space
+     * it belongs to.
+     */
     private final Long threadId;
 
     /** The date of when the App was created. */

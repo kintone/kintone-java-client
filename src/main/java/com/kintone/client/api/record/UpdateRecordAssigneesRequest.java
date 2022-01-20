@@ -18,9 +18,9 @@ public class UpdateRecordAssigneesRequest implements KintoneRequest {
     private List<String> assignees;
 
     /**
-    * The expected revision number of the record before updating the Assignees (optional). If the
-    * specified revision is not the latest revision, the request will result in an error. The
-    * revision will not be checked if this parameter is null or -1.
-    */
+     * The expected revision number of the record before updating the Assignees (optional). If the
+     * specified revision is not the latest revision, the request will result in an error. The
+     * revision will not be checked if this parameter is null or -1.
+     */
     private Long revision;
 }

@@ -25,7 +25,7 @@ public class AddSpaceFromTemplateRequest implements KintoneRequest {
     private Boolean isGuest;
 
     /**
-    * If true, users will not be able to join/leave the Space or follow/unfollow threads (optional).
-    */
+     * If true, users will not be able to join/leave the Space or follow/unfollow threads (optional).
+     */
     private Boolean fixedMember;
 }

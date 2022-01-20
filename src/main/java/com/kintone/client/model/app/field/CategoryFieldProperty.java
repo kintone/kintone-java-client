@@ -16,10 +16,10 @@ public class CategoryFieldProperty implements FieldProperty {
     private String label;
 
     /**
-    * Whether the category feature is enabled.
-    *
-    * @return true if the category feature is enabled
-    */
+     * Whether the category feature is enabled.
+     *
+     * @return true if the category feature is enabled
+     */
     private Boolean enabled;
 
     /** {@inheritDoc} */

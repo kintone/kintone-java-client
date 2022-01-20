@@ -18,8 +18,8 @@ public class GetRecordsRequest implements KintoneRequest {
     private String query;
 
     /**
-    * If set to true, the total count of records that match the query conditions will be included in
-    * the response (optional).
-    */
+     * If set to true, the total count of records that match the query conditions will be included in
+     * the response (optional).
+     */
     private Boolean totalCount;
 }

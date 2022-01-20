@@ -14,20 +14,20 @@ public class SchemaClient {
     private final List<ResponseHandler> handlers;
 
     /**
-    * Gets the list of App/Record/Space APIs available to use on kintone.
-    *
-    * @return the response data. See {@link GetApiListResponseBody}
-    */
+     * Gets the list of App/Record/Space APIs available to use on kintone.
+     *
+     * @return the response data. See {@link GetApiListResponseBody}
+     */
     public GetApiListResponseBody getApiList() {
         return client.call(KintoneApi.GET_API_LIST, null, handlers);
     }
 
     /**
-    * Gets the API schema info of a kintone API.
-    *
-    * @param api the target api
-    * @return the response data. See {@link GetApiSchemaResponseBody}
-    */
+     * Gets the API schema info of a kintone API.
+     *
+     * @param api the target api
+     * @return the response data. See {@link GetApiSchemaResponseBody}
+     */
     public GetApiSchemaResponseBody getApiSchema(KintoneApi api) {
         if (api == KintoneApi.GET_API_LIST) {
             return null;
@@ -37,11 +37,11 @@ public class SchemaClient {
     }
 
     /**
-    * Gets the API schema info of a kintone API.
-    *
-    * @param link the path of target api
-    * @return the response data. See {@link GetApiSchemaResponseBody}
-    */
+     * Gets the API schema info of a kintone API.
+     *
+     * @param link the path of target api
+     * @return the response data. See {@link GetApiSchemaResponseBody}
+     */
     public GetApiSchemaResponseBody getApiSchema(String link) {
         boolean valid =
                 Arrays.stream(KintoneApi.values())

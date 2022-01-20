@@ -21,14 +21,14 @@ public class App {
     private final String description;
 
     /**
-    * If the App was created inside a Space, it will return the Space ID. If not, null is returned.
-    */
+     * If the App was created inside a Space, it will return the Space ID. If not, null is returned.
+     */
     private final Long spaceId;
 
     /**
-    * If the App was created inside a Space, it will return the Thread ID of the Thread of the space
-    * it belongs to.
-    */
+     * If the App was created inside a Space, it will return the Thread ID of the Thread of the space
+     * it belongs to.
+     */
     private final Long threadId;
 
     /** The date of when the App was created. */

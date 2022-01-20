@@ -11,9 +11,9 @@ public class ProcessEntity {
     private Entity entity;
 
     /**
-    * The "Include affiliated departments" settings of the department.
-    *
-    * @return true if affiliated departments are included as Assignees
-    */
+     * The "Include affiliated departments" settings of the department.
+     *
+     * @return true if affiliated departments are included as Assignees
+     */
     private Boolean includeSubs;
 }

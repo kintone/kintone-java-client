@@ -15,27 +15,27 @@ public class UpdateProcessManagementRequest implements KintoneRequest {
     private Long app;
 
     /**
-    * The on/off settings of the process management settings (optional). If set to null, leaves this
-    * setting unchanged.
-    */
+     * The on/off settings of the process management settings (optional). If set to null, leaves this
+     * setting unchanged.
+     */
     private Boolean enable;
 
     /**
-    * An object containing data of the process management statuses (optional). If set to null, leaves
-    * this setting unchanged.
-    */
+     * An object containing data of the process management statuses (optional). If set to null, leaves
+     * this setting unchanged.
+     */
     private Map<String, ProcessState> states;
 
     /**
-    * A list containing data of the Actions (optional). If set to null, leaves this setting
-    * unchanged.
-    */
+     * A list containing data of the Actions (optional). If set to null, leaves this setting
+     * unchanged.
+     */
     private List<ProcessAction> actions;
 
     /**
-    * The expected revision number of the App settings (optional). The request will fail if the
-    * revision number is not the latest revision. The revision will not be checked if this parameter
-    * is null, or -1 is specified.
-    */
+     * The expected revision number of the App settings (optional). The request will fail if the
+     * revision number is not the latest revision. The revision will not be checked if this parameter
+     * is null, or -1 is specified.
+     */
     private Long revision;
 }
