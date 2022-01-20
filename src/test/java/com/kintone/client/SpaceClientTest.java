@@ -162,7 +162,12 @@ public class SpaceClientTest {
                         10,
                         false,
                         false,
-                        false);
+                        false,
+                        true,
+                        true,
+                        true,
+                        true,
+                        true);
         mockClient.setResponseBody(resp);
 
         assertThat(sut.getSpace(10L)).isEqualTo(resp);
@@ -175,7 +180,8 @@ public class SpaceClientTest {
         GetSpaceRequest req = new GetSpaceRequest();
         GetSpaceResponseBody resp =
                 new GetSpaceResponseBody(
-                        1, "", 1, false, null, null, null, "", "", "", null, 1, false, false, false);
+                        1, "", 1, false, null, null, null, "", "", "", null, 1, false, false, false, true, true,
+                        true, true, true);
         mockClient.setResponseBody(resp);
 
         assertThat(sut.getSpace(req)).isEqualTo(resp);

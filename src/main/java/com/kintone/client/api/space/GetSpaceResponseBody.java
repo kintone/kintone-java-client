@@ -72,4 +72,39 @@ public class GetSpaceResponseBody implements KintoneResponseBody {
      * @return true if users cannot join/leave the Space or follow/unfollow threads.
      */
     private final boolean fixedMember;
+
+    /**
+     * Whether the "Announcement" widget in the Space Portal page is shown.
+     *
+     * @return true if the "Announcement" widget is shown.
+     */
+    private final boolean showAnnouncement;
+
+    /**
+     * Whether the "Apps" widget in the Space Portal page is shown.
+     *
+     * @return true if the "Apps" widget is shown.
+     */
+    private final boolean showAppList;
+
+    /**
+     * Whether the "People" widget in the Space Portal page is shown.
+     *
+     * @return true if the "People" widget is shown.
+     */
+    private final boolean showMemberList;
+
+    /**
+     * Whether the "Threads" widget in the Space Portal page is shown.
+     *
+     * @return true if the "Threads" widget is shown.
+     */
+    private final boolean showThreadList;
+
+    /**
+     * Whether the "Related Apps & Spaces" widget in the Space Portal page is shown.
+     *
+     * @return true if the "Related Apps & Spaces" widget is shown.
+     */
+    private final boolean showRelatedLinkList;
 }
