@@ -102,9 +102,9 @@ public class GetSpaceResponseBody implements KintoneResponseBody {
     private final boolean showThreadList;
 
     /**
-     * Whether the "Related Apps & Spaces" widget in the Space Portal page is shown.
+     * Whether the "Related Apps &amp; Spaces" widget in the Space Portal page is shown.
      *
-     * @return true if the "Related Apps & Spaces" widget is shown.
+     * @return true if the "Related Apps &amp; Spaces" widget is shown.
      */
     private final boolean showRelatedLinkList;
 }
