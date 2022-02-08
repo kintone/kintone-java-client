@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.net.ssl.SSLContext;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.ssl.SSLContexts;
+import org.apache.hc.core5.net.URIBuilder;
+import org.apache.hc.core5.ssl.SSLContexts;
 
 /**
  * A builder for {@link KintoneClient}.

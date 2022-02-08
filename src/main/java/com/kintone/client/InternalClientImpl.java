@@ -22,26 +22,29 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import javax.net.ssl.SSLContext;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.InputStreamBody;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.entity.mime.HttpMultipartMode;
+import org.apache.hc.client5.http.entity.mime.InputStreamBody;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder;
+import org.apache.hc.core5.http.*;
+import org.apache.hc.core5.http.io.SocketConfig;
+import org.apache.hc.core5.http.io.entity.ByteArrayEntity;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.ssl.TLS;
+import org.apache.hc.core5.pool.PoolConcurrencyPolicy;
+import org.apache.hc.core5.pool.PoolReusePolicy;
 
 class InternalClientImpl extends InternalClient {
 
@@ -82,19 +85,31 @@ class InternalClientImpl extends InternalClient {
             int socketTimeout,
             int connRequestTimeout) {
         RequestConfig.Builder configBuilder = RequestConfig.custom();
-        configBuilder.setConnectTimeout(connTimeout);
-        configBuilder.setSocketTimeout(socketTimeout);
-        configBuilder.setConnectionRequestTimeout(connRequestTimeout);
+        configBuilder.setConnectTimeout(connTimeout, TimeUnit.MILLISECONDS);
+        configBuilder.setConnectionRequestTimeout(connRequestTimeout, TimeUnit.MILLISECONDS);
 
         if (proxyHost != null) {
             HttpHost proxy =
-                    new HttpHost(proxyHost.getHost(), proxyHost.getPort(), proxyHost.getScheme());
+                    new HttpHost(proxyHost.getScheme(), proxyHost.getHost(), proxyHost.getPort());
             configBuilder.setProxy(proxy);
         }
 
+        PoolingHttpClientConnectionManager connectionManager =
+                PoolingHttpClientConnectionManagerBuilder.create()
+                        .setSSLSocketFactory(
+                                SSLConnectionSocketFactoryBuilder.create()
+                                        .setSslContext(sslContext)
+                                        .setTlsVersions(TLS.V_1_3, TLS.V_1_2)
+                                        .build())
+                        .setDefaultSocketConfig(
+                                SocketConfig.custom().setSoTimeout(socketTimeout, TimeUnit.MILLISECONDS).build())
+                        .setPoolConcurrencyPolicy(PoolConcurrencyPolicy.STRICT)
+                        .setConnPoolPolicy(PoolReusePolicy.LIFO)
+                        .build();
+
         HttpClientBuilder clientBuilder = HttpClients.custom();
         clientBuilder.setDefaultRequestConfig(configBuilder.build());
-        clientBuilder.setSSLContext(sslContext);
+        clientBuilder.setConnectionManager(connectionManager);
         clientBuilder.disableRedirectHandling();
         return clientBuilder.build();
     }
@@ -120,7 +135,7 @@ class InternalClientImpl extends InternalClient {
             KintoneResponse<T> result = parseJsonResponse(response, clazz);
             applyHandlers(result, handlers);
             return result.getBody();
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             throw new KintoneRuntimeException("Failed to request", e);
         }
     }
@@ -165,7 +180,7 @@ class InternalClientImpl extends InternalClient {
             HttpUriRequest request =
                     createJsonRequest(
                             KintoneApi.BULK_REQUESTS.getMethod(), path, createBulkRequestBody(body));
-            HttpResponse response = httpClient.execute(request);
+            CloseableHttpResponse response = httpClient.execute(request);
             KintoneResponse<BulkRequestsResponseBody> resp =
                     parseResponse(
                             response,
@@ -181,7 +196,7 @@ class InternalClientImpl extends InternalClient {
 
             applyHandlers(resp, handlers);
             return resp.getBody();
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             throw new KintoneRuntimeException("Failed to request", e);
         }
     }
@@ -195,7 +210,7 @@ class InternalClientImpl extends InternalClient {
             CloseableHttpResponse response = httpClient.execute(req);
             com.kintone.client.model.HttpResponse resp = new HttpResponseImpl(response);
             r = parseResponse(response, stream -> new DownloadFileResponseBody(resp));
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             throw new KintoneRuntimeException("Failed to request", e);
         }
 
@@ -214,7 +229,7 @@ class InternalClientImpl extends InternalClient {
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.setCharset(StandardCharsets.UTF_8);
         builder.setBoundary(boundary);
-        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        builder.setMode(HttpMultipartMode.LEGACY);
         builder.setContentType(ContentType.MULTIPART_FORM_DATA);
 
         builder.addPart(
@@ -229,7 +244,7 @@ class InternalClientImpl extends InternalClient {
                     parseJsonResponse(response, UploadFileResponseBody.class);
             applyHandlers(r, handlers);
             return r;
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
             throw new KintoneRuntimeException("Failed to request", e);
         }
     }
@@ -239,9 +254,10 @@ class InternalClientImpl extends InternalClient {
     }
 
     private <T extends KintoneResponseBody> KintoneResponse<T> parseResponse(
-            HttpResponse response, Function<InputStream, T> converter) throws IOException {
-        int statusCode = response.getStatusLine().getStatusCode();
-        Map<String, Object> headers = headersToMap(response.getAllHeaders());
+            CloseableHttpResponse response, Function<InputStream, T> converter)
+            throws IOException, ParseException {
+        int statusCode = response.getCode();
+        Map<String, Object> headers = headersToMap(response.getHeaders());
         T result = null;
         String errorBody = null;
         if (isSuccess(statusCode)) {
@@ -253,7 +269,7 @@ class InternalClientImpl extends InternalClient {
     }
 
     private <T extends KintoneResponseBody> KintoneResponse<T> parseJsonResponse(
-            HttpResponse response, Class<T> responseClass) throws IOException {
+            CloseableHttpResponse response, Class<T> responseClass) throws IOException, ParseException {
         return parseResponse(response, stream -> mapper.parse(stream, responseClass));
     }
 
@@ -274,25 +290,25 @@ class InternalClientImpl extends InternalClient {
     private HttpUriRequest createRequest(
             KintoneHttpMethod method, String path, String contentType, HttpEntity entity) {
         URI uri = URI.create(this.baseUrl + path);
-        RequestBuilder builder = RequestBuilder.create(method.toString()).setUri(uri);
+        HttpUriRequestBase request = new HttpUriRequestBase(method.toString(), uri);
 
         for (Map.Entry<String, String> header : auth.getHeaders().entrySet()) {
-            builder.addHeader(header.getKey(), header.getValue());
+            request.addHeader(header.getKey(), header.getValue());
         }
 
         if (basicAuth != null) {
             String value = basicAuth.getUser() + ":" + basicAuth.getPassword();
             String token = Base64.getEncoder().encodeToString(value.getBytes());
-            builder.addHeader("Authorization", "Basic " + token);
+            request.addHeader("Authorization", "Basic " + token);
         }
 
-        builder.addHeader("User-Agent", userAgent);
+        request.addHeader("User-Agent", userAgent);
         if (entity != null) {
-            builder.addHeader("Content-Type", contentType);
+            request.addHeader("Content-Type", contentType);
         }
 
-        builder.setEntity(entity);
-        return builder.build();
+        request.setEntity(entity);
+        return request;
     }
 
     private HttpUriRequest createJsonRequest(KintoneHttpMethod method, String path, Object body) {

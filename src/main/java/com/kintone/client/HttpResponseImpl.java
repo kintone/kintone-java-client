@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class HttpResponseImpl implements HttpResponse {
@@ -18,7 +18,7 @@ class HttpResponseImpl implements HttpResponse {
 
     @Override
     public String getContentType() {
-        return response.getEntity().getContentType().getValue();
+        return response.getEntity().getContentType();
     }
 
     @Override
