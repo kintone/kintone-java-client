@@ -58,6 +58,7 @@ public class KintoneClientBuilder {
     private String baseUrl;
     private Auth auth;
     private URI proxyHost;
+    private BasicAuth proxyAuth;
     private SSLContext sslContext;
     private int connectionTimeout = DEFAULT_TIMEOUT;
     private int socketTimeout = DEFAULT_TIMEOUT;
@@ -178,6 +179,20 @@ public class KintoneClientBuilder {
     }
 
     /**
+     * Sets the proxy authentication settings. This is an optional setting. Note that this library
+     * only supports the proxy authentication with Basic authentication scheme. Other authentication
+     * schemes, such as Digest access authentication scheme, are not supported.
+     *
+     * @param user the user for proxy authentication
+     * @param password the password for proxy authentication
+     * @return this builder instance
+     */
+    public KintoneClientBuilder setProxyAuthentication(String user, String password) {
+        this.proxyAuth = new BasicAuth(user, password);
+        return this;
+    }
+
+    /**
      * Sets the certificate for client certificate authentication. This is an optional setting.
      *
      * @param certificate the path of client certificate file
@@ -279,6 +294,7 @@ public class KintoneClientBuilder {
                         auth,
                         basicAuth,
                         proxyHost,
+                        proxyAuth,
                         sslContext,
                         guestSpaceId,
                         appendixUserAgent,

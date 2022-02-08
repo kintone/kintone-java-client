@@ -76,14 +76,14 @@ public class InternalClientImplTest {
         String baseUrl = "http://localhost:" + server.getLocalPort();
         Auth auth = Auth.byPassword(userName, password);
         return new InternalClientImpl(
-                baseUrl, auth, null, null, null, null, "", timeout, timeout, timeout);
+                baseUrl, auth, null, null, null, null, null, "", timeout, timeout, timeout);
     }
 
     private InternalClientImpl setupClient(long guestSpaceId) {
         String baseUrl = "http://localhost:" + server.getLocalPort();
         Auth auth = Auth.byPassword(userName, password);
         return new InternalClientImpl(
-                baseUrl, auth, null, null, null, guestSpaceId, "", timeout, timeout, timeout);
+                baseUrl, auth, null, null, null, null, guestSpaceId, "", timeout, timeout, timeout);
     }
 
     private Record setupExpectedRecord() {
@@ -422,7 +422,7 @@ public class InternalClientImplTest {
         Auth auth = Auth.byApiToken(apiToken);
         InternalClientImpl sut =
                 new InternalClientImpl(
-                        baseUrl, auth, null, null, null, null, "", timeout, timeout, timeout);
+                        baseUrl, auth, null, null, null, null, null, "", timeout, timeout, timeout);
         GetRecordRequest req = new GetRecordRequest().setApp(1L).setId(1L);
         GetRecordResponseBody resp = sut.call(KintoneApi.GET_RECORD, req, Collections.emptyList());
 
@@ -455,7 +455,7 @@ public class InternalClientImplTest {
         Auth auth = Auth.byApiToken(Arrays.asList(apiToken1, apiToken2));
         InternalClientImpl sut =
                 new InternalClientImpl(
-                        baseUrl, auth, null, null, null, null, "", timeout, timeout, timeout);
+                        baseUrl, auth, null, null, null, null, null, "", timeout, timeout, timeout);
 
         GetRecordRequest req = new GetRecordRequest().setApp(1L).setId(1L);
         GetRecordResponseBody resp = sut.call(KintoneApi.GET_RECORD, req, Collections.emptyList());
@@ -489,7 +489,7 @@ public class InternalClientImplTest {
         BasicAuth basicAuth = new BasicAuth("basicUser", "basicPassword");
         InternalClientImpl sut =
                 new InternalClientImpl(
-                        baseUrl, auth, basicAuth, null, null, null, "", timeout, timeout, timeout);
+                        baseUrl, auth, basicAuth, null, null, null, null, "", timeout, timeout, timeout);
         GetRecordRequest req = new GetRecordRequest().setApp(1L).setId(1L);
         GetRecordResponseBody resp = sut.call(KintoneApi.GET_RECORD, req, Collections.emptyList());
 

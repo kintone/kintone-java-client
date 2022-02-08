@@ -25,23 +25,27 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import javax.net.ssl.SSLContext;
+import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.entity.mime.HttpMultipartMode;
 import org.apache.hc.client5.http.entity.mime.InputStreamBody;
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.impl.auth.BasicScheme;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.protocol.HttpClientContext;
 import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder;
 import org.apache.hc.core5.http.*;
 import org.apache.hc.core5.http.io.SocketConfig;
 import org.apache.hc.core5.http.io.entity.ByteArrayEntity;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.protocol.HttpContext;
 import org.apache.hc.core5.http.ssl.TLS;
 import org.apache.hc.core5.pool.PoolConcurrencyPolicy;
 import org.apache.hc.core5.pool.PoolReusePolicy;
@@ -55,12 +59,15 @@ class InternalClientImpl extends InternalClient {
     private final Long guestId;
     private final String userAgent;
     private final JsonMapper mapper;
+    private final HttpHost proxyHost;
+    private final BasicScheme proxyAuth;
 
     InternalClientImpl(
             String baseUrl,
             Auth auth,
             BasicAuth basicAuth,
             URI proxyHost,
+            BasicAuth proxyAuth,
             SSLContext sslContext,
             Long guestId,
             String appendixUserAgent,
@@ -73,14 +80,16 @@ class InternalClientImpl extends InternalClient {
         this.guestId = guestId;
         this.userAgent = getUserAgent(appendixUserAgent);
         this.mapper = new JsonMapper();
+        this.proxyHost = createProxyHost(proxyHost);
+        this.proxyAuth = createPreemptiveProxyAuth(proxyAuth);
         this.httpClient =
                 createHttpClient(
-                        sslContext, proxyHost, connectionTimeout, socketTimeout, connectionRequestTimeout);
+                        sslContext, this.proxyHost, connectionTimeout, socketTimeout, connectionRequestTimeout);
     }
 
     private static CloseableHttpClient createHttpClient(
             SSLContext sslContext,
-            URI proxyHost,
+            HttpHost proxyHost,
             int connTimeout,
             int socketTimeout,
             int connRequestTimeout) {
@@ -89,9 +98,8 @@ class InternalClientImpl extends InternalClient {
         configBuilder.setConnectionRequestTimeout(connRequestTimeout, TimeUnit.MILLISECONDS);
 
         if (proxyHost != null) {
-            HttpHost proxy =
-                    new HttpHost(proxyHost.getScheme(), proxyHost.getHost(), proxyHost.getPort());
-            configBuilder.setProxy(proxy);
+            configBuilder.setProxy(proxyHost);
+            configBuilder.setProxyPreferredAuthSchemes(Collections.singleton("basic"));
         }
 
         PoolingHttpClientConnectionManager connectionManager =
@@ -114,6 +122,32 @@ class InternalClientImpl extends InternalClient {
         return clientBuilder.build();
     }
 
+    private static HttpHost createProxyHost(URI proxyHost) {
+        if (proxyHost == null) {
+            return null;
+        }
+        return new HttpHost(proxyHost.getScheme(), proxyHost.getHost(), proxyHost.getPort());
+    }
+
+    private static BasicScheme createPreemptiveProxyAuth(BasicAuth proxyAuth) {
+        if (proxyAuth == null) {
+            return null;
+        }
+        BasicScheme basicScheme = new BasicScheme();
+        basicScheme.initPreemptive(
+                new UsernamePasswordCredentials(
+                        proxyAuth.getUser(), proxyAuth.getPassword().toCharArray()));
+        return basicScheme;
+    }
+
+    private HttpContext createHttpContext() {
+        HttpClientContext context = HttpClientContext.create();
+        if (proxyHost != null && proxyAuth != null) {
+            context.resetAuthExchange(proxyHost, proxyAuth);
+        }
+        return context;
+    }
+
     @Override
     <T extends KintoneResponseBody> T call(
             KintoneApi api, KintoneRequest body, List<ResponseHandler> handlers) {
@@ -134,6 +168,7 @@ class InternalClientImpl extends InternalClient {
         try {
             return httpClient.execute(
                     request,
+                    createHttpContext(),
                     response -> {
                         KintoneResponse<T> result = parseJsonResponse(response, clazz);
                         applyHandlers(result, handlers);
@@ -185,6 +220,7 @@ class InternalClientImpl extends InternalClient {
         try {
             return httpClient.execute(
                     request,
+                    createHttpContext(),
                     response -> {
                         KintoneResponse<BulkRequestsResponseBody> resp =
                                 parseResponse(
@@ -212,7 +248,7 @@ class InternalClientImpl extends InternalClient {
         HttpUriRequest req = createJsonRequest(KintoneApi.DOWNLOAD_FILE.getMethod(), path, request);
         KintoneResponse<DownloadFileResponseBody> r;
         try {
-            CloseableHttpResponse response = httpClient.execute(req);
+            CloseableHttpResponse response = httpClient.execute(req, createHttpContext());
             com.kintone.client.model.HttpResponse resp = new HttpResponseImpl(response);
             r = parseResponse(response, stream -> new DownloadFileResponseBody(resp));
         } catch (IOException e) {
@@ -247,6 +283,7 @@ class InternalClientImpl extends InternalClient {
         try {
             return httpClient.execute(
                     httpRequest,
+                    createHttpContext(),
                     response -> {
                         KintoneResponse<UploadFileResponseBody> r =
                                 parseJsonResponse(response, UploadFileResponseBody.class);
