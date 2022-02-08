@@ -131,11 +131,15 @@ class InternalClientImpl extends InternalClient {
             Class<T> clazz,
             List<ResponseHandler> handlers) {
         HttpUriRequest request = createJsonRequest(method, path, body);
-        try (CloseableHttpResponse response = httpClient.execute(request)) {
-            KintoneResponse<T> result = parseJsonResponse(response, clazz);
-            applyHandlers(result, handlers);
-            return result.getBody();
-        } catch (IOException | ParseException e) {
+        try {
+            return httpClient.execute(
+                    request,
+                    response -> {
+                        KintoneResponse<T> result = parseJsonResponse(response, clazz);
+                        applyHandlers(result, handlers);
+                        return result.getBody();
+                    });
+        } catch (IOException e) {
             throw new KintoneRuntimeException("Failed to request", e);
         }
     }
@@ -176,27 +180,28 @@ class InternalClientImpl extends InternalClient {
     BulkRequestsResponseBody bulkRequest(BulkRequestsRequest body, List<ResponseHandler> handlers) {
         String path = getApiPath(KintoneApi.BULK_REQUESTS);
 
+        HttpUriRequest request =
+                createJsonRequest(KintoneApi.BULK_REQUESTS.getMethod(), path, createBulkRequestBody(body));
         try {
-            HttpUriRequest request =
-                    createJsonRequest(
-                            KintoneApi.BULK_REQUESTS.getMethod(), path, createBulkRequestBody(body));
-            CloseableHttpResponse response = httpClient.execute(request);
-            KintoneResponse<BulkRequestsResponseBody> resp =
-                    parseResponse(
-                            response,
-                            stream -> {
-                                @SuppressWarnings("unchecked")
-                                Map<String, Object> responseMap = mapper.parse(stream, Map.class);
-                                @SuppressWarnings("unchecked")
-                                List<Object> results = (List<Object>) responseMap.get("results");
-                                List<KintoneResponseBody> bodies =
-                                        parseBulkRequestResponse(body.getRequests(), results);
-                                return new BulkRequestsResponseBody(Collections.unmodifiableList(bodies));
-                            });
-
-            applyHandlers(resp, handlers);
-            return resp.getBody();
-        } catch (IOException | ParseException e) {
+            return httpClient.execute(
+                    request,
+                    response -> {
+                        KintoneResponse<BulkRequestsResponseBody> resp =
+                                parseResponse(
+                                        response,
+                                        stream -> {
+                                            @SuppressWarnings("unchecked")
+                                            Map<String, Object> responseMap = mapper.parse(stream, Map.class);
+                                            @SuppressWarnings("unchecked")
+                                            List<Object> results = (List<Object>) responseMap.get("results");
+                                            List<KintoneResponseBody> bodies =
+                                                    parseBulkRequestResponse(body.getRequests(), results);
+                                            return new BulkRequestsResponseBody(Collections.unmodifiableList(bodies));
+                                        });
+                        applyHandlers(resp, handlers);
+                        return resp.getBody();
+                    });
+        } catch (IOException e) {
             throw new KintoneRuntimeException("Failed to request", e);
         }
     }
@@ -210,7 +215,7 @@ class InternalClientImpl extends InternalClient {
             CloseableHttpResponse response = httpClient.execute(req);
             com.kintone.client.model.HttpResponse resp = new HttpResponseImpl(response);
             r = parseResponse(response, stream -> new DownloadFileResponseBody(resp));
-        } catch (IOException | ParseException e) {
+        } catch (IOException e) {
             throw new KintoneRuntimeException("Failed to request", e);
         }
 
@@ -239,12 +244,16 @@ class InternalClientImpl extends InternalClient {
         String path = getApiPath(KintoneApi.UPLOAD_FILE);
         HttpUriRequest httpRequest =
                 createRequest(KintoneApi.UPLOAD_FILE.getMethod(), path, headerContentType, builder.build());
-        try (CloseableHttpResponse response = httpClient.execute(httpRequest)) {
-            KintoneResponse<UploadFileResponseBody> r =
-                    parseJsonResponse(response, UploadFileResponseBody.class);
-            applyHandlers(r, handlers);
-            return r;
-        } catch (IOException | ParseException e) {
+        try {
+            return httpClient.execute(
+                    httpRequest,
+                    response -> {
+                        KintoneResponse<UploadFileResponseBody> r =
+                                parseJsonResponse(response, UploadFileResponseBody.class);
+                        applyHandlers(r, handlers);
+                        return r;
+                    });
+        } catch (IOException e) {
             throw new KintoneRuntimeException("Failed to request", e);
         }
     }
@@ -254,22 +263,25 @@ class InternalClientImpl extends InternalClient {
     }
 
     private <T extends KintoneResponseBody> KintoneResponse<T> parseResponse(
-            CloseableHttpResponse response, Function<InputStream, T> converter)
-            throws IOException, ParseException {
+            ClassicHttpResponse response, Function<InputStream, T> converter) {
         int statusCode = response.getCode();
         Map<String, Object> headers = headersToMap(response.getHeaders());
         T result = null;
         String errorBody = null;
-        if (isSuccess(statusCode)) {
-            result = converter.apply(response.getEntity().getContent());
-        } else {
-            errorBody = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+        try {
+            if (isSuccess(statusCode)) {
+                result = converter.apply(response.getEntity().getContent());
+            } else {
+                errorBody = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+            }
+        } catch (IOException | ParseException e) {
+            throw new KintoneRuntimeException("Failed to request", e);
         }
         return new KintoneResponse<>(statusCode, headers, result, errorBody);
     }
 
     private <T extends KintoneResponseBody> KintoneResponse<T> parseJsonResponse(
-            CloseableHttpResponse response, Class<T> responseClass) throws IOException, ParseException {
+            ClassicHttpResponse response, Class<T> responseClass) {
         return parseResponse(response, stream -> mapper.parse(stream, responseClass));
     }
 
