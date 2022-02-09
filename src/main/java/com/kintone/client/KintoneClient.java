@@ -7,7 +7,7 @@ import com.kintone.client.exception.KintoneApiRuntimeException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.http.HttpStatus;
+import org.apache.hc.core5.http.HttpStatus;
 
 /**
  * A {@link KintoneClient} is the client for operating Kintone APIs.
