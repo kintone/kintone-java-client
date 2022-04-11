@@ -69,7 +69,7 @@ public class RecordSerializerTest {
 
     @Test
     public void serialize_CALC() throws IOException {
-        Record record = new Record().putField("calc", new CalcFieldValue(new BigDecimal(100)));
+        Record record = new Record().putField("calc", new CalcFieldValue("100"));
         String json = mapper.writeValueAsString(record);
         assertThat(json).isEqualTo("{}");
     }

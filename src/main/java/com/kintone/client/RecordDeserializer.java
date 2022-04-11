@@ -90,8 +90,7 @@ class RecordDeserializer extends StdDeserializer<Record> {
         switch (fieldType) {
             case CALC:
                 {
-                    BigDecimal value = convertValue(node, BigDecimal::new);
-                    return new CalcFieldValue(value);
+                    return new CalcFieldValue(node.textValue());
                 }
             case CATEGORY:
                 {

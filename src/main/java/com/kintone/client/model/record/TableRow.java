@@ -231,7 +231,7 @@ public class TableRow {
      * @param fieldCode the field code
      * @return the value of the field
      */
-    public BigDecimal getCalcFieldValue(String fieldCode) {
+    public String getCalcFieldValue(String fieldCode) {
         CalcFieldValue value = (CalcFieldValue) fields.get(fieldCode);
         return value == null ? null : value.getValue();
     }
