@@ -109,9 +109,12 @@ public class RecordDeserializerTest {
                         .setFileKey("key");
         ZonedDateTime dateTime = ZonedDateTime.of(2020, 1, 2, 3, 4, 0, 0, ZoneOffset.UTC);
 
-        assertThat(record.getFieldCodes(true)).hasSize(19);
-        assertThat(record.getFieldValue("calc")).isEqualTo(new CalcFieldValue("100"));
-        assertThat(record.getFieldValue("date_calc")).isEqualTo(new CalcFieldValue("2020-01-01"));
+        assertThat(record.getFieldCodes(true)).hasSize(21);
+        assertThat(record.getFieldValue("calc")).isEqualTo(new CalcFieldValue(new BigDecimal(100)));
+        assertThat(record.getFieldValue("calc_date")).isEqualTo(new CalcFieldValue("2022-01-01"));
+        assertThat(record.getFieldValue("calc_datetime"))
+                .isEqualTo(new CalcFieldValue("2022-01-01T00:00:00Z"));
+        assertThat(record.getFieldValue("calc_time")).isEqualTo(new CalcFieldValue("12:34"));
         assertThat(record.getFieldValue("check_box"))
                 .isEqualTo(new CheckBoxFieldValue("option 1", "option 2"));
         assertThat(record.getFieldValue("date"))

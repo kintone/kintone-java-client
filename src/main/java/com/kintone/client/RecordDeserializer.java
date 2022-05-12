@@ -89,9 +89,7 @@ class RecordDeserializer extends StdDeserializer<Record> {
     private FieldValue deserialize(FieldType fieldType, JsonNode node) {
         switch (fieldType) {
             case CALC:
-                {
-                    return new CalcFieldValue(node.textValue());
-                }
+                return new CalcFieldValue(node.textValue());
             case CATEGORY:
                 {
                     List<String> value = convertValues(node, JsonNode::textValue);
