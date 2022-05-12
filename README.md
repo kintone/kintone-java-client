@@ -99,3 +99,11 @@ $ ./gradlew clean jar
 ## License
 
 - [MIT License](LICENSE)
+
+## Author
+
+Cybozu, Inc.
+
+## Contributors
+
+- AaronJRubin [@AaronJRubin](https://github.com/AaronJRubin)
