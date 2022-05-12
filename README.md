@@ -103,3 +103,7 @@ $ ./gradlew clean jar
 ## Author
 
 Cybozu, Inc.
+
+## Contributors
+
+- AaronJRubin [@AaronJRubin](https://github.com/AaronJRubin)
