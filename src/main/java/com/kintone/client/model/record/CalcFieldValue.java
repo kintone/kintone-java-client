@@ -1,6 +1,5 @@
 package com.kintone.client.model.record;
 
-import java.math.BigDecimal;
 import lombok.Value;
 
 /** A value object for a Calculated field. */
