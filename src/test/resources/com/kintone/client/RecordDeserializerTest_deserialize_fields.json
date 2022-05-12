@@ -4,6 +4,10 @@
       "type": "CALC",
       "value": "100"
     },
+    "date_calc": {
+      "type": "CALC",
+      "value": "2020-01-01"
+    },
     "check_box": {
       "type": "CHECK_BOX",
       "value": [

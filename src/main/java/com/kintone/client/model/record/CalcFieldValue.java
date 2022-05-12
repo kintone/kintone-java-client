@@ -8,7 +8,7 @@ import lombok.Value;
 public class CalcFieldValue implements FieldValue {
 
     /** The value of the Calculated field. */
-    private final BigDecimal value;
+    private final String value;
 
     /** {@inheritDoc} */
     @Override
