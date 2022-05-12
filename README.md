@@ -99,3 +99,7 @@ $ ./gradlew clean jar
 ## License
 
 - [MIT License](LICENSE)
+
+## Author
+
+Cybozu, Inc.
