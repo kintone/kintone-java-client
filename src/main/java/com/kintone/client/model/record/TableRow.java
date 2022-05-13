@@ -231,9 +231,20 @@ public class TableRow {
      * @param fieldCode the field code
      * @return the value of the field
      */
-    public String getCalcFieldValue(String fieldCode) {
+    public BigDecimal getCalcFieldValue(String fieldCode) {
         CalcFieldValue value = (CalcFieldValue) fields.get(fieldCode);
         return value == null ? null : value.getValue();
+    }
+
+    /**
+     * Returns the raw value of a Calculated field.
+     *
+     * @param fieldCode the field code
+     * @return the raw value of the field
+     */
+    public String getCalcFieldRawValue(String fieldCode) {
+        CalcFieldValue value = (CalcFieldValue) fields.get(fieldCode);
+        return value == null ? null : value.getRawValue();
     }
 
     /**

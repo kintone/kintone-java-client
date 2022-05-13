@@ -4,9 +4,17 @@
       "type": "CALC",
       "value": "100"
     },
-    "date_calc": {
+    "calc_date": {
       "type": "CALC",
-      "value": "2020-01-01"
+      "value": "2022-01-01"
+    },
+    "calc_datetime": {
+      "type": "CALC",
+      "value": "2022-01-01T00:00:00Z"
+    },
+    "calc_time": {
+      "type": "CALC",
+      "value": "12:34"
     },
     "check_box": {
       "type": "CHECK_BOX",
