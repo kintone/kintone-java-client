@@ -3,7 +3,7 @@ plugins {
     id 'signing'
     id 'maven-publish'
     id 'com.diffplug.spotless' version '6.2.0'
-    id 'com.github.hierynomus.license' version '0.15.0'
+    id 'com.github.hierynomus.license' version '0.16.1'
 }
 
 version = '1.4.0'
