@@ -1,10 +1,9 @@
 plugins {
     id 'java'
-    id 'maven'
     id 'signing'
     id 'maven-publish'
-    id 'com.diffplug.spotless' version '6.2.0'
-    id 'com.github.hierynomus.license' version '0.15.0'
+    id 'com.diffplug.spotless' version '6.11.0'
+    id 'com.github.hierynomus.license' version '0.16.1'
 }
 
 version = '1.4.0'
@@ -26,18 +25,18 @@ artifacts {
 
 dependencies {
     implementation 'org.apache.httpcomponents.client5:httpclient5:5.1.3'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.2.2'
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.2'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.4'
 
-    compileOnly 'org.projectlombok:lombok:1.18.22'
-    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
-    testImplementation 'com.google.guava:guava:30.1-jre'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testImplementation 'org.assertj:assertj-core:3.22.0'
-    testImplementation 'org.mock-server:mockserver-netty:5.11.2'
+    testImplementation 'com.google.guava:guava:31.1-jre'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
+    testImplementation 'org.assertj:assertj-core:3.23.1'
+    testImplementation 'org.mock-server:mockserver-netty:5.14.0'
 
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.1'
 }
 
 downloadLicenses {

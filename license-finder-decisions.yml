@@ -12,11 +12,29 @@
     :versions: []
     :when: 2021-06-03 00:56:26.027980587 Z
 - - :permit
+  - The MIT License (MIT)
+  - :who:
+    :why:
+    :versions: []
+    :when: 2022-10-18 09:00:00.000000000 Z
+- - :permit
   - BSD
   - :who:
     :why:
     :versions: []
     :when: 2021-06-03 00:56:26.027980587 Z
+- - :permit
+  - New BSD
+  - :who:
+    :why:
+    :versions: []
+    :when: 2022-10-18 09:00:00.000000000 Z
+- - :permit
+  - The (New) BSD License
+  - :who:
+    :why:
+    :versions: []
+    :when: 2022-10-18 09:00:00.000000000 Z
 - - :permit
   - BSD License 3
   - :who:
@@ -30,32 +48,29 @@
     :versions: []
     :when: 2021-06-03 00:56:26.027980587 Z
 - - :permit
+  - Eclipse Distribution License - v 1.0
+  - :who:
+    :why:
+    :versions: []
+    :when: 2022-10-18 09:00:00.000000000 Z
+- - :permit
+  - EDL 1.0
+  - :who:
+    :why:
+    :versions: []
+    :when: 2022-10-18 09:00:00.000000000 Z
+- - :permit
   - Mozilla Public License 2.0
   - :who:
     :why:
     :versions: []
     :when: 2021-06-03 00:56:26.027980587 Z
-- - :approve
-  - jakarta.activation-api
+- - :permit
+  - Bouncy Castle Licence
   - :who:
-    :why: Eclipse Distribution License 1.0
-    :versions:
-    - 1.2.1
-    :when: 2021-06-03 00:56:26.027980587 Z
-- - :approve
-  - jakarta.xml.bind-api
-  - :who:
-    :why: Eclipse Distribution License 1.0
-    :versions:
-    - 2.3.2
-    :when: 2021-06-03 00:56:26.027980587 Z
-- - :approve
-  - javax.activation-api
-  - :who:
-    :why: CDDL/GPLv2+CE
-    :versions:
-    - 1.2.0
-    :when: 2021-06-03 00:56:26.027980587 Z
+    :why:
+    :versions: []
+    :when: 2022-10-18 09:00:00.000000000 Z
 - - :approve
   - javax.servlet-api
   - :who:

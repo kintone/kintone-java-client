@@ -351,7 +351,7 @@ public class InternalClientImplTest {
         server.verify(httpRequest, VerificationTimes.once());
         assertThat(resp.getFileKey()).isEqualTo("testkey");
 
-        HttpRequest recordedRequest = (HttpRequest) server.retrieveRecordedRequests(httpRequest)[0];
+        HttpRequest recordedRequest = server.retrieveRecordedRequests(httpRequest)[0];
         String body = recordedRequest.getBodyAsString();
         assertThat(body).startsWith("--" + boundary + "\r\n");
         assertThat(body).endsWith("\r\n--" + boundary + "--\r\n");
@@ -387,7 +387,7 @@ public class InternalClientImplTest {
         server.verify(httpRequest, VerificationTimes.once());
         assertThat(resp.getFileKey()).isEqualTo("testkey");
 
-        HttpRequest recordedRequest = (HttpRequest) server.retrieveRecordedRequests(httpRequest)[0];
+        HttpRequest recordedRequest = server.retrieveRecordedRequests(httpRequest)[0];
         String body = recordedRequest.getBodyAsString();
         assertThat(body).startsWith("--" + boundary + "\r\n");
         assertThat(body).endsWith("\r\n--" + boundary + "--\r\n");
