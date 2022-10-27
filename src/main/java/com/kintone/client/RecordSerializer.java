@@ -27,10 +27,10 @@ import java.util.function.Function;
 class RecordSerializer extends StdSerializer<Record> {
     private static final long serialVersionUID = 8267967360812294563L;
 
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("uuuu-MM-dd");
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
     private static final DateTimeFormatter DATETIME_FORMATTER =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm'Z'");
+            DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm'Z'");
 
     private static final Set<FieldType> IGNORE_FIELD_TYPES;
 
