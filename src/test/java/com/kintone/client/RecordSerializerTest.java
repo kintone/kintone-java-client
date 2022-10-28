@@ -110,6 +110,14 @@ public class RecordSerializerTest {
     }
 
     @Test
+    public void serialize_CREATED_TIME_negativeNumberYear() throws IOException {
+        ZonedDateTime time = ZonedDateTime.of(-2020, 1, 2, 3, 4, 5, 6, ZoneOffset.UTC);
+        Record record = new Record().putField("created_time", new CreatedTimeFieldValue(time));
+        String json = mapper.writeValueAsString(record);
+        assertThat(json).isEqualTo("{\"created_time\":{\"value\":\"-2020-01-02T03:04Z\"}}");
+    }
+
+    @Test
     public void serialize_CREATED_TIME_empty() throws IOException {
         Record record = new Record().putField("created_time", new CreatedTimeFieldValue(null));
         String json = mapper.writeValueAsString(record);
@@ -139,6 +147,13 @@ public class RecordSerializerTest {
     }
 
     @Test
+    public void serialize_DATE_negativeNumberYear() throws IOException {
+        Record record = new Record().putField("date", new DateFieldValue(LocalDate.of(-2020, 1, 2)));
+        String json = mapper.writeValueAsString(record);
+        assertThat(json).isEqualTo("{\"date\":{\"value\":\"-2020-01-02\"}}");
+    }
+
+    @Test
     public void serialize_DATE_empty() throws IOException {
         Record record = new Record().putField("date", new DateFieldValue(null));
         String json = mapper.writeValueAsString(record);
@@ -151,6 +166,14 @@ public class RecordSerializerTest {
         Record record = new Record().putField("datetime", new DateTimeFieldValue(value));
         String json = mapper.writeValueAsString(record);
         assertThat(json).isEqualTo("{\"datetime\":{\"value\":\"2020-01-02T03:04Z\"}}");
+    }
+
+    @Test
+    public void serialize_DATETIME_negativeNumberYear() throws IOException {
+        ZonedDateTime value = ZonedDateTime.of(-2020, 1, 2, 3, 4, 5, 6, ZoneOffset.UTC);
+        Record record = new Record().putField("datetime", new DateTimeFieldValue(value));
+        String json = mapper.writeValueAsString(record);
+        assertThat(json).isEqualTo("{\"datetime\":{\"value\":\"-2020-01-02T03:04Z\"}}");
     }
 
     @Test
@@ -414,6 +437,14 @@ public class RecordSerializerTest {
         Record record = new Record().putField("updated_time", new UpdatedTimeFieldValue(time));
         String json = mapper.writeValueAsString(record);
         assertThat(json).isEqualTo("{\"updated_time\":{\"value\":\"2020-01-02T03:04Z\"}}");
+    }
+
+    @Test
+    public void serialize_UPDATED_TIME_negativeNumberYear() throws IOException {
+        ZonedDateTime time = ZonedDateTime.of(-2020, 1, 2, 3, 4, 5, 6, ZoneOffset.UTC);
+        Record record = new Record().putField("updated_time", new UpdatedTimeFieldValue(time));
+        String json = mapper.writeValueAsString(record);
+        assertThat(json).isEqualTo("{\"updated_time\":{\"value\":\"-2020-01-02T03:04Z\"}}");
     }
 
     @Test
