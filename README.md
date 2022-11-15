@@ -21,6 +21,10 @@ API client library for Kintone REST APIs on Java.
     </dependency>
   ```
 
+## Compatibility
+
+Java 8 and later version is supported.
+
 ## Basic Usage
 
 Let show some short examples of this library.
