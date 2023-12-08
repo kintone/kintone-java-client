@@ -6,7 +6,7 @@
     "noLabel": false,
     "required": false,
     "unique": false,
-    "defaultValue": "2020-01-01T01:30:00.000Z",
+    "defaultValue": "2020-01-01T01:30",
     "defaultNowValue": false
   }
 }
