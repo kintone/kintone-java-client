@@ -28,8 +28,8 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.2'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.4'
 
-    compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
     testImplementation 'com.google.guava:guava:33.0.0-jre'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.1'
