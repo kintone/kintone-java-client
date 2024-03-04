@@ -28,13 +28,13 @@ import javax.net.ssl.SSLContext;
 import org.apache.hc.client5.http.auth.UsernamePasswordCredentials;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequest;
 import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.entity.mime.HttpMultipartMode;
 import org.apache.hc.client5.http.entity.mime.InputStreamBody;
 import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
 import org.apache.hc.client5.http.impl.auth.BasicScheme;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.classic.HttpClients;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
@@ -42,7 +42,6 @@ import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuil
 import org.apache.hc.client5.http.protocol.HttpClientContext;
 import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder;
 import org.apache.hc.core5.http.*;
-import org.apache.hc.core5.http.io.SocketConfig;
 import org.apache.hc.core5.http.io.entity.ByteArrayEntity;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.protocol.HttpContext;
@@ -93,12 +92,15 @@ class InternalClientImpl extends InternalClient {
             int connTimeout,
             int socketTimeout,
             int connRequestTimeout) {
-        RequestConfig.Builder configBuilder = RequestConfig.custom();
-        configBuilder.setConnectTimeout(connTimeout, TimeUnit.MILLISECONDS);
-        configBuilder.setConnectionRequestTimeout(connRequestTimeout, TimeUnit.MILLISECONDS);
+        ConnectionConfig connectionConfig =
+                ConnectionConfig.custom()
+                        .setConnectTimeout(connTimeout, TimeUnit.MILLISECONDS)
+                        .setSocketTimeout(socketTimeout, TimeUnit.MILLISECONDS)
+                        .build();
 
+        RequestConfig.Builder configBuilder = RequestConfig.custom();
+        configBuilder.setConnectionRequestTimeout(connRequestTimeout, TimeUnit.MILLISECONDS);
         if (proxyHost != null) {
-            configBuilder.setProxy(proxyHost);
             configBuilder.setProxyPreferredAuthSchemes(Collections.singleton("basic"));
         }
 
@@ -109,13 +111,15 @@ class InternalClientImpl extends InternalClient {
                                         .setSslContext(sslContext)
                                         .setTlsVersions(TLS.V_1_3, TLS.V_1_2)
                                         .build())
-                        .setDefaultSocketConfig(
-                                SocketConfig.custom().setSoTimeout(socketTimeout, TimeUnit.MILLISECONDS).build())
+                        .setDefaultConnectionConfig(connectionConfig)
                         .setPoolConcurrencyPolicy(PoolConcurrencyPolicy.STRICT)
                         .setConnPoolPolicy(PoolReusePolicy.LIFO)
                         .build();
 
         HttpClientBuilder clientBuilder = HttpClients.custom();
+        if (proxyHost != null) {
+            clientBuilder.setProxy(proxyHost);
+        }
         clientBuilder.setDefaultRequestConfig(configBuilder.build());
         clientBuilder.setConnectionManager(connectionManager);
         clientBuilder.disableRedirectHandling();
@@ -248,7 +252,7 @@ class InternalClientImpl extends InternalClient {
         HttpUriRequest req = createJsonRequest(KintoneApi.DOWNLOAD_FILE.getMethod(), path, request);
         KintoneResponse<DownloadFileResponseBody> r;
         try {
-            CloseableHttpResponse response = httpClient.execute(req, createHttpContext());
+            ClassicHttpResponse response = httpClient.executeOpen(null, req, createHttpContext());
             com.kintone.client.model.HttpResponse resp = new HttpResponseImpl(response);
             r = parseResponse(response, stream -> new DownloadFileResponseBody(resp));
         } catch (IOException e) {

@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.core5.http.ClassicHttpResponse;
 
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 class HttpResponseImpl implements HttpResponse {
-    private final CloseableHttpResponse response;
+    private final ClassicHttpResponse response;
 
     @Override
     public Long getContentLength() {
