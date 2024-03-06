@@ -71,9 +71,9 @@ public class RecordSerializerTest {
     public void serialize_CALC() throws IOException {
         Record record =
                 new Record()
-                        .putField("calc", new CalcFieldValue(new BigDecimal(100)))
+                        .putField("calc", new CalcFieldValue("100"))
                         .putField("calc_date", new CalcFieldValue("2022-01-01"))
-                        .putField("calc_null", new CalcFieldValue((BigDecimal) null));
+                        .putField("calc_null", new CalcFieldValue(null));
         String json = mapper.writeValueAsString(record);
         assertThat(json).isEqualTo("{}");
     }
