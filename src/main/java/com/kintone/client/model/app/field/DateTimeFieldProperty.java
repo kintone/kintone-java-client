@@ -1,8 +1,9 @@
 package com.kintone.client.model.app.field;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.kintone.client.model.record.FieldType;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import lombok.Data;
 
 /**
@@ -41,7 +42,8 @@ public class DateTimeFieldProperty implements FieldProperty {
     private Boolean unique;
 
     /** The default value. */
-    private ZonedDateTime defaultValue;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime defaultValue;
 
     /**
      * The "Default to the record creation date" option.

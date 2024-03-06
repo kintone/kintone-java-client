@@ -1,5 +1,6 @@
 package com.kintone.client.model.app.field;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.kintone.client.model.record.FieldType;
 import java.time.LocalDate;
@@ -40,6 +41,7 @@ public class DateFieldProperty implements FieldProperty {
     private Boolean unique;
 
     /** The default value. */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate defaultValue;
 
     /**

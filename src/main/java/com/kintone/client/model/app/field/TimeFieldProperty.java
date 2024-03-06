@@ -1,7 +1,15 @@
 package com.kintone.client.model.app.field;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JacksonException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.kintone.client.model.record.FieldType;
+import java.io.IOException;
 import java.time.LocalTime;
 import lombok.Data;
 
@@ -33,6 +41,8 @@ public class TimeFieldProperty implements FieldProperty {
     private Boolean required;
 
     /** The default value. */
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
+    @JsonDeserialize(using = DefaultValueDeserializer.class)
     private LocalTime defaultValue;
 
     /** The "Default to the record creation date" option. */
@@ -42,5 +52,25 @@ public class TimeFieldProperty implements FieldProperty {
     @Override
     public FieldType getType() {
         return FieldType.TIME;
+    }
+
+    private static class DefaultValueDeserializer extends StdDeserializer<LocalTime> {
+
+        private static final long serialVersionUID = 1;
+
+        public DefaultValueDeserializer() {
+            this(null);
+        }
+
+        protected DefaultValueDeserializer(Class<?> clazz) {
+            super(clazz);
+        }
+
+        @Override
+        public LocalTime deserialize(JsonParser jp, DeserializationContext ctxt)
+                throws IOException, JacksonException {
+            JsonNode node = jp.getCodec().readTree(jp);
+            return LocalTime.parse(node.textValue());
+        }
     }
 }
