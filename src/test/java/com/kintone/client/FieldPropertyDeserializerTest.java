@@ -53,10 +53,7 @@ import com.kintone.client.model.record.FieldType;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.time.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -191,8 +188,7 @@ public class FieldPropertyDeserializerTest {
         assertThat(obj.getNoLabel()).isFalse();
         assertThat(obj.getRequired()).isFalse();
         assertThat(obj.getUnique()).isFalse();
-        assertThat(obj.getDefaultValue())
-                .isEqualTo(ZonedDateTime.of(2020, 1, 1, 1, 30, 0, 0, ZoneOffset.UTC));
+        assertThat(obj.getDefaultValue()).isEqualTo(LocalDateTime.of(2020, 1, 1, 1, 30));
         assertThat(obj.getDefaultNowValue()).isFalse();
     }
 
