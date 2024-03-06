@@ -51,9 +51,25 @@ class JsonMapper {
         }
     }
 
+    String formatString(Object obj) {
+        try {
+            return mapper.writeValueAsString(obj);
+        } catch (JsonProcessingException e) {
+            throw new KintoneRuntimeException("Failed to format request JSON", e);
+        }
+    }
+
     <T> T parse(InputStream stream, Class<T> clazz) {
         try {
             return mapper.readValue(stream, clazz);
+        } catch (IOException e) {
+            throw new KintoneRuntimeException("Failed to parse response JSON", e);
+        }
+    }
+
+    <T> T parseString(String input, Class<T> clazz) {
+        try {
+            return mapper.readValue(input, clazz);
         } catch (IOException e) {
             throw new KintoneRuntimeException("Failed to parse response JSON", e);
         }

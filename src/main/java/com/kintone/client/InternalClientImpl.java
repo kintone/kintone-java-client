@@ -14,6 +14,7 @@ import com.kintone.client.model.BasicAuth;
 import com.kintone.client.model.BulkRequestContent;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -41,13 +42,21 @@ import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
 import org.apache.hc.client5.http.protocol.HttpClientContext;
 import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder;
-import org.apache.hc.core5.http.*;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpHost;
+import org.apache.hc.core5.http.HttpStatus;
+import org.apache.hc.core5.http.ParseException;
 import org.apache.hc.core5.http.io.entity.ByteArrayEntity;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.protocol.HttpContext;
 import org.apache.hc.core5.http.ssl.TLS;
 import org.apache.hc.core5.pool.PoolConcurrencyPolicy;
 import org.apache.hc.core5.pool.PoolReusePolicy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class InternalClientImpl extends InternalClient {
 
@@ -60,6 +69,9 @@ class InternalClientImpl extends InternalClient {
     private final JsonMapper mapper;
     private final HttpHost proxyHost;
     private final BasicScheme proxyAuth;
+
+    private static final String REQUEST_LOGGER_NAME = "com.kintone.client.requestLog";
+    private final Logger logger = LoggerFactory.getLogger(REQUEST_LOGGER_NAME);
 
     InternalClientImpl(
             String baseUrl,
@@ -152,6 +164,20 @@ class InternalClientImpl extends InternalClient {
         return context;
     }
 
+    private String readInputStream(InputStream in) {
+        try (InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
+            StringBuilder sb = new StringBuilder();
+            char[] buffer = new char[1024];
+            int size;
+            while ((size = reader.read(buffer)) > 0) {
+                sb.append(buffer, 0, size);
+            }
+            return sb.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     <T extends KintoneResponseBody> T call(
             KintoneApi api, KintoneRequest body, List<ResponseHandler> handlers) {
@@ -168,6 +194,11 @@ class InternalClientImpl extends InternalClient {
             KintoneRequest body,
             Class<T> clazz,
             List<ResponseHandler> handlers) {
+        if (logger.isDebugEnabled()) {
+            String json = mapper.formatString(body);
+            logger.debug("request: {} {} {}", method, path, json);
+        }
+
         HttpUriRequest request = createJsonRequest(method, path, body);
         try {
             return httpClient.execute(
@@ -215,12 +246,19 @@ class InternalClientImpl extends InternalClient {
         return resultBodies;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     BulkRequestsResponseBody bulkRequest(BulkRequestsRequest body, List<ResponseHandler> handlers) {
+        KintoneHttpMethod method = KintoneApi.BULK_REQUESTS.getMethod();
         String path = getApiPath(KintoneApi.BULK_REQUESTS);
+        Map<String, Object> bulkRequestBody = createBulkRequestBody(body);
 
-        HttpUriRequest request =
-                createJsonRequest(KintoneApi.BULK_REQUESTS.getMethod(), path, createBulkRequestBody(body));
+        if (logger.isDebugEnabled()) {
+            String json = mapper.formatString(bulkRequestBody);
+            logger.debug("request: {} {} {}", method, path, json);
+        }
+
+        HttpUriRequest request = createJsonRequest(method, path, bulkRequestBody);
         try {
             return httpClient.execute(
                     request,
@@ -230,9 +268,17 @@ class InternalClientImpl extends InternalClient {
                                 parseResponse(
                                         response,
                                         stream -> {
-                                            @SuppressWarnings("unchecked")
-                                            Map<String, Object> responseMap = mapper.parse(stream, Map.class);
-                                            @SuppressWarnings("unchecked")
+                                            Map<String, Object> responseMap;
+                                            if (logger.isDebugEnabled()) {
+                                                String responseBody = readInputStream(stream);
+                                                logger.debug(
+                                                        "response status: {}, response body: {}",
+                                                        response.getCode(),
+                                                        responseBody);
+                                                responseMap = mapper.parseString(responseBody, Map.class);
+                                            } else {
+                                                responseMap = mapper.parse(stream, Map.class);
+                                            }
                                             List<Object> results = (List<Object>) responseMap.get("results");
                                             List<KintoneResponseBody> bodies =
                                                     parseBulkRequestResponse(body.getRequests(), results);
@@ -248,11 +294,19 @@ class InternalClientImpl extends InternalClient {
 
     @Override
     DownloadFileResponseBody download(DownloadFileRequest request, List<ResponseHandler> handlers) {
+        KintoneHttpMethod method = KintoneApi.DOWNLOAD_FILE.getMethod();
         String path = getApiPath(KintoneApi.DOWNLOAD_FILE);
-        HttpUriRequest req = createJsonRequest(KintoneApi.DOWNLOAD_FILE.getMethod(), path, request);
+
+        if (logger.isDebugEnabled()) {
+            String json = mapper.formatString(request);
+            logger.debug("request: {} {} {}", method, path, json);
+        }
+
+        HttpUriRequest req = createJsonRequest(method, path, request);
         KintoneResponse<DownloadFileResponseBody> r;
         try {
             ClassicHttpResponse response = httpClient.executeOpen(null, req, createHttpContext());
+            logger.debug("response status: {}", response.getCode());
             com.kintone.client.model.HttpResponse resp = new HttpResponseImpl(response);
             r = parseResponse(response, stream -> new DownloadFileResponseBody(resp));
         } catch (IOException e) {
@@ -281,9 +335,12 @@ class InternalClientImpl extends InternalClient {
                 "file", new InputStreamBody(content, ContentType.create(contentType), filename));
 
         String headerContentType = "multipart/form-data; boundary=" + boundary;
+        KintoneHttpMethod method = KintoneApi.UPLOAD_FILE.getMethod();
         String path = getApiPath(KintoneApi.UPLOAD_FILE);
-        HttpUriRequest httpRequest =
-                createRequest(KintoneApi.UPLOAD_FILE.getMethod(), path, headerContentType, builder.build());
+
+        logger.debug("request: {} {}, file: {}", method, path, filename);
+
+        HttpUriRequest httpRequest = createRequest(method, path, headerContentType, builder.build());
         try {
             return httpClient.execute(
                     httpRequest,
@@ -314,6 +371,7 @@ class InternalClientImpl extends InternalClient {
                 result = converter.apply(response.getEntity().getContent());
             } else {
                 errorBody = EntityUtils.toString(response.getEntity(), StandardCharsets.UTF_8);
+                logger.debug("response status: {}, response body: {}", statusCode, errorBody);
             }
         } catch (IOException | ParseException e) {
             throw new KintoneRuntimeException("Failed to request", e);
@@ -323,7 +381,17 @@ class InternalClientImpl extends InternalClient {
 
     private <T extends KintoneResponseBody> KintoneResponse<T> parseJsonResponse(
             ClassicHttpResponse response, Class<T> responseClass) {
-        return parseResponse(response, stream -> mapper.parse(stream, responseClass));
+        return parseResponse(
+                response,
+                stream -> {
+                    if (logger.isDebugEnabled()) {
+                        String body = readInputStream(stream);
+                        logger.debug("response status: {}, response body: {}", response.getCode(), body);
+                        return mapper.parseString(body, responseClass);
+                    } else {
+                        return mapper.parse(stream, responseClass);
+                    }
+                });
     }
 
     private void applyHandlers(KintoneResponse<?> response, List<ResponseHandler> handlers) {

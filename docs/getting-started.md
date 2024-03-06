@@ -152,6 +152,33 @@ Record newRecord = new Record().putField("text", new SingleLineTextFieldValue(va
 clientB.record().addRecord(app2, newRecord);
 ```
 
+#### Debug Logging
+
+Kintone Java Client outputs the contents of requests as debug logs through the logging interface
+provided by the [Simple Logging Facade for Java (SLF4J)](https://slf4j.org/) package.
+Therefore, you can check the logs by enabling the logger according to the configuration instructions
+of the logging implementation you are using. The logger name is `com.kintone.client.requestLog`.
+
+For example, if you are using [Logback](https://logback.qos.ch/) as your logging backend,
+the configuration file (`logback.xml`) would look like follows:
+
+```
+<configuration>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d %logger %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- Enable debug logs for Kintone Java Client -->
+  <logger name="com.kintone.client.requestLog" level="debug" />
+
+  <root level="info">
+    <appender-ref ref="STDOUT" />
+  </root>
+</configuration>
+```
+
 ### Record Operations
 
 `KintoneClient` supports record related operations through the `RecordClient` subcomponent.
