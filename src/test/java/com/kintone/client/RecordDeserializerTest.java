@@ -110,7 +110,7 @@ public class RecordDeserializerTest {
         ZonedDateTime dateTime = ZonedDateTime.of(2020, 1, 2, 3, 4, 0, 0, ZoneOffset.UTC);
 
         assertThat(record.getFieldCodes(true)).hasSize(21);
-        assertThat(record.getFieldValue("calc")).isEqualTo(new CalcFieldValue(new BigDecimal(100)));
+        assertThat(record.getFieldValue("calc")).isEqualTo(new CalcFieldValue("100"));
         assertThat(record.getFieldValue("calc_date")).isEqualTo(new CalcFieldValue("2022-01-01"));
         assertThat(record.getFieldValue("calc_datetime"))
                 .isEqualTo(new CalcFieldValue("2022-01-01T00:00:00Z"));
