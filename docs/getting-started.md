@@ -29,7 +29,7 @@ client.close();
 Add dependency declaration in `build.gradle` of your project.
 ```groovy
 dependencies {
-     implementation 'com.kintone:kintone-java-client:1.4.0'
+     implementation 'com.kintone:kintone-java-client:2.0.0'
 }
 ```
 
@@ -39,7 +39,7 @@ Add dependency declaration in `pom.xml` of your project.
 <dependency>
     <groupId>com.kintone</groupId>
     <artifactId>kintone-java-client</artifactId>
-    <version>1.4.0</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
@@ -150,6 +150,33 @@ String value = record.getSingleLineTextFieldValue("text");
 
 Record newRecord = new Record().putField("text", new SingleLineTextFieldValue(value));
 clientB.record().addRecord(app2, newRecord);
+```
+
+#### Debug Logging
+
+Kintone Java Client outputs the contents of requests as debug logs through the logging interface
+provided by the [Simple Logging Facade for Java (SLF4J)](https://slf4j.org/) package.
+Therefore, you can check the logs by enabling the logger according to the configuration instructions
+of the logging implementation you are using. The logger name is `com.kintone.client.requestLog`.
+
+For example, if you are using [Logback](https://logback.qos.ch/) as your logging backend,
+the configuration file (`logback.xml`) would look like follows:
+
+```
+<configuration>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d %logger %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- Enable debug logs for Kintone Java Client -->
+  <logger name="com.kintone.client.requestLog" level="debug" />
+
+  <root level="info">
+    <appender-ref ref="STDOUT" />
+  </root>
+</configuration>
 ```
 
 ### Record Operations
