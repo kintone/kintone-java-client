@@ -28,8 +28,10 @@ import com.kintone.client.model.Entity;
 import com.kintone.client.model.EntityType;
 import com.kintone.client.model.space.AddedSpaceMember;
 import com.kintone.client.model.space.CoverType;
+import com.kintone.client.model.space.CreateAppSubject;
 import com.kintone.client.model.space.GuestUser;
 import com.kintone.client.model.space.SpaceMember;
+import com.kintone.client.model.space.SpacePermissions;
 import com.kintone.client.model.space.ThreadComment;
 import java.util.Collections;
 import org.junit.jupiter.api.Test;
@@ -167,7 +169,8 @@ public class SpaceClientTest {
                         true,
                         true,
                         true,
-                        true);
+                        true,
+                        new SpacePermissions(CreateAppSubject.EVERYONE));
         mockClient.setResponseBody(resp);
 
         assertThat(sut.getSpace(10L)).isEqualTo(resp);
@@ -180,8 +183,27 @@ public class SpaceClientTest {
         GetSpaceRequest req = new GetSpaceRequest();
         GetSpaceResponseBody resp =
                 new GetSpaceResponseBody(
-                        1, "", 1, false, null, null, null, "", "", "", null, 1, false, false, false, true, true,
-                        true, true, true);
+                        1,
+                        "",
+                        1,
+                        false,
+                        null,
+                        null,
+                        null,
+                        "",
+                        "",
+                        "",
+                        null,
+                        1,
+                        false,
+                        false,
+                        false,
+                        true,
+                        true,
+                        true,
+                        true,
+                        true,
+                        new SpacePermissions(CreateAppSubject.EVERYONE));
         mockClient.setResponseBody(resp);
 
         assertThat(sut.getSpace(req)).isEqualTo(resp);
