@@ -4,6 +4,7 @@ import com.kintone.client.api.KintoneResponseBody;
 import com.kintone.client.model.User;
 import com.kintone.client.model.space.AttachedApp;
 import com.kintone.client.model.space.CoverType;
+import com.kintone.client.model.space.SpacePermissions;
 import java.util.List;
 import lombok.Value;
 
@@ -107,4 +108,7 @@ public class GetSpaceResponseBody implements KintoneResponseBody {
      * @return true if the "Related Apps &amp; Spaces" widget is shown.
      */
     private final boolean showRelatedLinkList;
+
+    /** An object contains information of permissions of the Space. */
+    private final SpacePermissions permissions;
 }
