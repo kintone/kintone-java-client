@@ -118,8 +118,11 @@ import com.kintone.client.model.app.EvaluatedRecordRight;
 import com.kintone.client.model.app.FieldAccessibility;
 import com.kintone.client.model.app.FieldRight;
 import com.kintone.client.model.app.FieldRightEntity;
+import com.kintone.client.model.app.NumberPrecision;
 import com.kintone.client.model.app.RecordRight;
 import com.kintone.client.model.app.RecordRightEntity;
+import com.kintone.client.model.app.TitleFieldSelectionMode;
+import com.kintone.client.model.app.TitleFiled;
 import com.kintone.client.model.app.View;
 import com.kintone.client.model.app.ViewId;
 import com.kintone.client.model.app.ViewType;
@@ -685,7 +688,19 @@ public class AppClientTest {
     @Test
     public void getAppSettings_long() {
         GetAppSettingsResponseBody resp =
-                new GetAppSettingsResponseBody("name", "desc", null, null, 10L);
+                new GetAppSettingsResponseBody(
+                        "name",
+                        "desc",
+                        null,
+                        null,
+                        new TitleFiled().setSelectionMode(TitleFieldSelectionMode.AUTO),
+                        new NumberPrecision().setDigits(40).setDecimalPlaces(10),
+                        4,
+                        true,
+                        true,
+                        true,
+                        true,
+                        10L);
         mockClient.setResponseBody(resp);
 
         assertThat(sut.getAppSettings(10L)).isEqualTo(resp);
@@ -697,7 +712,19 @@ public class AppClientTest {
     @Test
     public void getAppSettings_long_String() {
         GetAppSettingsResponseBody resp =
-                new GetAppSettingsResponseBody("name", "desc", null, null, 10L);
+                new GetAppSettingsResponseBody(
+                        "name",
+                        "desc",
+                        null,
+                        null,
+                        new TitleFiled().setSelectionMode(TitleFieldSelectionMode.AUTO),
+                        new NumberPrecision().setDigits(40).setDecimalPlaces(10),
+                        4,
+                        true,
+                        true,
+                        true,
+                        true,
+                        10L);
         mockClient.setResponseBody(resp);
 
         assertThat(sut.getAppSettings(10L, "ja")).isEqualTo(resp);
@@ -709,7 +736,20 @@ public class AppClientTest {
     @Test
     public void getAppSettings_GetAppSettingsRequest() {
         GetAppSettingsRequest req = new GetAppSettingsRequest();
-        GetAppSettingsResponseBody resp = new GetAppSettingsResponseBody("", "", null, "", 1);
+        GetAppSettingsResponseBody resp =
+                new GetAppSettingsResponseBody(
+                        "",
+                        "",
+                        null,
+                        "",
+                        new TitleFiled().setSelectionMode(TitleFieldSelectionMode.AUTO),
+                        new NumberPrecision().setDigits(40).setDecimalPlaces(10),
+                        4,
+                        true,
+                        true,
+                        true,
+                        true,
+                        1);
         mockClient.setResponseBody(resp);
 
         assertThat(sut.getAppSettings(req)).isEqualTo(resp);
@@ -720,7 +760,19 @@ public class AppClientTest {
     @Test
     public void getAppSettingsPreview_long() {
         GetAppSettingsPreviewResponseBody resp =
-                new GetAppSettingsPreviewResponseBody("name", "desc", null, null, 10L);
+                new GetAppSettingsPreviewResponseBody(
+                        "name",
+                        "desc",
+                        null,
+                        null,
+                        new TitleFiled().setSelectionMode(TitleFieldSelectionMode.AUTO),
+                        new NumberPrecision().setDigits(40).setDecimalPlaces(10),
+                        4,
+                        true,
+                        true,
+                        true,
+                        true,
+                        10L);
         mockClient.setResponseBody(resp);
 
         assertThat(sut.getAppSettingsPreview(10L)).isEqualTo(resp);
@@ -732,7 +784,19 @@ public class AppClientTest {
     @Test
     public void getAppSettingsPreview_long_String() {
         GetAppSettingsPreviewResponseBody resp =
-                new GetAppSettingsPreviewResponseBody("name", "desc", null, null, 10L);
+                new GetAppSettingsPreviewResponseBody(
+                        "name",
+                        "desc",
+                        null,
+                        null,
+                        new TitleFiled().setSelectionMode(TitleFieldSelectionMode.AUTO),
+                        new NumberPrecision().setDigits(40).setDecimalPlaces(10),
+                        4,
+                        true,
+                        true,
+                        true,
+                        true,
+                        10L);
         mockClient.setResponseBody(resp);
 
         assertThat(sut.getAppSettingsPreview(10L, "ja")).isEqualTo(resp);
@@ -745,7 +809,19 @@ public class AppClientTest {
     public void getAppSettingsPreview_GetAppSettingsPreviewRequest() {
         GetAppSettingsPreviewRequest req = new GetAppSettingsPreviewRequest();
         GetAppSettingsPreviewResponseBody resp =
-                new GetAppSettingsPreviewResponseBody("", "", null, "", 1);
+                new GetAppSettingsPreviewResponseBody(
+                        "",
+                        "",
+                        null,
+                        "",
+                        new TitleFiled().setSelectionMode(TitleFieldSelectionMode.AUTO),
+                        new NumberPrecision().setDigits(40).setDecimalPlaces(10),
+                        4,
+                        true,
+                        true,
+                        true,
+                        true,
+                        1);
         mockClient.setResponseBody(resp);
 
         assertThat(sut.getAppSettingsPreview(req)).isEqualTo(resp);
