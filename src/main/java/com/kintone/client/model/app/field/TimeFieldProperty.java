@@ -70,7 +70,8 @@ public class TimeFieldProperty implements FieldProperty {
         public LocalTime deserialize(JsonParser jp, DeserializationContext ctxt)
                 throws IOException, JacksonException {
             JsonNode node = jp.getCodec().readTree(jp);
-            return LocalTime.parse(node.textValue());
+            String textVal = node.textValue();
+            return textVal.isEmpty() ? null : LocalTime.parse(textVal);
         }
     }
 }
