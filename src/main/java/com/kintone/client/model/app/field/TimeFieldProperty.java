@@ -71,7 +71,7 @@ public class TimeFieldProperty implements FieldProperty {
                 throws IOException, JacksonException {
             JsonNode node = jp.getCodec().readTree(jp);
             String textVal = node.textValue();
-            return textVal.isEmpty() ? null : LocalTime.parse(node.textValue());
+            return textVal.isEmpty() ? null : LocalTime.parse(textVal);
         }
     }
 }
