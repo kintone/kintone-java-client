@@ -599,7 +599,9 @@ public class FieldPropertyDeserializerTest {
 
     @Test
     public void deserialize_TIME_defaultValueEmpty() throws IOException {
-        URL url = getClass().getResource("FieldPropertyDeserializerTest_deserialize_TIME_defaultValueEmpty.json");
+        URL url =
+                getClass()
+                        .getResource("FieldPropertyDeserializerTest_deserialize_TIME_defaultValueEmpty.json");
 
         TestObject result = mapper.readValue(url, TestObject.class);
         assertThat(result.getProperty()).isInstanceOf(TimeFieldProperty.class);
