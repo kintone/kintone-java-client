@@ -111,3 +111,4 @@ Cybozu, Inc.
 ## Contributors
 
 - AaronJRubin [@AaronJRubin](https://github.com/AaronJRubin)
+- chikamura [@chikamura](https://github.com/chikamura)
