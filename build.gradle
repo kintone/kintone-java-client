@@ -32,7 +32,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
-    testImplementation 'com.google.guava:guava:33.0.0-jre'
+    testImplementation 'com.google.guava:guava:33.2.1-jre'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
     testImplementation 'org.assertj:assertj-core:3.25.3'
     testImplementation 'org.mock-server:mockserver-netty:5.15.0'
