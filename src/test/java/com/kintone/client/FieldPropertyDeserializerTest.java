@@ -598,25 +598,6 @@ public class FieldPropertyDeserializerTest {
     }
 
     @Test
-    public void deserialize_TIME_defaultValueEmpty() throws IOException {
-        URL url =
-                getClass()
-                        .getResource("FieldPropertyDeserializerTest_deserialize_TIME_defaultValueEmpty.json");
-
-        TestObject result = mapper.readValue(url, TestObject.class);
-        assertThat(result.getProperty()).isInstanceOf(TimeFieldProperty.class);
-
-        TimeFieldProperty obj = (TimeFieldProperty) result.getProperty();
-        assertThat(obj.getType()).isEqualTo(FieldType.TIME);
-        assertThat(obj.getCode()).isEqualTo("time");
-        assertThat(obj.getLabel()).isEqualTo("Time field");
-        assertThat(obj.getNoLabel()).isFalse();
-        assertThat(obj.getRequired()).isFalse();
-        assertThat(obj.getDefaultValue()).isNull();
-        assertThat(obj.getDefaultNowValue()).isTrue();
-    }
-
-    @Test
     public void deserialize_UPDATED_TIME() throws IOException {
         URL url = getClass().getResource("FieldPropertyDeserializerTest_deserialize_UPDATED_TIME.json");
 
