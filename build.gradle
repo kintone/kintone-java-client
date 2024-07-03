@@ -29,8 +29,8 @@ dependencies {
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.16.1'
     implementation 'org.slf4j:slf4j-api:1.7.36'
 
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
 
     testImplementation 'com.google.guava:guava:33.2.1-jre'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.3'
