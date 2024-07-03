@@ -34,7 +34,7 @@ dependencies {
 
     testImplementation 'com.google.guava:guava:33.2.1-jre'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.3'
-    testImplementation 'org.assertj:assertj-core:3.25.3'
+    testImplementation 'org.assertj:assertj-core:3.26.0'
     testImplementation 'org.mock-server:mockserver-netty:5.15.0'
 
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.3'
