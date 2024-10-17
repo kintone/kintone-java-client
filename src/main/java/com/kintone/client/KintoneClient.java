@@ -42,6 +42,7 @@ public class KintoneClient implements AutoCloseable {
     private final SpaceClient spaceClient;
     private final FileClient fileClient;
     private final SchemaClient schemaClient;
+    private final PluginClient pluginClient;
 
     private final List<ResponseHandler> handlers = new ArrayList<>();
 
@@ -54,6 +55,7 @@ public class KintoneClient implements AutoCloseable {
         spaceClient = new SpaceClient(client, handlers);
         fileClient = new FileClient(client, handlers);
         schemaClient = new SchemaClient(client, handlers);
+        pluginClient = new PluginClient(client, handlers);
     }
 
     /**
@@ -99,6 +101,15 @@ public class KintoneClient implements AutoCloseable {
      */
     public SchemaClient schema() {
         return schemaClient;
+    }
+
+    /**
+     * Get the client for plugin APIs.
+     *
+     * @return the plugin client
+     */
+    public PluginClient plugin() {
+        return pluginClient;
     }
 
     /**

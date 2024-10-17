@@ -8,6 +8,8 @@ import com.kintone.client.api.space.AddSpaceFromTemplateRequest;
 import com.kintone.client.api.space.AddSpaceFromTemplateResponseBody;
 import com.kintone.client.api.space.AddThreadCommentRequest;
 import com.kintone.client.api.space.AddThreadCommentResponseBody;
+import com.kintone.client.api.space.AddThreadRequest;
+import com.kintone.client.api.space.AddThreadResponseBody;
 import com.kintone.client.api.space.DeleteGuestsRequest;
 import com.kintone.client.api.space.DeleteGuestsResponseBody;
 import com.kintone.client.api.space.DeleteSpaceRequest;
@@ -22,6 +24,8 @@ import com.kintone.client.api.space.UpdateSpaceGuestsRequest;
 import com.kintone.client.api.space.UpdateSpaceGuestsResponseBody;
 import com.kintone.client.api.space.UpdateSpaceMembersRequest;
 import com.kintone.client.api.space.UpdateSpaceMembersResponseBody;
+import com.kintone.client.api.space.UpdateSpaceRequest;
+import com.kintone.client.api.space.UpdateSpaceResponseBody;
 import com.kintone.client.api.space.UpdateThreadRequest;
 import com.kintone.client.api.space.UpdateThreadResponseBody;
 import com.kintone.client.model.Entity;
@@ -74,6 +78,27 @@ public class SpaceClientTest {
 
         assertThat(sut.addSpaceFromTemplate(req)).isEqualTo(resp);
         assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.ADD_SPACE_FROM_TEMPLATE);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void addThread_long_String() {
+        mockClient.setResponseBody(new AddThreadResponseBody(1));
+
+        assertThat(sut.addThread(1, "name")).isEqualTo(1);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.ADD_THREAD);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new AddThreadRequest().setSpace(1L).setName("name"));
+    }
+
+    @Test
+    public void addThread_AddThreadRequest() {
+        AddThreadRequest req = new AddThreadRequest();
+        AddThreadResponseBody resp = new AddThreadResponseBody(1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.addThread(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.ADD_THREAD);
         assertThat(mockClient.getLastBody()).isEqualTo(req);
     }
 
@@ -232,6 +257,17 @@ public class SpaceClientTest {
 
         assertThat(sut.getSpaceMembers(req)).isEqualTo(resp);
         assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_SPACE_MEMBERS);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void updateSpace_UpdateSpaceRequest() {
+        UpdateSpaceRequest req = new UpdateSpaceRequest();
+        UpdateSpaceResponseBody resp = new UpdateSpaceResponseBody();
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.updateSpace(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_SPACE);
         assertThat(mockClient.getLastBody()).isEqualTo(req);
     }
 

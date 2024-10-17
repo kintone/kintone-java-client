@@ -3,17 +3,22 @@ package com.kintone.client;
 import static com.kintone.client.KintoneHttpMethod.*;
 
 import com.kintone.client.api.KintoneResponseBody;
+import com.kintone.client.api.app.AddAppPluginsResponseBody;
 import com.kintone.client.api.app.AddAppResponseBody;
 import com.kintone.client.api.app.AddFormFieldsResponseBody;
 import com.kintone.client.api.app.DeleteFormFieldsResponseBody;
 import com.kintone.client.api.app.DeployAppResponseBody;
 import com.kintone.client.api.app.EvaluateRecordAclResponseBody;
+import com.kintone.client.api.app.GetAdminNotesPreviewResponseBody;
+import com.kintone.client.api.app.GetAdminNotesResponseBody;
 import com.kintone.client.api.app.GetAppAclPreviewResponseBody;
 import com.kintone.client.api.app.GetAppAclResponseBody;
 import com.kintone.client.api.app.GetAppActionsPreviewResponseBody;
 import com.kintone.client.api.app.GetAppActionsResponseBody;
 import com.kintone.client.api.app.GetAppCustomizePreviewResponseBody;
 import com.kintone.client.api.app.GetAppCustomizeResponseBody;
+import com.kintone.client.api.app.GetAppPluginsPreviewResponseBody;
+import com.kintone.client.api.app.GetAppPluginsResponseBody;
 import com.kintone.client.api.app.GetAppResponseBody;
 import com.kintone.client.api.app.GetAppSettingsPreviewResponseBody;
 import com.kintone.client.api.app.GetAppSettingsResponseBody;
@@ -39,6 +44,8 @@ import com.kintone.client.api.app.GetReportsPreviewResponseBody;
 import com.kintone.client.api.app.GetReportsResponseBody;
 import com.kintone.client.api.app.GetViewsPreviewResponseBody;
 import com.kintone.client.api.app.GetViewsResponseBody;
+import com.kintone.client.api.app.MoveAppResponseBody;
+import com.kintone.client.api.app.UpdateAdminNotesResponseBody;
 import com.kintone.client.api.app.UpdateAppAclResponseBody;
 import com.kintone.client.api.app.UpdateAppActionsResponseBody;
 import com.kintone.client.api.app.UpdateAppCustomizeResponseBody;
@@ -56,6 +63,11 @@ import com.kintone.client.api.app.UpdateViewsResponseBody;
 import com.kintone.client.api.common.BulkRequestsResponseBody;
 import com.kintone.client.api.common.DownloadFileResponseBody;
 import com.kintone.client.api.common.UploadFileResponseBody;
+import com.kintone.client.api.plugin.GetInstalledPluginsResponseBody;
+import com.kintone.client.api.plugin.GetRequiredPluginsResponseBody;
+import com.kintone.client.api.plugin.InstallPluginResponseBody;
+import com.kintone.client.api.plugin.UninstallPluginResponseBody;
+import com.kintone.client.api.plugin.UpdatePluginResponseBody;
 import com.kintone.client.api.record.AddRecordCommentResponseBody;
 import com.kintone.client.api.record.AddRecordResponseBody;
 import com.kintone.client.api.record.AddRecordsResponseBody;
@@ -76,6 +88,7 @@ import com.kintone.client.api.schema.GetApiListResponseBody;
 import com.kintone.client.api.space.AddGuestsResponseBody;
 import com.kintone.client.api.space.AddSpaceFromTemplateResponseBody;
 import com.kintone.client.api.space.AddThreadCommentResponseBody;
+import com.kintone.client.api.space.AddThreadResponseBody;
 import com.kintone.client.api.space.DeleteGuestsResponseBody;
 import com.kintone.client.api.space.DeleteSpaceResponseBody;
 import com.kintone.client.api.space.GetSpaceMembersResponseBody;
@@ -83,6 +96,7 @@ import com.kintone.client.api.space.GetSpaceResponseBody;
 import com.kintone.client.api.space.UpdateSpaceBodyResponseBody;
 import com.kintone.client.api.space.UpdateSpaceGuestsResponseBody;
 import com.kintone.client.api.space.UpdateSpaceMembersResponseBody;
+import com.kintone.client.api.space.UpdateSpaceResponseBody;
 import com.kintone.client.api.space.UpdateThreadResponseBody;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -149,6 +163,11 @@ public enum KintoneApi {
     GET_APP_SETTINGS(GET, "app/settings", GetAppSettingsResponseBody.class),
     GET_APP_SETTINGS_PREVIEW(GET, "preview/app/settings", GetAppSettingsPreviewResponseBody.class),
     UPDATE_APP_SETTINGS(PUT, "preview/app/settings", UpdateAppSettingsResponseBody.class),
+    MOVE_APP_TO_SPACE(POST, "app/move", MoveAppResponseBody.class),
+    GET_APP_ADMIN_NOTES(GET, "app/adminNotes", GetAdminNotesResponseBody.class),
+    GET_APP_ADMIN_NOTES_PREVIEW(
+            GET, "preview/app/adminNotes", GetAdminNotesPreviewResponseBody.class),
+    UPDATE_APP_ADMIN_NOTES(PUT, "preview/app/adminNotes", UpdateAdminNotesResponseBody.class),
     GET_PROCESS_MANAGEMENT(GET, "app/status", GetProcessManagementResponseBody.class),
     GET_PROCESS_MANAGEMENT_PREVIEW(
             GET, "preview/app/status", GetProcessManagementPreviewResponseBody.class),
@@ -159,9 +178,19 @@ public enum KintoneApi {
     GET_APP_CUSTOMIZE(GET, "app/customize", GetAppCustomizeResponseBody.class),
     GET_APP_CUSTOMIZE_PREVIEW(GET, "preview/app/customize", GetAppCustomizePreviewResponseBody.class),
     UPDATE_APP_CUSTOMIZE(PUT, "preview/app/customize", UpdateAppCustomizeResponseBody.class),
+    GET_APP_PLUGINS(GET, "app/plugins", GetAppPluginsResponseBody.class),
+    GET_APP_PLUGINS_PREVIEW(GET, "preview/app/plugins", GetAppPluginsPreviewResponseBody.class),
+    ADD_APP_PLUGINS(POST, "preview/app/plugins", AddAppPluginsResponseBody.class),
     GET_APP_ACL(GET, "app/acl", GetAppAclResponseBody.class),
     GET_APP_ACL_PREVIEW(GET, "preview/app/acl", GetAppAclPreviewResponseBody.class),
     UPDATE_APP_ACL(PUT, "preview/app/acl", UpdateAppAclResponseBody.class),
+    GET_PLUGINS(GET, "plugins", GetInstalledPluginsResponseBody.class),
+    INSTALL_PLUGIN(POST, "plugin", InstallPluginResponseBody.class),
+    UPDATE_PLUGIN(PUT, "plugin", UpdatePluginResponseBody.class),
+    UNINSTALL_PLUGIN(DELETE, "plugin", UninstallPluginResponseBody.class),
+    GET_APPS_PLUGIN_ADDED(
+            GET, "plugin/apps", com.kintone.client.api.plugin.GetAppsResponseBody.class),
+    GET_REQUIRED_PLUGINS(GET, "plugins/required", GetRequiredPluginsResponseBody.class),
     GET_RECORD_ACL(GET, "record/acl", GetRecordAclResponseBody.class),
     GET_RECORD_ACL_PREVIEW(GET, "preview/record/acl", GetRecordAclPreviewResponseBody.class),
     UPDATE_RECORD_ACL(PUT, "preview/record/acl", UpdateRecordAclResponseBody.class),
@@ -172,9 +201,11 @@ public enum KintoneApi {
     GET_DEPLOY_STATUS(GET, "preview/app/deploy", GetDeployStatusResponseBody.class),
     DEPLOY_APP(POST, "preview/app/deploy", DeployAppResponseBody.class),
     GET_SPACE(GET, "space", GetSpaceResponseBody.class),
+    UPDATE_SPACE(PUT, "space", UpdateSpaceResponseBody.class),
     DELETE_SPACE(DELETE, "space", DeleteSpaceResponseBody.class),
     ADD_SPACE_FROM_TEMPLATE(POST, "template/space", AddSpaceFromTemplateResponseBody.class),
     UPDATE_SPACE_BODY(PUT, "space/body", UpdateSpaceBodyResponseBody.class),
+    ADD_THREAD(POST, "space/thread", AddThreadResponseBody.class),
     UPDATE_THREAD(PUT, "space/thread", UpdateThreadResponseBody.class),
     ADD_THREAD_COMMENT(POST, "space/thread/comment", AddThreadCommentResponseBody.class),
     GET_SPACE_MEMBERS(GET, "space/members", GetSpaceMembersResponseBody.class),
