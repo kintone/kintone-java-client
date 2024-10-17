@@ -3,106 +3,7 @@ package com.kintone.client;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.google.common.collect.Lists;
-import com.kintone.client.api.app.AddAppRequest;
-import com.kintone.client.api.app.AddAppResponseBody;
-import com.kintone.client.api.app.AddFormFieldsRequest;
-import com.kintone.client.api.app.AddFormFieldsResponseBody;
-import com.kintone.client.api.app.DeleteFormFieldsRequest;
-import com.kintone.client.api.app.DeleteFormFieldsResponseBody;
-import com.kintone.client.api.app.DeployAppRequest;
-import com.kintone.client.api.app.DeployAppResponseBody;
-import com.kintone.client.api.app.EvaluateRecordAclRequest;
-import com.kintone.client.api.app.EvaluateRecordAclResponseBody;
-import com.kintone.client.api.app.GetAppAclPreviewRequest;
-import com.kintone.client.api.app.GetAppAclPreviewResponseBody;
-import com.kintone.client.api.app.GetAppAclRequest;
-import com.kintone.client.api.app.GetAppAclResponseBody;
-import com.kintone.client.api.app.GetAppActionsPreviewRequest;
-import com.kintone.client.api.app.GetAppActionsPreviewResponseBody;
-import com.kintone.client.api.app.GetAppActionsRequest;
-import com.kintone.client.api.app.GetAppActionsResponseBody;
-import com.kintone.client.api.app.GetAppCustomizePreviewRequest;
-import com.kintone.client.api.app.GetAppCustomizePreviewResponseBody;
-import com.kintone.client.api.app.GetAppCustomizeRequest;
-import com.kintone.client.api.app.GetAppCustomizeResponseBody;
-import com.kintone.client.api.app.GetAppRequest;
-import com.kintone.client.api.app.GetAppResponseBody;
-import com.kintone.client.api.app.GetAppSettingsPreviewRequest;
-import com.kintone.client.api.app.GetAppSettingsPreviewResponseBody;
-import com.kintone.client.api.app.GetAppSettingsRequest;
-import com.kintone.client.api.app.GetAppSettingsResponseBody;
-import com.kintone.client.api.app.GetAppsRequest;
-import com.kintone.client.api.app.GetAppsResponseBody;
-import com.kintone.client.api.app.GetDeployStatusRequest;
-import com.kintone.client.api.app.GetDeployStatusResponseBody;
-import com.kintone.client.api.app.GetFieldAclPreviewRequest;
-import com.kintone.client.api.app.GetFieldAclPreviewResponseBody;
-import com.kintone.client.api.app.GetFieldAclRequest;
-import com.kintone.client.api.app.GetFieldAclResponseBody;
-import com.kintone.client.api.app.GetFormFieldsPreviewRequest;
-import com.kintone.client.api.app.GetFormFieldsPreviewResponseBody;
-import com.kintone.client.api.app.GetFormFieldsRequest;
-import com.kintone.client.api.app.GetFormFieldsResponseBody;
-import com.kintone.client.api.app.GetFormLayoutPreviewRequest;
-import com.kintone.client.api.app.GetFormLayoutPreviewResponseBody;
-import com.kintone.client.api.app.GetFormLayoutRequest;
-import com.kintone.client.api.app.GetFormLayoutResponseBody;
-import com.kintone.client.api.app.GetGeneralNotificationsPreviewRequest;
-import com.kintone.client.api.app.GetGeneralNotificationsPreviewResponseBody;
-import com.kintone.client.api.app.GetGeneralNotificationsRequest;
-import com.kintone.client.api.app.GetGeneralNotificationsResponseBody;
-import com.kintone.client.api.app.GetPerRecordNotificationsPreviewRequest;
-import com.kintone.client.api.app.GetPerRecordNotificationsPreviewResponseBody;
-import com.kintone.client.api.app.GetPerRecordNotificationsRequest;
-import com.kintone.client.api.app.GetPerRecordNotificationsResponseBody;
-import com.kintone.client.api.app.GetProcessManagementPreviewRequest;
-import com.kintone.client.api.app.GetProcessManagementPreviewResponseBody;
-import com.kintone.client.api.app.GetProcessManagementRequest;
-import com.kintone.client.api.app.GetProcessManagementResponseBody;
-import com.kintone.client.api.app.GetRecordAclPreviewRequest;
-import com.kintone.client.api.app.GetRecordAclPreviewResponseBody;
-import com.kintone.client.api.app.GetRecordAclRequest;
-import com.kintone.client.api.app.GetRecordAclResponseBody;
-import com.kintone.client.api.app.GetReminderNotificationsPreviewRequest;
-import com.kintone.client.api.app.GetReminderNotificationsPreviewResponseBody;
-import com.kintone.client.api.app.GetReminderNotificationsRequest;
-import com.kintone.client.api.app.GetReminderNotificationsResponseBody;
-import com.kintone.client.api.app.GetReportsPreviewRequest;
-import com.kintone.client.api.app.GetReportsPreviewResponseBody;
-import com.kintone.client.api.app.GetReportsRequest;
-import com.kintone.client.api.app.GetReportsResponseBody;
-import com.kintone.client.api.app.GetViewsPreviewRequest;
-import com.kintone.client.api.app.GetViewsPreviewResponseBody;
-import com.kintone.client.api.app.GetViewsRequest;
-import com.kintone.client.api.app.GetViewsResponseBody;
-import com.kintone.client.api.app.UpdateAppAclRequest;
-import com.kintone.client.api.app.UpdateAppAclResponseBody;
-import com.kintone.client.api.app.UpdateAppActionsRequest;
-import com.kintone.client.api.app.UpdateAppActionsResponseBody;
-import com.kintone.client.api.app.UpdateAppCustomizeRequest;
-import com.kintone.client.api.app.UpdateAppCustomizeResponseBody;
-import com.kintone.client.api.app.UpdateAppSettingsRequest;
-import com.kintone.client.api.app.UpdateAppSettingsResponseBody;
-import com.kintone.client.api.app.UpdateFieldAclRequest;
-import com.kintone.client.api.app.UpdateFieldAclResponseBody;
-import com.kintone.client.api.app.UpdateFormFieldsRequest;
-import com.kintone.client.api.app.UpdateFormFieldsResponseBody;
-import com.kintone.client.api.app.UpdateFormLayoutRequest;
-import com.kintone.client.api.app.UpdateFormLayoutResponseBody;
-import com.kintone.client.api.app.UpdateGeneralNotificationsRequest;
-import com.kintone.client.api.app.UpdateGeneralNotificationsResponseBody;
-import com.kintone.client.api.app.UpdatePerRecordNotificationsRequest;
-import com.kintone.client.api.app.UpdatePerRecordNotificationsResponseBody;
-import com.kintone.client.api.app.UpdateProcessManagementRequest;
-import com.kintone.client.api.app.UpdateProcessManagementResponseBody;
-import com.kintone.client.api.app.UpdateRecordAclRequest;
-import com.kintone.client.api.app.UpdateRecordAclResponseBody;
-import com.kintone.client.api.app.UpdateReminderNotificationsRequest;
-import com.kintone.client.api.app.UpdateReminderNotificationsResponseBody;
-import com.kintone.client.api.app.UpdateReportsRequest;
-import com.kintone.client.api.app.UpdateReportsResponseBody;
-import com.kintone.client.api.app.UpdateViewsRequest;
-import com.kintone.client.api.app.UpdateViewsResponseBody;
+import com.kintone.client.api.app.*;
 import com.kintone.client.model.Entity;
 import com.kintone.client.model.EntityType;
 import com.kintone.client.model.User;
@@ -110,6 +11,7 @@ import com.kintone.client.model.app.ActionId;
 import com.kintone.client.model.app.App;
 import com.kintone.client.model.app.AppAction;
 import com.kintone.client.model.app.AppDeployStatus;
+import com.kintone.client.model.app.AppPlugin;
 import com.kintone.client.model.app.AppRightEntity;
 import com.kintone.client.model.app.CustomizeScope;
 import com.kintone.client.model.app.DeployApp;
@@ -345,6 +247,32 @@ public class AppClientTest {
     }
 
     @Test
+    public void addPlugins_long_List() {
+        mockClient.setResponseBody(new AddAppPluginsResponseBody(2));
+
+        assertThat(sut.addPlugins(1, Collections.singletonList("plugin1"))).isEqualTo(2);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.ADD_APP_PLUGINS);
+        assertThat(mockClient.getLastBody())
+                .usingRecursiveComparison()
+                .isEqualTo(
+                        new AddAppPluginsRequest()
+                                .setApp(1L)
+                                .setIds(Collections.singletonList("plugin1"))
+                                .setRevision(null));
+    }
+
+    @Test
+    public void addPlugins_AddAppPluginsRequest() {
+        AddAppPluginsRequest req = new AddAppPluginsRequest();
+        AddAppPluginsResponseBody resp = new AddAppPluginsResponseBody(1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.addPlugins(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.ADD_APP_PLUGINS);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
     public void deleteFormFields_long_List() {
         mockClient.setResponseBody(new DeleteFormFieldsResponseBody(2));
 
@@ -459,6 +387,48 @@ public class AppClientTest {
 
         assertThat(sut.evaluateRecordAcl(req)).isEqualTo(resp);
         assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.EVALUATE_RECORD_ACL);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void getAdminNotes_long() {
+        GetAdminNotesResponseBody resp = new GetAdminNotesResponseBody("test", true, 1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getAdminNotes(1)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APP_ADMIN_NOTES);
+        assertThat(mockClient.getLastBody()).isEqualTo(new GetAdminNotesRequest().setApp(1L));
+    }
+
+    @Test
+    public void getAdminNotes_GetAdminNotesRequest() {
+        GetAdminNotesRequest req = new GetAdminNotesRequest();
+        GetAdminNotesResponseBody resp = new GetAdminNotesResponseBody("test", true, 1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getAdminNotes(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APP_ADMIN_NOTES);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void getAdminNotesPreview_long() {
+        GetAdminNotesPreviewResponseBody resp = new GetAdminNotesPreviewResponseBody("test", true, 1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getAdminNotesPreview(1)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APP_ADMIN_NOTES_PREVIEW);
+        assertThat(mockClient.getLastBody()).isEqualTo(new GetAdminNotesPreviewRequest().setApp(1L));
+    }
+
+    @Test
+    public void getAdminNotesPreview_GetAdminNotesPreviewRequest() {
+        GetAdminNotesPreviewRequest req = new GetAdminNotesPreviewRequest();
+        GetAdminNotesPreviewResponseBody resp = new GetAdminNotesPreviewResponseBody("test", true, 1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getAdminNotesPreview(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APP_ADMIN_NOTES_PREVIEW);
         assertThat(mockClient.getLastBody()).isEqualTo(req);
     }
 
@@ -1132,6 +1102,94 @@ public class AppClientTest {
     }
 
     @Test
+    public void getPlugins_long() {
+        AppPlugin appPlugin = new AppPlugin("pluginId", "pluginName", true);
+
+        GetAppPluginsResponseBody resp =
+                new GetAppPluginsResponseBody(Collections.singletonList(appPlugin), 1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getPlugins(10L)).containsExactly(appPlugin);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APP_PLUGINS);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetAppPluginsRequest().setApp(10L).setLang(null));
+    }
+
+    @Test
+    public void getPlugins_long_String() {
+        AppPlugin appPlugin = new AppPlugin("pluginId", "pluginName", true);
+
+        GetAppPluginsResponseBody resp =
+                new GetAppPluginsResponseBody(Collections.singletonList(appPlugin), 1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getPlugins(10L, "en")).containsExactly(appPlugin);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APP_PLUGINS);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetAppPluginsRequest().setApp(10L).setLang("en"));
+    }
+
+    @Test
+    public void getPlugins_GetPluginsRequest() {
+        GetAppPluginsRequest req = new GetAppPluginsRequest();
+        req.setApp(10L);
+        req.setLang("en");
+
+        AppPlugin appPlugin = new AppPlugin("pluginId", "pluginName", true);
+        GetAppPluginsResponseBody resp =
+                new GetAppPluginsResponseBody(Collections.singletonList(appPlugin), 1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getPlugins(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APP_PLUGINS);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void getPluginsPreview_long() {
+        AppPlugin appPlugin = new AppPlugin("pluginId", "pluginName", true);
+
+        GetAppPluginsPreviewResponseBody resp =
+                new GetAppPluginsPreviewResponseBody(Collections.singletonList(appPlugin), 1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getPluginsPreview(10L)).containsExactly(appPlugin);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APP_PLUGINS_PREVIEW);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetAppPluginsPreviewRequest().setApp(10L).setLang(null));
+    }
+
+    @Test
+    public void getPluginsPreview_long_String() {
+        AppPlugin appPlugin = new AppPlugin("pluginId", "pluginName", true);
+
+        GetAppPluginsPreviewResponseBody resp =
+                new GetAppPluginsPreviewResponseBody(Collections.singletonList(appPlugin), 1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getPluginsPreview(10L, "en")).containsExactly(appPlugin);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APP_PLUGINS_PREVIEW);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetAppPluginsPreviewRequest().setApp(10L).setLang("en"));
+    }
+
+    @Test
+    public void getPlugins_GetPluginsPreviewRequest() {
+        GetAppPluginsPreviewRequest req = new GetAppPluginsPreviewRequest();
+        req.setApp(10L);
+        req.setLang("en");
+
+        AppPlugin appPlugin = new AppPlugin("pluginId", "pluginName", true);
+        GetAppPluginsPreviewResponseBody resp =
+                new GetAppPluginsPreviewResponseBody(Collections.singletonList(appPlugin), 1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getPluginsPreview(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APP_PLUGINS_PREVIEW);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
     public void getProcessManagement_long() {
         GetProcessManagementResponseBody resp =
                 new GetProcessManagementResponseBody(true, null, null, 3L);
@@ -1481,6 +1539,39 @@ public class AppClientTest {
     }
 
     @Test
+    public void moveToSpace_long_long() {
+        mockClient.setResponseBody(new MoveAppResponseBody());
+
+        sut.move(1, 2L);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.MOVE_APP_TO_SPACE);
+        assertThat(mockClient.getLastBody())
+                .usingRecursiveComparison()
+                .isEqualTo(new MoveAppRequest().setApp(1L).setSpace(2L));
+    }
+
+    @Test
+    public void moveToSpace_long_null() {
+        mockClient.setResponseBody(new MoveAppResponseBody());
+
+        sut.move(1, null);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.MOVE_APP_TO_SPACE);
+        assertThat(mockClient.getLastBody())
+                .usingRecursiveComparison()
+                .isEqualTo(new MoveAppRequest().setApp(1L).setSpace(null));
+    }
+
+    @Test
+    public void moveToSpace_MoveToSpaceRequest() {
+        MoveAppRequest req = new MoveAppRequest();
+        MoveAppResponseBody resp = new MoveAppResponseBody();
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.move(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.MOVE_APP_TO_SPACE);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
     public void revertApp_long() {
         mockClient.setResponseBody(new DeployAppResponseBody());
 
@@ -1506,6 +1597,17 @@ public class AppClientTest {
                         new DeployAppRequest()
                                 .setApps(Collections.singletonList(new DeployApp().setApp(1L).setRevision(2L)))
                                 .setRevert(true));
+    }
+
+    @Test
+    public void updateAdminNotes_UpdateAdminNotesRequest() {
+        UpdateAdminNotesRequest req = new UpdateAdminNotesRequest();
+        UpdateAdminNotesResponseBody resp = new UpdateAdminNotesResponseBody(1);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.updateAdminNotes(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_APP_ADMIN_NOTES);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
     }
 
     @Test

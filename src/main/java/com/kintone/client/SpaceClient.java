@@ -6,6 +6,8 @@ import com.kintone.client.api.space.AddSpaceFromTemplateRequest;
 import com.kintone.client.api.space.AddSpaceFromTemplateResponseBody;
 import com.kintone.client.api.space.AddThreadCommentRequest;
 import com.kintone.client.api.space.AddThreadCommentResponseBody;
+import com.kintone.client.api.space.AddThreadRequest;
+import com.kintone.client.api.space.AddThreadResponseBody;
 import com.kintone.client.api.space.DeleteGuestsRequest;
 import com.kintone.client.api.space.DeleteGuestsResponseBody;
 import com.kintone.client.api.space.DeleteSpaceRequest;
@@ -20,6 +22,8 @@ import com.kintone.client.api.space.UpdateSpaceGuestsRequest;
 import com.kintone.client.api.space.UpdateSpaceGuestsResponseBody;
 import com.kintone.client.api.space.UpdateSpaceMembersRequest;
 import com.kintone.client.api.space.UpdateSpaceMembersResponseBody;
+import com.kintone.client.api.space.UpdateSpaceRequest;
+import com.kintone.client.api.space.UpdateSpaceResponseBody;
 import com.kintone.client.api.space.UpdateThreadRequest;
 import com.kintone.client.api.space.UpdateThreadResponseBody;
 import com.kintone.client.model.space.AddedSpaceMember;
@@ -71,6 +75,30 @@ public class SpaceClient {
     public AddSpaceFromTemplateResponseBody addSpaceFromTemplate(
             AddSpaceFromTemplateRequest request) {
         return client.call(KintoneApi.ADD_SPACE_FROM_TEMPLATE, request, handlers);
+    }
+
+    /**
+     * Adds a Thread in a Space.
+     *
+     * @param spaceId the Space ID
+     * @param name the name of the new Thread
+     * @return the Thread ID of the created Thread
+     */
+    public long addThread(long spaceId, String name) {
+        AddThreadRequest req = new AddThreadRequest();
+        req.setSpace(spaceId);
+        req.setName(name);
+        return addThread(req).getId();
+    }
+
+    /**
+     * Adds a Thread in a Space.
+     *
+     * @param request the request parameters. See {@link AddThreadRequest}
+     * @return the response data. See {@link AddThreadResponseBody}
+     */
+    public AddThreadResponseBody addThread(AddThreadRequest request) {
+        return client.call(KintoneApi.ADD_THREAD, request, handlers);
     }
 
     /**
@@ -186,6 +214,16 @@ public class SpaceClient {
      */
     public GetSpaceMembersResponseBody getSpaceMembers(GetSpaceMembersRequest request) {
         return client.call(KintoneApi.GET_SPACE_MEMBERS, request, handlers);
+    }
+
+    /**
+     * Updates the settings of a Space.
+     *
+     * @param request the request parameters. See {@link UpdateSpaceRequest}
+     * @return the response data. See {@link UpdateSpaceResponseBody}
+     */
+    public UpdateSpaceResponseBody updateSpace(UpdateSpaceRequest request) {
+        return client.call(KintoneApi.UPDATE_SPACE, request, handlers);
     }
 
     /**

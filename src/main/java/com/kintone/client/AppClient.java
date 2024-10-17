@@ -1,108 +1,10 @@
 package com.kintone.client;
 
-import com.kintone.client.api.app.AddAppRequest;
-import com.kintone.client.api.app.AddAppResponseBody;
-import com.kintone.client.api.app.AddFormFieldsRequest;
-import com.kintone.client.api.app.AddFormFieldsResponseBody;
-import com.kintone.client.api.app.DeleteFormFieldsRequest;
-import com.kintone.client.api.app.DeleteFormFieldsResponseBody;
-import com.kintone.client.api.app.DeployAppRequest;
-import com.kintone.client.api.app.DeployAppResponseBody;
-import com.kintone.client.api.app.EvaluateRecordAclRequest;
-import com.kintone.client.api.app.EvaluateRecordAclResponseBody;
-import com.kintone.client.api.app.GetAppAclPreviewRequest;
-import com.kintone.client.api.app.GetAppAclPreviewResponseBody;
-import com.kintone.client.api.app.GetAppAclRequest;
-import com.kintone.client.api.app.GetAppAclResponseBody;
-import com.kintone.client.api.app.GetAppActionsPreviewRequest;
-import com.kintone.client.api.app.GetAppActionsPreviewResponseBody;
-import com.kintone.client.api.app.GetAppActionsRequest;
-import com.kintone.client.api.app.GetAppActionsResponseBody;
-import com.kintone.client.api.app.GetAppCustomizePreviewRequest;
-import com.kintone.client.api.app.GetAppCustomizePreviewResponseBody;
-import com.kintone.client.api.app.GetAppCustomizeRequest;
-import com.kintone.client.api.app.GetAppCustomizeResponseBody;
-import com.kintone.client.api.app.GetAppRequest;
-import com.kintone.client.api.app.GetAppResponseBody;
-import com.kintone.client.api.app.GetAppSettingsPreviewRequest;
-import com.kintone.client.api.app.GetAppSettingsPreviewResponseBody;
-import com.kintone.client.api.app.GetAppSettingsRequest;
-import com.kintone.client.api.app.GetAppSettingsResponseBody;
-import com.kintone.client.api.app.GetAppsRequest;
-import com.kintone.client.api.app.GetAppsResponseBody;
-import com.kintone.client.api.app.GetDeployStatusRequest;
-import com.kintone.client.api.app.GetDeployStatusResponseBody;
-import com.kintone.client.api.app.GetFieldAclPreviewRequest;
-import com.kintone.client.api.app.GetFieldAclPreviewResponseBody;
-import com.kintone.client.api.app.GetFieldAclRequest;
-import com.kintone.client.api.app.GetFieldAclResponseBody;
-import com.kintone.client.api.app.GetFormFieldsPreviewRequest;
-import com.kintone.client.api.app.GetFormFieldsPreviewResponseBody;
-import com.kintone.client.api.app.GetFormFieldsRequest;
-import com.kintone.client.api.app.GetFormFieldsResponseBody;
-import com.kintone.client.api.app.GetFormLayoutPreviewRequest;
-import com.kintone.client.api.app.GetFormLayoutPreviewResponseBody;
-import com.kintone.client.api.app.GetFormLayoutRequest;
-import com.kintone.client.api.app.GetFormLayoutResponseBody;
-import com.kintone.client.api.app.GetGeneralNotificationsPreviewRequest;
-import com.kintone.client.api.app.GetGeneralNotificationsPreviewResponseBody;
-import com.kintone.client.api.app.GetGeneralNotificationsRequest;
-import com.kintone.client.api.app.GetGeneralNotificationsResponseBody;
-import com.kintone.client.api.app.GetPerRecordNotificationsPreviewRequest;
-import com.kintone.client.api.app.GetPerRecordNotificationsPreviewResponseBody;
-import com.kintone.client.api.app.GetPerRecordNotificationsRequest;
-import com.kintone.client.api.app.GetPerRecordNotificationsResponseBody;
-import com.kintone.client.api.app.GetProcessManagementPreviewRequest;
-import com.kintone.client.api.app.GetProcessManagementPreviewResponseBody;
-import com.kintone.client.api.app.GetProcessManagementRequest;
-import com.kintone.client.api.app.GetProcessManagementResponseBody;
-import com.kintone.client.api.app.GetRecordAclPreviewRequest;
-import com.kintone.client.api.app.GetRecordAclPreviewResponseBody;
-import com.kintone.client.api.app.GetRecordAclRequest;
-import com.kintone.client.api.app.GetRecordAclResponseBody;
-import com.kintone.client.api.app.GetReminderNotificationsPreviewRequest;
-import com.kintone.client.api.app.GetReminderNotificationsPreviewResponseBody;
-import com.kintone.client.api.app.GetReminderNotificationsRequest;
-import com.kintone.client.api.app.GetReminderNotificationsResponseBody;
-import com.kintone.client.api.app.GetReportsPreviewRequest;
-import com.kintone.client.api.app.GetReportsPreviewResponseBody;
-import com.kintone.client.api.app.GetReportsRequest;
-import com.kintone.client.api.app.GetReportsResponseBody;
-import com.kintone.client.api.app.GetViewsPreviewRequest;
-import com.kintone.client.api.app.GetViewsPreviewResponseBody;
-import com.kintone.client.api.app.GetViewsRequest;
-import com.kintone.client.api.app.GetViewsResponseBody;
-import com.kintone.client.api.app.UpdateAppAclRequest;
-import com.kintone.client.api.app.UpdateAppAclResponseBody;
-import com.kintone.client.api.app.UpdateAppActionsRequest;
-import com.kintone.client.api.app.UpdateAppActionsResponseBody;
-import com.kintone.client.api.app.UpdateAppCustomizeRequest;
-import com.kintone.client.api.app.UpdateAppCustomizeResponseBody;
-import com.kintone.client.api.app.UpdateAppSettingsRequest;
-import com.kintone.client.api.app.UpdateAppSettingsResponseBody;
-import com.kintone.client.api.app.UpdateFieldAclRequest;
-import com.kintone.client.api.app.UpdateFieldAclResponseBody;
-import com.kintone.client.api.app.UpdateFormFieldsRequest;
-import com.kintone.client.api.app.UpdateFormFieldsResponseBody;
-import com.kintone.client.api.app.UpdateFormLayoutRequest;
-import com.kintone.client.api.app.UpdateFormLayoutResponseBody;
-import com.kintone.client.api.app.UpdateGeneralNotificationsRequest;
-import com.kintone.client.api.app.UpdateGeneralNotificationsResponseBody;
-import com.kintone.client.api.app.UpdatePerRecordNotificationsRequest;
-import com.kintone.client.api.app.UpdatePerRecordNotificationsResponseBody;
-import com.kintone.client.api.app.UpdateProcessManagementRequest;
-import com.kintone.client.api.app.UpdateProcessManagementResponseBody;
-import com.kintone.client.api.app.UpdateRecordAclRequest;
-import com.kintone.client.api.app.UpdateRecordAclResponseBody;
-import com.kintone.client.api.app.UpdateReminderNotificationsRequest;
-import com.kintone.client.api.app.UpdateReminderNotificationsResponseBody;
-import com.kintone.client.api.app.UpdateReportsRequest;
-import com.kintone.client.api.app.UpdateReportsResponseBody;
-import com.kintone.client.api.app.UpdateViewsRequest;
-import com.kintone.client.api.app.UpdateViewsResponseBody;
+import com.kintone.client.api.app.*;
 import com.kintone.client.model.app.ActionId;
 import com.kintone.client.model.app.App;
 import com.kintone.client.model.app.AppAction;
+import com.kintone.client.model.app.AppPlugin;
 import com.kintone.client.model.app.AppRightEntity;
 import com.kintone.client.model.app.DeployApp;
 import com.kintone.client.model.app.DeployStatus;
@@ -236,6 +138,32 @@ public class AppClient {
     }
 
     /**
+     * Adds Plug-ins to an App. This API updates the pre-live settings. After using this API, use the
+     * Deploy App Settings API to deploy the settings to the live App.
+     *
+     * @param app the App ID
+     * @param ids the Plug-in IDs that will be added to the App
+     * @return the revision number of the App settings
+     */
+    public long addPlugins(long app, List<String> ids) {
+        AddAppPluginsRequest req = new AddAppPluginsRequest();
+        req.setApp(app);
+        req.setIds(ids);
+        return addPlugins(req).getRevision();
+    }
+
+    /**
+     * Adds Plug-ins to an App. This API updates the pre-live settings. After using this API, use the
+     * Deploy App Settings API to deploy the settings to the live App.
+     *
+     * @param request the request parameters. See {@link AddAppPluginsRequest}
+     * @return the response data. See {@link AddAppPluginsResponseBody}
+     */
+    public AddAppPluginsResponseBody addPlugins(AddAppPluginsRequest request) {
+        return client.call(KintoneApi.ADD_APP_PLUGINS, request, handlers);
+    }
+
+    /**
      * Deletes fields from a form of an App. This API updates the pre-live settings. After using this
      * API, use the Deploy App Settings API to deploy the settings to the live App.
      *
@@ -360,6 +288,53 @@ public class AppClient {
      */
     public EvaluateRecordAclResponseBody evaluateRecordAcl(EvaluateRecordAclRequest request) {
         return client.call(KintoneApi.EVALUATE_RECORD_ACL, request, handlers);
+    }
+
+    /**
+     * Gets notes for app administrators and their settings.
+     *
+     * @param app the App ID
+     * @return the response data. See {@link GetAdminNotesResponseBody}
+     */
+    public GetAdminNotesResponseBody getAdminNotes(long app) {
+        GetAdminNotesRequest req = new GetAdminNotesRequest();
+        req.setApp(app);
+        return this.getAdminNotes(req);
+    }
+
+    /**
+     * Gets notes for app administrators and their settings.
+     *
+     * @param request the request parameters. See {@link GetAdminNotesRequest}
+     * @return the response data. See {@link GetAdminNotesResponseBody}
+     */
+    public GetAdminNotesResponseBody getAdminNotes(GetAdminNotesRequest request) {
+        return client.call(KintoneApi.GET_APP_ADMIN_NOTES, request, handlers);
+    }
+
+    /**
+     * Gets notes for app administrators and their settings. This API retrieves the pre-live settings
+     * that have not yet been deployed to the live App.
+     *
+     * @param app the App ID
+     * @return the response data. See {@link GetAdminNotesPreviewResponseBody}
+     */
+    public GetAdminNotesPreviewResponseBody getAdminNotesPreview(long app) {
+        GetAdminNotesPreviewRequest req = new GetAdminNotesPreviewRequest();
+        req.setApp(app);
+        return this.getAdminNotesPreview(req);
+    }
+
+    /**
+     * Gets notes for app administrators and their settings. This API retrieves the pre-live settings
+     * that have not yet been deployed to the live App.
+     *
+     * @param request the request parameters. See {@link GetAdminNotesPreviewRequest}
+     * @return the response data. See {@link GetAdminNotesPreviewResponseBody}
+     */
+    public GetAdminNotesPreviewResponseBody getAdminNotesPreview(
+            GetAdminNotesPreviewRequest request) {
+        return client.call(KintoneApi.GET_APP_ADMIN_NOTES_PREVIEW, request, handlers);
     }
 
     /**
@@ -989,6 +964,77 @@ public class AppClient {
     }
 
     /**
+     * Gets the list of Plug-ins added to an App.
+     *
+     * @param app the App ID
+     * @return a list of AppPlugin objects.
+     */
+    public List<AppPlugin> getPlugins(long app) {
+        return getPlugins(app, null);
+    }
+
+    /**
+     * Gets the list of Plug-ins added to an App.
+     *
+     * @param app the App ID
+     * @param lang the localization language setting
+     * @return a list of AppPlugin objects.
+     */
+    public List<AppPlugin> getPlugins(long app, String lang) {
+        GetAppPluginsRequest req = new GetAppPluginsRequest();
+        req.setApp(app);
+        req.setLang(lang);
+        return getPlugins(req).getPlugins();
+    }
+
+    /**
+     * Gets the list of Plug-ins added to an App.
+     *
+     * @param request the request parameters. See {@link GetAppPluginsRequest}
+     * @return the response data. See {@link GetAppPluginsResponseBody}
+     */
+    public GetAppPluginsResponseBody getPlugins(GetAppPluginsRequest request) {
+        return client.call(KintoneApi.GET_APP_PLUGINS, request, handlers);
+    }
+
+    /**
+     * Gets the list of Plug-ins added to an App. This API retrieves the pre-live settings that have
+     * not yet been deployed to the live App.
+     *
+     * @param app the App ID
+     * @return a list of AppPlugin objects.
+     */
+    public List<AppPlugin> getPluginsPreview(long app) {
+        return getPluginsPreview(app, null);
+    }
+
+    /**
+     * Gets the list of Plug-ins added to an App. This API retrieves the pre-live settings that have
+     * not yet been deployed to the live App.
+     *
+     * @param app the App ID
+     * @param lang the localization language setting
+     * @return a list of AppPlugin objects.
+     */
+    public List<AppPlugin> getPluginsPreview(long app, String lang) {
+        GetAppPluginsPreviewRequest req = new GetAppPluginsPreviewRequest();
+        req.setApp(app);
+        req.setLang(lang);
+        return getPluginsPreview(req).getPlugins();
+    }
+
+    /**
+     * Gets the list of Plug-ins added to an App. This API retrieves the pre-live settings that have
+     * not yet been deployed to the live App.
+     *
+     * @param request the request parameters. See {@link GetAppPluginsPreviewRequest}
+     * @return the response data. See {@link GetAppPluginsPreviewResponseBody}
+     */
+    public GetAppPluginsPreviewResponseBody getPluginsPreview(GetAppPluginsPreviewRequest request) {
+        return client.call(KintoneApi.GET_APP_PLUGINS_PREVIEW, request, handlers);
+    }
+
+    /**
      * Gets the process management settings of an App.
      *
      * @param app the App ID
@@ -1358,6 +1404,30 @@ public class AppClient {
     }
 
     /**
+     * Changes the Space to which an App belongs.
+     *
+     * @param app the App ID
+     * @param space the Space ID of where the App will be moved to.
+     */
+    public void move(long app, Long space) {
+        MoveAppRequest req = new MoveAppRequest();
+        req.setApp(app);
+        req.setSpace(space);
+        move(req);
+    }
+
+    /**
+     * Changes the Space to which an App belongs.
+     *
+     * @param request the request parameters. See {@link MoveAppRequest}
+     * @return the response data. To remove an App from its current space, null can be specified. See
+     *     {@link MoveAppResponseBody}
+     */
+    public MoveAppResponseBody move(MoveAppRequest request) {
+        return client.call(KintoneApi.MOVE_APP_TO_SPACE, request, handlers);
+    }
+
+    /**
      * Cancel all changes made to the pre-live settings. The pre-live settings will be reverted back
      * to the current settings of the live app.
      *
@@ -1376,6 +1446,16 @@ public class AppClient {
      */
     public void revertApp(long app, Long revision) {
         deployApp(app, revision, true);
+    }
+
+    /**
+     * Updates the notes for App administrators and their settings.
+     *
+     * @param request the request parameters. See {@link UpdateAdminNotesRequest}
+     * @return the response data. See {@link UpdateAdminNotesResponseBody}
+     */
+    public UpdateAdminNotesResponseBody updateAdminNotes(UpdateAdminNotesRequest request) {
+        return client.call(KintoneApi.UPDATE_APP_ADMIN_NOTES, request, handlers);
     }
 
     /**

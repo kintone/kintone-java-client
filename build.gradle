@@ -15,7 +15,6 @@ archivesBaseName = 'kintone-java-client'
 description = 'API client library for Kintone REST APIs on Java.'
 
 repositories {
-    jcenter()
     mavenCentral()
 }
 
