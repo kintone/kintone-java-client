@@ -17,7 +17,7 @@ import java.util.Set;
 /**
  * A {@link Record} represents a Record data.
  *
- * <h3>Retrieved Records</h3>
+ * <h2>Retrieved Records</h2>
  *
  * This class is used as the responded record objects of GET Record API and GET Records API.
  *
@@ -43,7 +43,7 @@ import java.util.Set;
  * records.get(0).getFieldValue("field2"); // also, null
  * }</pre>
  *
- * <h3>Modifying Records</h3>
+ * <h2>Modifying Records</h2>
  *
  * To add or update records, setup record objects with {@link #Record()} and {@link
  * #putField(String, FieldValue)}.
