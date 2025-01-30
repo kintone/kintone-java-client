@@ -2,7 +2,6 @@ package com.kintone.client;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.google.common.collect.Lists;
 import com.kintone.client.api.app.*;
 import com.kintone.client.model.Entity;
 import com.kintone.client.model.EntityType;
@@ -44,6 +43,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 
 public class AppClientTest {
@@ -670,6 +670,7 @@ public class AppClientTest {
                         true,
                         true,
                         true,
+                        true,
                         10L);
         mockClient.setResponseBody(resp);
 
@@ -690,6 +691,7 @@ public class AppClientTest {
                         new TitleFiled().setSelectionMode(TitleFieldSelectionMode.AUTO),
                         new NumberPrecision().setDigits(40).setDecimalPlaces(10),
                         4,
+                        true,
                         true,
                         true,
                         true,
@@ -719,6 +721,7 @@ public class AppClientTest {
                         true,
                         true,
                         true,
+                        true,
                         1);
         mockClient.setResponseBody(resp);
 
@@ -738,6 +741,7 @@ public class AppClientTest {
                         new TitleFiled().setSelectionMode(TitleFieldSelectionMode.AUTO),
                         new NumberPrecision().setDigits(40).setDecimalPlaces(10),
                         4,
+                        true,
                         true,
                         true,
                         true,
@@ -766,6 +770,7 @@ public class AppClientTest {
                         true,
                         true,
                         true,
+                        true,
                         10L);
         mockClient.setResponseBody(resp);
 
@@ -787,6 +792,7 @@ public class AppClientTest {
                         new TitleFiled().setSelectionMode(TitleFieldSelectionMode.AUTO),
                         new NumberPrecision().setDigits(40).setDecimalPlaces(10),
                         4,
+                        true,
                         true,
                         true,
                         true,
