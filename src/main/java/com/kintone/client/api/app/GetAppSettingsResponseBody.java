@@ -43,6 +43,9 @@ public class GetAppSettingsResponseBody implements KintoneResponseBody {
     /** The "duplicate record" feature is enabled. */
     private final boolean enableDuplicateRecord;
 
+    /** The inline record editing feature is enabled. */
+    private final boolean enableInlineRecordEditing;
+
     /** The revision number of the App settings. */
     private final long revision;
 }

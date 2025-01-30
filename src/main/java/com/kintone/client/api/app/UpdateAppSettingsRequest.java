@@ -71,6 +71,12 @@ public class UpdateAppSettingsRequest implements KintoneRequest {
     private Boolean enableDuplicateRecord;
 
     /**
+     * The on/off settings of inline record editing feature (optional). If set to null, leaves this
+     * setting unchanged.
+     */
+    private Boolean enableInlineRecordEditing;
+
+    /**
      * The expected revision number of the App settings (optional). The request will fail if the
      * revision number is not the latest revision. The revision will not be checked if this parameter
      * is null, or -1 is specified.
