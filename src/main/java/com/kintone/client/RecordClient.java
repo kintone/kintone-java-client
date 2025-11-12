@@ -38,6 +38,7 @@ import com.kintone.client.model.record.Record;
 import com.kintone.client.model.record.RecordComment;
 import com.kintone.client.model.record.RecordForUpdate;
 import com.kintone.client.model.record.RecordRevision;
+import com.kintone.client.model.record.RecordUpdateResult;
 import com.kintone.client.model.record.StatusAction;
 import com.kintone.client.model.record.UpdateKey;
 import java.util.List;
@@ -516,9 +517,9 @@ public class RecordClient {
      *
      * @param app the App ID
      * @param records a list of objects that include id/updateKey, revision and record objects
-     * @return a list of record revisions. See {@link RecordRevision}
+     * @return a list of record update results. See {@link RecordUpdateResult}
      */
-    public List<RecordRevision> updateRecords(long app, List<RecordForUpdate> records) {
+    public List<RecordUpdateResult> updateRecords(long app, List<RecordForUpdate> records) {
         UpdateRecordsRequest req = new UpdateRecordsRequest();
         req.setApp(app);
         req.setRecords(records);

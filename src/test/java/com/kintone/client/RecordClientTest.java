@@ -39,7 +39,8 @@ import com.kintone.client.model.Order;
 import com.kintone.client.model.record.Record;
 import com.kintone.client.model.record.RecordComment;
 import com.kintone.client.model.record.RecordForUpdate;
-import com.kintone.client.model.record.RecordRevision;
+import com.kintone.client.model.record.RecordOperationType;
+import com.kintone.client.model.record.RecordUpdateResult;
 import com.kintone.client.model.record.StatusAction;
 import com.kintone.client.model.record.UpdateKey;
 import java.util.Arrays;
@@ -525,12 +526,19 @@ public class RecordClientTest {
     public void updateRecords_long_List() {
         RecordForUpdate up1 = new RecordForUpdate(1L, new Record());
         RecordForUpdate up2 = new RecordForUpdate(new UpdateKey("text", "test"), new Record());
-        RecordRevision rev1 = new RecordRevision(1, 2);
-        RecordRevision rev2 = new RecordRevision(100, 2);
-        mockClient.setResponseBody(new UpdateRecordsResponseBody(Arrays.asList(rev1, rev2)));
+        RecordUpdateResult result1 = new RecordUpdateResult(1, 2, RecordOperationType.UPDATE);
+        RecordUpdateResult result2 = new RecordUpdateResult(100, 2, RecordOperationType.INSERT);
+        mockClient.setResponseBody(new UpdateRecordsResponseBody(Arrays.asList(result1, result2)));
 
         List<RecordForUpdate> records = Arrays.asList(up1, up2);
-        assertThat(sut.updateRecords(1, records)).containsExactly(rev1, rev2);
+        List<RecordUpdateResult> result = sut.updateRecords(1, records);
+        assertThat(result).hasSize(2);
+        assertThat(result.get(0).getId()).isEqualTo(1);
+        assertThat(result.get(0).getRevision()).isEqualTo(2);
+        assertThat(result.get(0).getOperation()).isEqualTo(RecordOperationType.UPDATE);
+        assertThat(result.get(1).getId()).isEqualTo(100);
+        assertThat(result.get(1).getRevision()).isEqualTo(2);
+        assertThat(result.get(1).getOperation()).isEqualTo(RecordOperationType.INSERT);
         assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_RECORDS);
         assertThat(mockClient.getLastBody()).isInstanceOf(UpdateRecordsRequest.class);
         UpdateRecordsRequest expected = new UpdateRecordsRequest().setApp(1L).setRecords(records);
