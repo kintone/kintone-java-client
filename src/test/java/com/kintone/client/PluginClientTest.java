@@ -75,11 +75,7 @@ public class PluginClientTest {
         assertThat(sut.getInstalledPlugins(ids, 0L, 1L)).isEqualTo(resp);
         assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_PLUGINS);
         assertThat(mockClient.getLastBody())
-                .isEqualTo(
-                        new GetInstalledPluginsRequest()
-                                .setIds(ids)
-                                .setOffset(0L)
-                                .setLimit(1L));
+                .isEqualTo(new GetInstalledPluginsRequest().setIds(ids).setOffset(0L).setLimit(1L));
     }
 
     @Test
