@@ -17,4 +17,7 @@ public class Plugin {
 
     /** The version number of the plug-in. */
     private final String version;
+
+    /** The description of the plug-in. Returns an empty string when not set. */
+    private final String description;
 }
