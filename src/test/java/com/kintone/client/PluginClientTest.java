@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.kintone.client.api.plugin.*;
 import com.kintone.client.model.plugin.App;
 import com.kintone.client.model.plugin.Plugin;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -40,6 +41,7 @@ public class PluginClientTest {
     @Test
     public void getInstalledPlugins_Request() {
         GetInstalledPluginsRequest req = new GetInstalledPluginsRequest();
+        req.setIds(Arrays.asList("plugin1", "plugin2"));
         req.setOffset(5L);
         req.setLimit(50L);
         List<Plugin> plugins = Collections.emptyList();
@@ -49,6 +51,35 @@ public class PluginClientTest {
         assertThat(sut.getInstalledPlugins(req)).isEqualTo(resp);
         assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_PLUGINS);
         assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void getInstalledPlugins_List() {
+        List<String> ids = Arrays.asList("plugin1", "plugin2");
+        List<Plugin> plugins = Collections.emptyList();
+        GetInstalledPluginsResponseBody resp = new GetInstalledPluginsResponseBody(plugins);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getInstalledPlugins(ids)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_PLUGINS);
+        assertThat(mockClient.getLastBody()).isEqualTo(new GetInstalledPluginsRequest().setIds(ids));
+    }
+
+    @Test
+    public void getInstalledPlugins_AllParams() {
+        List<String> ids = Arrays.asList("plugin1", "plugin2");
+        List<Plugin> plugins = Collections.emptyList();
+        GetInstalledPluginsResponseBody resp = new GetInstalledPluginsResponseBody(plugins);
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getInstalledPlugins(ids, 0L, 1L)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_PLUGINS);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(
+                        new GetInstalledPluginsRequest()
+                                .setIds(ids)
+                                .setOffset(0L)
+                                .setLimit(1L));
     }
 
     @Test
