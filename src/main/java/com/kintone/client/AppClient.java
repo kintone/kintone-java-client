@@ -1404,10 +1404,20 @@ public class AppClient {
     }
 
     /**
+     * Removes an App from its current Space.
+     *
+     * @param app the App ID
+     */
+    public void move(long app) {
+        move(app, null);
+    }
+
+    /**
      * Changes the Space to which an App belongs.
      *
      * @param app the App ID
-     * @param space the Space ID of where the App will be moved to.
+     * @param space the Space ID of where the App will be moved to. If set to null, the App will be
+     *     removed from its current space.
      */
     public void move(long app, Long space) {
         MoveAppRequest req = new MoveAppRequest();
@@ -1420,8 +1430,7 @@ public class AppClient {
      * Changes the Space to which an App belongs.
      *
      * @param request the request parameters. See {@link MoveAppRequest}
-     * @return the response data. To remove an App from its current space, null can be specified. See
-     *     {@link MoveAppResponseBody}
+     * @return the response data. See {@link MoveAppResponseBody}
      */
     public MoveAppResponseBody move(MoveAppRequest request) {
         return client.call(KintoneApi.MOVE_APP_TO_SPACE, request, handlers);

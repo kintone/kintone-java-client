@@ -1545,6 +1545,17 @@ public class AppClientTest {
     }
 
     @Test
+    public void moveToSpace_long() {
+        mockClient.setResponseBody(new MoveAppResponseBody());
+
+        sut.move(1);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.MOVE_APP_TO_SPACE);
+        assertThat(mockClient.getLastBody())
+                .usingRecursiveComparison()
+                .isEqualTo(new MoveAppRequest().setApp(1L).setSpace(null));
+    }
+
+    @Test
     public void moveToSpace_long_long() {
         mockClient.setResponseBody(new MoveAppResponseBody());
 
