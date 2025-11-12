@@ -18,6 +18,8 @@ import com.kintone.client.api.space.GetSpaceMembersRequest;
 import com.kintone.client.api.space.GetSpaceMembersResponseBody;
 import com.kintone.client.api.space.GetSpaceRequest;
 import com.kintone.client.api.space.GetSpaceResponseBody;
+import com.kintone.client.api.space.GetSpacesStatisticsRequest;
+import com.kintone.client.api.space.GetSpacesStatisticsResponseBody;
 import com.kintone.client.api.space.UpdateSpaceBodyRequest;
 import com.kintone.client.api.space.UpdateSpaceBodyResponseBody;
 import com.kintone.client.api.space.UpdateSpaceGuestsRequest;
@@ -361,6 +363,31 @@ public class SpaceClientTest {
 
         assertThat(sut.updateThread(req)).isEqualTo(resp);
         assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_THREAD);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void getStatistics() {
+        GetSpacesStatisticsResponseBody resp =
+                new GetSpacesStatisticsResponseBody(Collections.emptyList());
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getStatistics()).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_SPACES_STATISTICS);
+        assertThat(mockClient.getLastBody()).isEqualTo(new GetSpacesStatisticsRequest());
+    }
+
+    @Test
+    public void getStatistics_GetSpacesStatisticsRequest() {
+        GetSpacesStatisticsRequest req = new GetSpacesStatisticsRequest();
+        req.setOffset(10L);
+        req.setLimit(50L);
+        GetSpacesStatisticsResponseBody resp =
+                new GetSpacesStatisticsResponseBody(Collections.emptyList());
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getStatistics(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_SPACES_STATISTICS);
         assertThat(mockClient.getLastBody()).isEqualTo(req);
     }
 }
