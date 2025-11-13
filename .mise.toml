@@ -2,4 +2,4 @@
 # JAVA_HOME は mise が自動設定
 
 [tools]
-java = 'corretto-17'
+java = 'corretto-8'
