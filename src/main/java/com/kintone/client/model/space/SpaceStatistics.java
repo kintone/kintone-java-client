@@ -1,6 +1,7 @@
 package com.kintone.client.model.space;
 
 import com.kintone.client.model.User;
+import java.time.ZonedDateTime;
 import lombok.Value;
 
 /** A model object for space statistics. */
@@ -37,11 +38,11 @@ public class SpaceStatistics {
     private final User creator;
 
     /** The created date time of the Space. */
-    private final String createdAt;
+    private final ZonedDateTime createdAt;
 
     /** An object containing information of the updater of the Space. */
     private final User modifier;
 
     /** The updated date time of the Space. */
-    private final String modifiedAt;
+    private final ZonedDateTime modifiedAt;
 }
