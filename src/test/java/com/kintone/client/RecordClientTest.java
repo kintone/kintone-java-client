@@ -541,7 +541,8 @@ public class RecordClientTest {
         assertThat(result.get(1).getOperation()).isEqualTo(RecordOperationType.INSERT);
         assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_RECORDS);
         assertThat(mockClient.getLastBody()).isInstanceOf(UpdateRecordsRequest.class);
-        UpdateRecordsRequest expected = new UpdateRecordsRequest().setApp(1L).setRecords(records);
+        UpdateRecordsRequest expected =
+                new UpdateRecordsRequest().setApp(1L).setRecords(records).setUpsert(false);
         assertThat(mockClient.getLastBody()).usingRecursiveComparison().isEqualTo(expected);
     }
 
@@ -554,6 +555,30 @@ public class RecordClientTest {
         assertThat(sut.updateRecords(req)).isEqualTo(resp);
         assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_RECORDS);
         assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void upsertRecords_long_List() {
+        RecordForUpdate up1 = new RecordForUpdate(1L, new Record());
+        RecordForUpdate up2 = new RecordForUpdate(new UpdateKey("text", "test"), new Record());
+        RecordUpdateResult result1 = new RecordUpdateResult(1, 2, RecordOperationType.UPDATE);
+        RecordUpdateResult result2 = new RecordUpdateResult(100, 2, RecordOperationType.INSERT);
+        mockClient.setResponseBody(new UpdateRecordsResponseBody(Arrays.asList(result1, result2)));
+
+        List<RecordForUpdate> records = Arrays.asList(up1, up2);
+        List<RecordUpdateResult> result = sut.upsertRecords(1, records);
+        assertThat(result).hasSize(2);
+        assertThat(result.get(0).getId()).isEqualTo(1);
+        assertThat(result.get(0).getRevision()).isEqualTo(2);
+        assertThat(result.get(0).getOperation()).isEqualTo(RecordOperationType.UPDATE);
+        assertThat(result.get(1).getId()).isEqualTo(100);
+        assertThat(result.get(1).getRevision()).isEqualTo(2);
+        assertThat(result.get(1).getOperation()).isEqualTo(RecordOperationType.INSERT);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.UPDATE_RECORDS);
+        assertThat(mockClient.getLastBody()).isInstanceOf(UpdateRecordsRequest.class);
+        UpdateRecordsRequest expected =
+                new UpdateRecordsRequest().setApp(1L).setRecords(records).setUpsert(true);
+        assertThat(mockClient.getLastBody()).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test

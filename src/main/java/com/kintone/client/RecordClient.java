@@ -523,6 +523,7 @@ public class RecordClient {
         UpdateRecordsRequest req = new UpdateRecordsRequest();
         req.setApp(app);
         req.setRecords(records);
+        req.setUpsert(false);
         return updateRecords(req).getRecords();
     }
 
@@ -534,6 +535,23 @@ public class RecordClient {
      */
     public UpdateRecordsResponseBody updateRecords(UpdateRecordsRequest request) {
         return client.call(KintoneApi.UPDATE_RECORDS, request, handlers);
+    }
+
+    /**
+     * Inserts or updates details of multiple records in an App, by specifying their record numbers,
+     * or their unique keys. If the record exists, it will be updated. If it does not exist, a new
+     * record will be created.
+     *
+     * @param app the App ID
+     * @param records a list of objects that include id/updateKey, revision and record objects
+     * @return a list of record update results. See {@link RecordUpdateResult}
+     */
+    public List<RecordUpdateResult> upsertRecords(long app, List<RecordForUpdate> records) {
+        UpdateRecordsRequest req = new UpdateRecordsRequest();
+        req.setApp(app);
+        req.setRecords(records);
+        req.setUpsert(true);
+        return updateRecords(req).getRecords();
     }
 
     /**
