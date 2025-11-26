@@ -28,7 +28,7 @@ public class PluginClient {
      * @return the response data. See {@link GetInstalledPluginsResponseBody}
      */
     public GetInstalledPluginsResponseBody getInstalledPlugins() {
-        return getInstalledPlugins(null, null);
+        return getInstalledPlugins(null, null, null);
     }
 
     /**
@@ -39,7 +39,31 @@ public class PluginClient {
      * @return the response data. See {@link GetInstalledPluginsResponseBody}
      */
     public GetInstalledPluginsResponseBody getInstalledPlugins(Long offset, Long limit) {
+        return getInstalledPlugins(null, offset, limit);
+    }
+
+    /**
+     * Gets the list of plug-ins imported into Kintone.
+     *
+     * @param ids The plugin IDs to retrieve. Up to 100 plugin IDs can be specified.
+     * @return the response data. See {@link GetInstalledPluginsResponseBody}
+     */
+    public GetInstalledPluginsResponseBody getInstalledPlugins(List<String> ids) {
+        return getInstalledPlugins(ids, null, null);
+    }
+
+    /**
+     * Gets the list of plug-ins imported into Kintone.
+     *
+     * @param ids The plugin IDs to retrieve. Up to 100 plugin IDs can be specified.
+     * @param offset The number of plug-ins to skip from the list of installed plug-ins.
+     * @param limit The maximum number of plug-ins to retrieve.
+     * @return the response data. See {@link GetInstalledPluginsResponseBody}
+     */
+    public GetInstalledPluginsResponseBody getInstalledPlugins(
+            List<String> ids, Long offset, Long limit) {
         GetInstalledPluginsRequest request = new GetInstalledPluginsRequest();
+        request.setIds(ids);
         request.setOffset(offset);
         request.setLimit(limit);
         return getInstalledPlugins(request);
