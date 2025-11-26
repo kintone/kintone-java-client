@@ -11,8 +11,8 @@ public class MoveAppRequest implements KintoneRequest {
     private Long app;
 
     /**
-     * The Space ID of where the App will be moved to (required). To remove an App from its current
-     * space, null can be specified.
+     * The Space ID of where the App will be moved to (optional). If set to null or not set, the App
+     * will be removed from its current space.
      */
     private Long space;
 }
