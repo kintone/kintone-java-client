@@ -23,6 +23,7 @@ import com.kintone.client.api.app.GetAppResponseBody;
 import com.kintone.client.api.app.GetAppSettingsPreviewResponseBody;
 import com.kintone.client.api.app.GetAppSettingsResponseBody;
 import com.kintone.client.api.app.GetAppsResponseBody;
+import com.kintone.client.api.app.GetAppsStatisticsResponseBody;
 import com.kintone.client.api.app.GetDeployStatusResponseBody;
 import com.kintone.client.api.app.GetFieldAclPreviewResponseBody;
 import com.kintone.client.api.app.GetFieldAclResponseBody;
@@ -160,6 +161,7 @@ public enum KintoneApi {
     UPDATE_VIEWS(PUT, "preview/app/views", UpdateViewsResponseBody.class),
     GET_APP(GET, "app", GetAppResponseBody.class),
     GET_APPS(GET, "apps", GetAppsResponseBody.class),
+    GET_APPS_STATISTICS(GET, "apps/statistics", GetAppsStatisticsResponseBody.class),
     ADD_APP(POST, "preview/app", AddAppResponseBody.class),
     GET_APP_SETTINGS(GET, "app/settings", GetAppSettingsResponseBody.class),
     GET_APP_SETTINGS_PREVIEW(GET, "preview/app/settings", GetAppSettingsPreviewResponseBody.class),

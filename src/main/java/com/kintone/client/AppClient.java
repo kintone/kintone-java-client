@@ -6,6 +6,7 @@ import com.kintone.client.model.app.App;
 import com.kintone.client.model.app.AppAction;
 import com.kintone.client.model.app.AppPlugin;
 import com.kintone.client.model.app.AppRightEntity;
+import com.kintone.client.model.app.AppStatistics;
 import com.kintone.client.model.app.DeployApp;
 import com.kintone.client.model.app.DeployStatus;
 import com.kintone.client.model.app.EvaluatedRecordRight;
@@ -574,6 +575,25 @@ public class AppClient {
         GetAppsRequest req = new GetAppsRequest();
         req.setIds(ids);
         return getApps(req).getApps();
+    }
+
+    /**
+     * Gets usage statistics information of multiple Apps.
+     *
+     * @param request the request parameters. See {@link GetAppsStatisticsRequest}
+     * @return the response data. See {@link GetAppsStatisticsResponseBody}
+     */
+    public GetAppsStatisticsResponseBody getStatistics(GetAppsStatisticsRequest request) {
+        return client.call(KintoneApi.GET_APPS_STATISTICS, request, handlers);
+    }
+
+    /**
+     * Gets usage statistics information of multiple Apps.
+     *
+     * @return a list of objects that contain usage statistics information of Apps
+     */
+    public List<AppStatistics> getStatistics() {
+        return getStatistics(new GetAppsStatisticsRequest()).getApps();
     }
 
     /**

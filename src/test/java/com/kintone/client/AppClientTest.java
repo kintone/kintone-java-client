@@ -97,6 +97,29 @@ public class AppClientTest {
         return new App(1L, "app", "App1", "", null, null, time, user, time, user);
     }
 
+    private com.kintone.client.model.app.AppStatistics createTestAppStatistics() {
+        ZonedDateTime time = ZonedDateTime.of(2020, 1, 1, 0, 0, 0, 0, ZoneOffset.UTC);
+        User user = new User("User", "user");
+        com.kintone.client.model.app.AppSpace space =
+                new com.kintone.client.model.app.AppSpace(1L, "Test Space");
+        return new com.kintone.client.model.app.AppStatistics(
+                1L,
+                "App1",
+                space,
+                "group1",
+                com.kintone.client.model.app.AppStatisticsStatus.ACTIVATED,
+                time,
+                100L,
+                10L,
+                1000L,
+                500L,
+                true,
+                user,
+                time,
+                user,
+                time);
+    }
+
     private List<AppRightEntity> createTestAppRightEntities() {
         return Collections.singletonList(createTestAppRightEntity());
     }
@@ -653,6 +676,28 @@ public class AppClientTest {
                                 .setLimit(null)
                                 .setName(null)
                                 .setSpaceIds(null));
+    }
+
+    @Test
+    public void getStatistics_GetAppsStatisticsRequest() {
+        GetAppsStatisticsRequest req = new GetAppsStatisticsRequest();
+        GetAppsStatisticsResponseBody resp = new GetAppsStatisticsResponseBody(Collections.emptyList());
+        mockClient.setResponseBody(resp);
+
+        assertThat(sut.getStatistics(req)).isEqualTo(resp);
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APPS_STATISTICS);
+        assertThat(mockClient.getLastBody()).isEqualTo(req);
+    }
+
+    @Test
+    public void getStatistics_noArg() {
+        mockClient.setResponseBody(
+                new GetAppsStatisticsResponseBody(Collections.singletonList(createTestAppStatistics())));
+
+        assertThat(sut.getStatistics()).containsExactly(createTestAppStatistics());
+        assertThat(mockClient.getLastApi()).isEqualTo(KintoneApi.GET_APPS_STATISTICS);
+        assertThat(mockClient.getLastBody())
+                .isEqualTo(new GetAppsStatisticsRequest().setOffset(null).setLimit(null));
     }
 
     @Test
