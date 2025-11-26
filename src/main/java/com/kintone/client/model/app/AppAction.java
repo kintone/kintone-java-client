@@ -29,4 +29,10 @@ public class AppAction {
 
     /** An array of objects containing the entities the Action is granted to. */
     private List<Entity> entities;
+
+    /**
+     * A query string for the conditions under which the Action can be executed. If an empty string is
+     * specified, the Action can be executed for all records.
+     */
+    private String filterCond;
 }
