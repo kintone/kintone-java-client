@@ -93,6 +93,7 @@ import com.kintone.client.api.space.DeleteGuestsResponseBody;
 import com.kintone.client.api.space.DeleteSpaceResponseBody;
 import com.kintone.client.api.space.GetSpaceMembersResponseBody;
 import com.kintone.client.api.space.GetSpaceResponseBody;
+import com.kintone.client.api.space.GetSpacesStatisticsResponseBody;
 import com.kintone.client.api.space.UpdateSpaceBodyResponseBody;
 import com.kintone.client.api.space.UpdateSpaceGuestsResponseBody;
 import com.kintone.client.api.space.UpdateSpaceMembersResponseBody;
@@ -201,6 +202,7 @@ public enum KintoneApi {
     GET_DEPLOY_STATUS(GET, "preview/app/deploy", GetDeployStatusResponseBody.class),
     DEPLOY_APP(POST, "preview/app/deploy", DeployAppResponseBody.class),
     GET_SPACE(GET, "space", GetSpaceResponseBody.class),
+    GET_SPACES_STATISTICS(GET, "spaces/statistics", GetSpacesStatisticsResponseBody.class),
     UPDATE_SPACE(PUT, "space", UpdateSpaceResponseBody.class),
     DELETE_SPACE(DELETE, "space", DeleteSpaceResponseBody.class),
     ADD_SPACE_FROM_TEMPLATE(POST, "template/space", AddSpaceFromTemplateResponseBody.class),

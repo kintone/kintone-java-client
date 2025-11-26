@@ -16,6 +16,8 @@ import com.kintone.client.api.space.GetSpaceMembersRequest;
 import com.kintone.client.api.space.GetSpaceMembersResponseBody;
 import com.kintone.client.api.space.GetSpaceRequest;
 import com.kintone.client.api.space.GetSpaceResponseBody;
+import com.kintone.client.api.space.GetSpacesStatisticsRequest;
+import com.kintone.client.api.space.GetSpacesStatisticsResponseBody;
 import com.kintone.client.api.space.UpdateSpaceBodyRequest;
 import com.kintone.client.api.space.UpdateSpaceBodyResponseBody;
 import com.kintone.client.api.space.UpdateSpaceGuestsRequest;
@@ -191,6 +193,25 @@ public class SpaceClient {
      */
     public GetSpaceResponseBody getSpace(GetSpaceRequest request) {
         return client.call(KintoneApi.GET_SPACE, request, handlers);
+    }
+
+    /**
+     * Gets space usage statistics.
+     *
+     * @return the response data. See {@link GetSpacesStatisticsResponseBody}
+     */
+    public GetSpacesStatisticsResponseBody getStatistics() {
+        return getStatistics(new GetSpacesStatisticsRequest());
+    }
+
+    /**
+     * Gets space usage statistics.
+     *
+     * @param request the request parameters. See {@link GetSpacesStatisticsRequest}
+     * @return the response data. See {@link GetSpacesStatisticsResponseBody}
+     */
+    public GetSpacesStatisticsResponseBody getStatistics(GetSpacesStatisticsRequest request) {
+        return client.call(KintoneApi.GET_SPACES_STATISTICS, request, handlers);
     }
 
     /**
