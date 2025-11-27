@@ -2,7 +2,10 @@ package com.kintone.client.model.record;
 
 import lombok.Value;
 
-/** A value that contains the record ID and the revision, returned by Update Record Statuses API. */
+/**
+ * A value that contains the record ID and the revision, returned by Update Records API and Update
+ * Record Statuses API.
+ */
 @Value
 public class RecordRevision {
 

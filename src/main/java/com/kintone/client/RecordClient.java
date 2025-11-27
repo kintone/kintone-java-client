@@ -32,13 +32,15 @@ import com.kintone.client.api.record.UpdateRecordStatusesRequest;
 import com.kintone.client.api.record.UpdateRecordStatusesResponseBody;
 import com.kintone.client.api.record.UpdateRecordsRequest;
 import com.kintone.client.api.record.UpdateRecordsResponseBody;
+import com.kintone.client.api.record.UpsertRecordsRequest;
+import com.kintone.client.api.record.UpsertRecordsResponseBody;
 import com.kintone.client.model.Order;
 import com.kintone.client.model.record.PostedRecordComment;
 import com.kintone.client.model.record.Record;
 import com.kintone.client.model.record.RecordComment;
 import com.kintone.client.model.record.RecordForUpdate;
 import com.kintone.client.model.record.RecordRevision;
-import com.kintone.client.model.record.RecordUpdateResult;
+import com.kintone.client.model.record.RecordUpsertResult;
 import com.kintone.client.model.record.StatusAction;
 import com.kintone.client.model.record.UpdateKey;
 import java.util.List;
@@ -517,13 +519,12 @@ public class RecordClient {
      *
      * @param app the App ID
      * @param records a list of objects that include id/updateKey, revision and record objects
-     * @return a list of record update results. See {@link RecordUpdateResult}
+     * @return a list of record revisions. See {@link RecordRevision}
      */
-    public List<RecordUpdateResult> updateRecords(long app, List<RecordForUpdate> records) {
+    public List<RecordRevision> updateRecords(long app, List<RecordForUpdate> records) {
         UpdateRecordsRequest req = new UpdateRecordsRequest();
         req.setApp(app);
         req.setRecords(records);
-        req.setUpsert(false);
         return updateRecords(req).getRecords();
     }
 
@@ -544,14 +545,23 @@ public class RecordClient {
      *
      * @param app the App ID
      * @param records a list of objects that include id/updateKey, revision and record objects
-     * @return a list of record update results. See {@link RecordUpdateResult}
+     * @return a list of record update results. See {@link RecordUpsertResult}
      */
-    public List<RecordUpdateResult> upsertRecords(long app, List<RecordForUpdate> records) {
-        UpdateRecordsRequest req = new UpdateRecordsRequest();
+    public List<RecordUpsertResult> upsertRecords(long app, List<RecordForUpdate> records) {
+        UpsertRecordsRequest req = new UpsertRecordsRequest();
         req.setApp(app);
         req.setRecords(records);
-        req.setUpsert(true);
-        return updateRecords(req).getRecords();
+        return upsertRecords(req).getRecords();
+    }
+
+    /**
+     * Inserts or updates details of multiple records in an App.
+     *
+     * @param request the request parameters. See {@link UpsertRecordsRequest}
+     * @return the response data. See {@link UpsertRecordsResponseBody}
+     */
+    public UpsertRecordsResponseBody upsertRecords(UpsertRecordsRequest request) {
+        return client.call(KintoneApi.UPSERT_RECORDS, request, handlers);
     }
 
     /**

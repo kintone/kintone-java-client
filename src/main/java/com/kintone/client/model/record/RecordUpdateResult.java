@@ -4,7 +4,7 @@ import lombok.Value;
 
 /** A value that contains the record ID, revision, and operation, returned by Update Records API. */
 @Value
-public class RecordUpdateResult {
+public class RecordUpsertResult {
 
     /** The Record ID */
     private final long id;
