@@ -32,12 +32,15 @@ import com.kintone.client.api.record.UpdateRecordStatusesRequest;
 import com.kintone.client.api.record.UpdateRecordStatusesResponseBody;
 import com.kintone.client.api.record.UpdateRecordsRequest;
 import com.kintone.client.api.record.UpdateRecordsResponseBody;
+import com.kintone.client.api.record.UpsertRecordsRequest;
+import com.kintone.client.api.record.UpsertRecordsResponseBody;
 import com.kintone.client.model.Order;
 import com.kintone.client.model.record.PostedRecordComment;
 import com.kintone.client.model.record.Record;
 import com.kintone.client.model.record.RecordComment;
 import com.kintone.client.model.record.RecordForUpdate;
 import com.kintone.client.model.record.RecordRevision;
+import com.kintone.client.model.record.RecordUpsertResult;
 import com.kintone.client.model.record.StatusAction;
 import com.kintone.client.model.record.UpdateKey;
 import java.util.List;
@@ -533,6 +536,32 @@ public class RecordClient {
      */
     public UpdateRecordsResponseBody updateRecords(UpdateRecordsRequest request) {
         return client.call(KintoneApi.UPDATE_RECORDS, request, handlers);
+    }
+
+    /**
+     * Inserts or updates details of multiple records in an App, by specifying their record numbers,
+     * or their unique keys. If the record exists, it will be updated. If it does not exist, a new
+     * record will be created.
+     *
+     * @param app the App ID
+     * @param records a list of objects that include id/updateKey, revision and record objects
+     * @return a list of record update results. See {@link RecordUpsertResult}
+     */
+    public List<RecordUpsertResult> upsertRecords(long app, List<RecordForUpdate> records) {
+        UpsertRecordsRequest req = new UpsertRecordsRequest();
+        req.setApp(app);
+        req.setRecords(records);
+        return upsertRecords(req).getRecords();
+    }
+
+    /**
+     * Inserts or updates details of multiple records in an App.
+     *
+     * @param request the request parameters. See {@link UpsertRecordsRequest}
+     * @return the response data. See {@link UpsertRecordsResponseBody}
+     */
+    public UpsertRecordsResponseBody upsertRecords(UpsertRecordsRequest request) {
+        return client.call(KintoneApi.UPSERT_RECORDS, request, handlers);
     }
 
     /**

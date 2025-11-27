@@ -85,6 +85,7 @@ import com.kintone.client.api.record.UpdateRecordResponseBody;
 import com.kintone.client.api.record.UpdateRecordStatusResponseBody;
 import com.kintone.client.api.record.UpdateRecordStatusesResponseBody;
 import com.kintone.client.api.record.UpdateRecordsResponseBody;
+import com.kintone.client.api.record.UpsertRecordsResponseBody;
 import com.kintone.client.api.schema.GetApiListResponseBody;
 import com.kintone.client.api.space.AddGuestsResponseBody;
 import com.kintone.client.api.space.AddSpaceFromTemplateResponseBody;
@@ -112,6 +113,7 @@ public enum KintoneApi {
     GET_RECORDS(GET, "records", GetRecordsResponseBody.class),
     ADD_RECORDS(POST, "records", AddRecordsResponseBody.class),
     UPDATE_RECORDS(PUT, "records", UpdateRecordsResponseBody.class),
+    UPSERT_RECORDS(PUT, "records", UpsertRecordsResponseBody.class),
     DELETE_RECORDS(DELETE, "records", DeleteRecordsResponseBody.class),
     CREATE_CURSOR(POST, "records/cursor", CreateCursorResponseBody.class),
     GET_RECORDS_BY_CURSOR(GET, "records/cursor", GetRecordsByCursorResponseBody.class),
