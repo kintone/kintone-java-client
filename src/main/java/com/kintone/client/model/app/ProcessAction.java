@@ -17,4 +17,10 @@ public class ProcessAction {
 
     /** The branch criteria of the action. */
     private String filterCond;
+
+    /** The type of the Action. */
+    private ProcessActionType type;
+
+    /** The executable users for SECONDARY type actions. */
+    private ProcessExecutableUser executableUser;
 }
