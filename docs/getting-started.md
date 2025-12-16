@@ -29,7 +29,7 @@ client.close();
 Add dependency declaration in `build.gradle` of your project.
 ```groovy
 dependencies {
-     implementation 'com.kintone:kintone-java-client:2.4.0'
+     implementation 'com.kintone:kintone-java-client:2.5.0'
 }
 ```
 
@@ -39,7 +39,7 @@ Add dependency declaration in `pom.xml` of your project.
 <dependency>
     <groupId>com.kintone</groupId>
     <artifactId>kintone-java-client</artifactId>
-    <version>2.4.0</version>
+    <version>2.5.0</version>
 </dependency>
 ```
 
