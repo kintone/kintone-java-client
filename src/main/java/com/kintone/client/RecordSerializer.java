@@ -253,6 +253,9 @@ class RecordSerializer extends StdSerializer<Record> {
         gen.writeArrayFieldStart("value");
         for (TableRow row : rows) {
             gen.writeStartObject();
+            if (row.getId() != null) {
+                gen.writeNumberField("id", row.getId());
+            }
             gen.writeObjectFieldStart("value");
             writeTableRow(row, gen);
             gen.writeEndObject();
