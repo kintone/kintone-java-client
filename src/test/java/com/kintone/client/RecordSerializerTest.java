@@ -418,6 +418,28 @@ public class RecordSerializerTest {
     }
 
     @Test
+    public void serialize_SUBTABLE_withId() throws IOException {
+        TableRow row1 = new TableRow(123L).putField("text", new SingleLineTextFieldValue("test 1"));
+        TableRow row2 = new TableRow(456L).putField("text", new SingleLineTextFieldValue("test 2"));
+        Record record = new Record().putField("table", new SubtableFieldValue(row1, row2));
+        String json = mapper.writeValueAsString(record);
+        assertThat(json)
+                .isEqualTo(
+                        "{\"table\":{\"value\":[{\"id\":123,\"value\":{\"text\":{\"value\":\"test 1\"}}},{\"id\":456,\"value\":{\"text\":{\"value\":\"test 2\"}}}]}}");
+    }
+
+    @Test
+    public void serialize_SUBTABLE_withAndWithoutId() throws IOException {
+        TableRow row1 = new TableRow(123L).putField("text", new SingleLineTextFieldValue("with id"));
+        TableRow row2 = new TableRow().putField("text", new SingleLineTextFieldValue("without id"));
+        Record record = new Record().putField("table", new SubtableFieldValue(row1, row2));
+        String json = mapper.writeValueAsString(record);
+        assertThat(json)
+                .isEqualTo(
+                        "{\"table\":{\"value\":[{\"id\":123,\"value\":{\"text\":{\"value\":\"with id\"}}},{\"value\":{\"text\":{\"value\":\"without id\"}}}]}}");
+    }
+
+    @Test
     public void serialize_TIME() throws IOException {
         Record record = new Record().putField("time", new TimeFieldValue(LocalTime.of(0, 0)));
         String json = mapper.writeValueAsString(record);
