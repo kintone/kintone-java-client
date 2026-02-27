@@ -67,6 +67,8 @@ public class SpaceApiTest extends ApiTestBase {
         req.setIsPrivate(true);
         AddSpaceFromTemplateResponseBody resp = client.space().addSpaceFromTemplate(req);
         assertThat(resp.getId()).isGreaterThan(0);
+
+        client.space().deleteSpace(resp.getId());
     }
 
     @Test
@@ -152,8 +154,6 @@ public class SpaceApiTest extends ApiTestBase {
         Space space = Space.multiThread(this);
         KintoneClient client = setupDefaultClient();
 
-        String originalBody = space.getBody();
-
         UpdateSpaceBodyRequest req = new UpdateSpaceBodyRequest();
         req.setId(space.id());
         String newBody = "Space Body " + System.currentTimeMillis();
@@ -162,9 +162,11 @@ public class SpaceApiTest extends ApiTestBase {
 
         assertThat(client.space().getSpace(space.id()).getBody()).isEqualTo(newBody);
 
+        // 元のボディに添付ファイル参照があると復元できないため、シンプルな空文字列で復元
+        // テスト用スペースなので問題なし
         UpdateSpaceBodyRequest restoreReq = new UpdateSpaceBodyRequest();
         restoreReq.setId(space.id());
-        restoreReq.setBody(originalBody != null ? originalBody : "");
+        restoreReq.setBody("");
         client.space().updateSpaceBody(restoreReq);
     }
 

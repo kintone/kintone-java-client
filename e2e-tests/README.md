@@ -35,6 +35,7 @@ Copy `.env.example` to `.env` and set the required values.
 | `KINTONE_TEST_USER` | Login name for the test user |
 | `KINTONE_TEST_PASSWORD` | Password for the test user |
 | `KINTONE_SPACE_ID`, etc. | See `.env.example` for details |
+| `KINTONE_TEST_APP_ID` | Pre-created app for E2E tests (see below) |
 
 ### Basic Authentication and Client Certificates
 
@@ -108,6 +109,3 @@ Classes like `app.AppApiTest` and `record.RecordApiTest` are provided. As tests 
 
 Only APIs that take `*Request` objects (e.g., `AddRecordRequest`) and return `*ResponseBody` objects (e.g., `AddRecordResponseBody`) are tested here. Other variations (taking appId or recordId directly) are covered by unit tests for request construction.
 
-### scenarios Package
-
-Contains tests that combine multiple APIs to verify end-to-end workflows.

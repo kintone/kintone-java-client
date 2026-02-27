@@ -4,12 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.kintone.client.ApiTestBase;
 import com.kintone.client.KintoneClient;
+import com.kintone.client.TestSettings;
 import com.kintone.client.Users;
 import com.kintone.client.api.common.BulkRequestsRequest;
 import com.kintone.client.api.common.BulkRequestsResponseBody;
 import com.kintone.client.api.record.*;
 import com.kintone.client.helper.App;
-import com.kintone.client.helper.Fields;
+import com.kintone.client.helper.ProcessManagementBuilder;
 import com.kintone.client.model.User;
 import com.kintone.client.model.app.field.FieldProperty;
 import com.kintone.client.model.record.*;
@@ -18,17 +19,55 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /** bulkRequestのテスト */
 public class BulkApiTest extends ApiTestBase {
+
+    private static final String TEXT_FIELD_CODE = "文字列__1行_";
+    private static final String KEY_FIELD_CODE = "key";
+
+    private KintoneClient client;
+    private App app;
+
+    @BeforeEach
+    public void setupApp() {
+        client = setupDefaultClient();
+        Long testAppId = TestSettings.get().getTestAppId();
+        if (testAppId != null) {
+            app = App.fromExisting(client, testAppId);
+        } else {
+            throw new IllegalStateException(
+                    "KINTONE_TEST_APP_ID is not set. Please create a test app and set the environment variable.");
+        }
+    }
+
+    @AfterEach
+    public void cleanupRecords() {
+        if (app != null) {
+            app.deleteAllRecords();
+        }
+    }
+
     @Test
     public void bulkRequests() {
-        KintoneClient client = setupDefaultClient();
-        FieldProperty key = Fields.text("key").setUnique(true);
-        FieldProperty field = Fields.text();
-        App app = App.create(client, "bulkRequests");
-        app.applyExampleProcessManagement().addFields(key, field).deploy();
+        // このテストにはプロセス管理が必要（ステータス変更を含むため）
+        app.applyExampleProcessManagement().deploy();
+
+        try {
+            bulkRequestsImpl();
+        } finally {
+            // プロセス管理を無効化してクリーンな状態に戻す
+            app.updateProcessManagement(new ProcessManagementBuilder().enable(false)).deploy();
+        }
+    }
+
+    private void bulkRequestsImpl() {
+        FieldProperty key = app.field(KEY_FIELD_CODE);
+        FieldProperty field = app.field(TEXT_FIELD_CODE);
+
         long recordId1 = app.addRecord(key, "aaa", field, "initial value 0");
         long recordId2 = app.addRecord(key, "bbb", field, "initial value 1");
         long recordId3 = app.addRecord(key, "ccc", field, "initial value 2");
@@ -41,12 +80,12 @@ public class BulkApiTest extends ApiTestBase {
 
         AddRecordRequest req1 = new AddRecordRequest();
         req1.setApp(app.id());
-        req1.setRecord(new Record().putField(field.getCode(), new SingleLineTextFieldValue("add")));
+        req1.setRecord(new Record().putField(TEXT_FIELD_CODE, new SingleLineTextFieldValue("add")));
         req.registerAddRecord(req1);
 
         AddRecordsRequest req2 = new AddRecordsRequest();
-        Record r1 = new Record().putField(field.getCode(), new SingleLineTextFieldValue("adds 1"));
-        Record r2 = new Record().putField(field.getCode(), new SingleLineTextFieldValue("adds 2"));
+        Record r1 = new Record().putField(TEXT_FIELD_CODE, new SingleLineTextFieldValue("adds 1"));
+        Record r2 = new Record().putField(TEXT_FIELD_CODE, new SingleLineTextFieldValue("adds 2"));
         req2.setApp(app.id());
         req2.setRecords(Arrays.asList(r1, r2));
         req.registerAddRecords(req2);
@@ -60,27 +99,27 @@ public class BulkApiTest extends ApiTestBase {
         UpdateRecordRequest req4 = new UpdateRecordRequest();
         req4.setApp(app.id());
         req4.setId(recordId2);
-        req4.setRecord(new Record().putField(field.getCode(), new SingleLineTextFieldValue("update")));
+        req4.setRecord(new Record().putField(TEXT_FIELD_CODE, new SingleLineTextFieldValue("update")));
         req4.setRevision(1L);
         req.registerUpdateRecord(req4);
 
         UpdateRecordRequest req5 = new UpdateRecordRequest();
         req5.setApp(app.id());
-        req5.setUpdateKey(new UpdateKey(key.getCode(), "ccc"));
+        req5.setUpdateKey(new UpdateKey(KEY_FIELD_CODE, "ccc"));
         req5.setRecord(
-                new Record().putField(field.getCode(), new SingleLineTextFieldValue("update by key")));
+                new Record().putField(TEXT_FIELD_CODE, new SingleLineTextFieldValue("update by key")));
         req5.setRevision(1L);
         req.registerUpdateRecord(req5);
 
         RecordForUpdate up1 =
                 new RecordForUpdate(
                         recordId4,
-                        new Record().putField(field.getCode(), new SingleLineTextFieldValue("updates 1")),
+                        new Record().putField(TEXT_FIELD_CODE, new SingleLineTextFieldValue("updates 1")),
                         1L);
         RecordForUpdate up2 =
                 new RecordForUpdate(
-                        new UpdateKey(key.getCode(), "eee"),
-                        new Record().putField(field.getCode(), new SingleLineTextFieldValue("updates 2")),
+                        new UpdateKey(KEY_FIELD_CODE, "eee"),
+                        new Record().putField(TEXT_FIELD_CODE, new SingleLineTextFieldValue("updates 2")),
                         1L);
         UpdateRecordsRequest req6 = new UpdateRecordsRequest();
         req6.setApp(app.id());
@@ -159,37 +198,37 @@ public class BulkApiTest extends ApiTestBase {
 
         // 追加分の確認
         assertThat(records.get(0).getId()).isEqualTo(recordId8);
-        assertThat(records.get(0).getSingleLineTextFieldValue(field.getCode())).isEqualTo("adds 2");
+        assertThat(records.get(0).getSingleLineTextFieldValue(TEXT_FIELD_CODE)).isEqualTo("adds 2");
 
         assertThat(records.get(1).getId()).isEqualTo(recordId7);
-        assertThat(records.get(1).getSingleLineTextFieldValue(field.getCode())).isEqualTo("adds 1");
+        assertThat(records.get(1).getSingleLineTextFieldValue(TEXT_FIELD_CODE)).isEqualTo("adds 1");
 
         assertThat(records.get(2).getId()).isEqualTo(recordId6);
-        assertThat(records.get(2).getSingleLineTextFieldValue(field.getCode())).isEqualTo("add");
+        assertThat(records.get(2).getSingleLineTextFieldValue(TEXT_FIELD_CODE)).isEqualTo("add");
 
         // 更新分の確認
         assertThat(records.get(3).getId()).isEqualTo(recordId5);
-        assertThat(records.get(3).getSingleLineTextFieldValue(key.getCode())).isEqualTo("eee");
-        assertThat(records.get(3).getSingleLineTextFieldValue(field.getCode())).isEqualTo("updates 2");
+        assertThat(records.get(3).getSingleLineTextFieldValue(KEY_FIELD_CODE)).isEqualTo("eee");
+        assertThat(records.get(3).getSingleLineTextFieldValue(TEXT_FIELD_CODE)).isEqualTo("updates 2");
         assertThat(records.get(3).getStatusFieldValue()).isEqualTo("state B");
         assertThat(getAssigneeCodes(records.get(3))).isEmpty();
 
         assertThat(records.get(4).getId()).isEqualTo(recordId4);
-        assertThat(records.get(4).getSingleLineTextFieldValue(key.getCode())).isEqualTo("ddd");
-        assertThat(records.get(4).getSingleLineTextFieldValue(field.getCode())).isEqualTo("updates 1");
+        assertThat(records.get(4).getSingleLineTextFieldValue(KEY_FIELD_CODE)).isEqualTo("ddd");
+        assertThat(records.get(4).getSingleLineTextFieldValue(TEXT_FIELD_CODE)).isEqualTo("updates 1");
         assertThat(records.get(4).getStatusFieldValue()).isEqualTo("state B");
         assertThat(getAssigneeCodes(records.get(4))).isEmpty();
 
         assertThat(records.get(5).getId()).isEqualTo(recordId3);
-        assertThat(records.get(5).getSingleLineTextFieldValue(key.getCode())).isEqualTo("ccc");
-        assertThat(records.get(5).getSingleLineTextFieldValue(field.getCode()))
+        assertThat(records.get(5).getSingleLineTextFieldValue(KEY_FIELD_CODE)).isEqualTo("ccc");
+        assertThat(records.get(5).getSingleLineTextFieldValue(TEXT_FIELD_CODE))
                 .isEqualTo("update by key");
         assertThat(records.get(5).getStatusFieldValue()).isEqualTo("state B");
         assertThat(getAssigneeCodes(records.get(5))).isEmpty();
 
         assertThat(records.get(6).getId()).isEqualTo(recordId2);
-        assertThat(records.get(6).getSingleLineTextFieldValue(key.getCode())).isEqualTo("bbb");
-        assertThat(records.get(6).getSingleLineTextFieldValue(field.getCode())).isEqualTo("update");
+        assertThat(records.get(6).getSingleLineTextFieldValue(KEY_FIELD_CODE)).isEqualTo("bbb");
+        assertThat(records.get(6).getSingleLineTextFieldValue(TEXT_FIELD_CODE)).isEqualTo("update");
         assertThat(records.get(6).getStatusFieldValue()).isEqualTo("state A");
         assertThat(getAssigneeCodes(records.get(6))).containsExactly(Users.cybozu.getCode());
     }

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import com.kintone.client.ApiTestBase;
 import com.kintone.client.KintoneClient;
+import com.kintone.client.TestSettings;
 import com.kintone.client.api.app.AddAppPluginsRequest;
 import com.kintone.client.helper.App;
 import com.kintone.client.model.app.AppPlugin;
@@ -12,52 +13,53 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class AppPluginsTest extends ApiTestBase {
 
-    @Test
-    public void getPlugins_getPluginsPreview() throws IOException, InterruptedException {
-        KintoneClient client = setupDefaultClient();
+    private KintoneClient client;
+    private App app;
+    private App appForGetPluginsPreview;
 
-        String plugin1Id = installTestPlugin(client, "plugin-a");
-        Thread.sleep(1000);
-        String plugin2Id = installTestPlugin(client, "plugin-b");
-
-        try {
-            App app = App.create(client, "getPlugins_getPluginsPreview");
-
-            AddAppPluginsRequest addReq = new AddAppPluginsRequest();
-            addReq.setApp(app.id());
-            addReq.setIds(Arrays.asList(plugin1Id));
-            client.app().addPlugins(addReq);
-            app.deploy();
-
-            AddAppPluginsRequest addReq2 = new AddAppPluginsRequest();
-            addReq2.setApp(app.id());
-            addReq2.setIds(Arrays.asList(plugin2Id));
-            client.app().addPlugins(addReq2);
-
-            List<AppPlugin> pluginsForPreviewApp = client.app().getPluginsPreview(app.id(), "ja");
-            List<AppPlugin> pluginsForLiveApp = client.app().getPlugins(app.id(), "ja");
-
-            assertThat(pluginsForPreviewApp).hasSize(2);
-            assertThat(pluginsForLiveApp).hasSize(1);
-        } finally {
-            client.plugin().uninstallPlugin(plugin1Id);
-            client.plugin().uninstallPlugin(plugin2Id);
+    @BeforeEach
+    public void setupApp() {
+        client = setupDefaultClient();
+        Long testAppId = TestSettings.get().getTestAppId();
+        Long testAppIdForGetPluginsPreview = TestSettings.get().getTestAppIdForGetPluginsPreview();
+        if (testAppId != null) {
+            app = App.fromExisting(client, testAppId);
+        } else {
+            throw new IllegalStateException(
+                    "KINTONE_TEST_APP_ID is not set. Please create a test app and set the environment variable.");
+        }
+        if (testAppIdForGetPluginsPreview != null) {
+            appForGetPluginsPreview = App.fromExisting(client, testAppIdForGetPluginsPreview);
+        } else {
+            throw new IllegalStateException(
+                    "KINTONE_TEST_APP_ID_FOR_GET_PLUGINS_PREVIEW is not set. Please create a test app and set the environment variable.");
         }
     }
 
     @Test
-    public void addPlugins() throws IOException, InterruptedException {
-        KintoneClient client = setupDefaultClient();
+    public void getPlugins_getPluginsPreview() throws IOException, InterruptedException {
+        List<AppPlugin> pluginsForPreviewApp =
+                client.app().getPluginsPreview(appForGetPluginsPreview.id(), "ja");
+        List<AppPlugin> pluginsForLiveApp = client.app().getPlugins(appForGetPluginsPreview.id(), "ja");
 
-        String pluginId = installTestPlugin(client, "plugin-a");
+        assertThat(pluginsForPreviewApp).hasSize(pluginsForLiveApp.size() + 1);
+    }
+
+    @Test
+    @Disabled("Since plugins cannot be deleted from the app, they must be disabled temporarily.")
+    public void addPlugins() throws IOException, InterruptedException {
+        String pluginId = installTestPlugin(client, "plugin-c");
 
         try {
-            App app = App.create(client, "addPlugins");
-            assertThat(client.app().getPluginsPreview(app.id(), "ja")).hasSize(0);
+            List<AppPlugin> initialPlugins = client.app().getPluginsPreview(app.id(), "ja");
+            boolean alreadyAdded = initialPlugins.stream().anyMatch(p -> p.getId().equals(pluginId));
+            int initialPluginCount = initialPlugins.size();
 
             AddAppPluginsRequest request = new AddAppPluginsRequest();
             request.setApp(app.id());
@@ -65,7 +67,10 @@ public class AppPluginsTest extends ApiTestBase {
             client.app().addPlugins(request);
 
             List<AppPlugin> plugins = client.app().getPluginsPreview(app.id(), "ja");
-            assertThat(plugins).hasSize(1);
+            int expectedSize = alreadyAdded ? initialPluginCount : initialPluginCount + 1;
+            assertThat(plugins).hasSize(expectedSize);
+
+            assertThat(plugins.stream().anyMatch(p -> p.getId().equals(pluginId))).isTrue();
         } finally {
             client.plugin().uninstallPlugin(pluginId);
         }

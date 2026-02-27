@@ -16,6 +16,7 @@ import com.kintone.client.model.app.field.FieldProperty;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /** AppClientのアプリ作成、デプロイに関するテスト */
@@ -24,6 +25,7 @@ public class DeployTest extends ApiTestBase {
     private static final int DEPLOY_WAIT_SEC = 300;
 
     @Test
+    @Disabled("Since the app cannot be deleted, it has been temporarily disabled.")
     public void addApp() {
         Space space = Space.guest(this);
         long spaceId = space.id();
@@ -43,6 +45,7 @@ public class DeployTest extends ApiTestBase {
     }
 
     @Test
+    @Disabled("Since the app cannot be deleted, it has been temporarily disabled.")
     public void deployApp_getDeployStatus() {
         KintoneClient client = setupDefaultClient();
         DeployApp app1 = createApp(client, "deployApp 1");
@@ -81,6 +84,7 @@ public class DeployTest extends ApiTestBase {
     }
 
     @Test
+    @Disabled("Since the app cannot be deleted, it has been temporarily disabled.")
     public void deployApp_revert() {
         KintoneClient client = setupDefaultClient();
         App app = App.create(client, "deployApp_revert").deploy();

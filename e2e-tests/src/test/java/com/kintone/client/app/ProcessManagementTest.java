@@ -4,50 +4,94 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.kintone.client.ApiTestBase;
 import com.kintone.client.KintoneClient;
+import com.kintone.client.TestSettings;
 import com.kintone.client.api.app.*;
 import com.kintone.client.helper.App;
-import com.kintone.client.helper.Fields;
 import com.kintone.client.helper.ProcessManagementBuilder;
 import com.kintone.client.model.Entity;
 import com.kintone.client.model.EntityType;
 import com.kintone.client.model.app.*;
-import com.kintone.client.model.app.field.FieldProperty;
 import java.util.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /** AppClientのstatus.jsonのテスト */
 public class ProcessManagementTest extends ApiTestBase {
+
+    private static final String NUMBER_FIELD_CODE = "数値";
+
+    private KintoneClient client;
+    private App app;
+
+    @BeforeEach
+    public void setupApp() {
+        client = setupDefaultClient();
+        // プロセス管理テストは専用のアプリを使用（プロセス管理の状態が他テストに影響するため）
+        Long testAppId = TestSettings.get().getTestAppIdForProcessManagement();
+        if (testAppId != null) {
+            app = App.fromExisting(client, testAppId);
+        } else {
+            throw new IllegalStateException(
+                    "KINTONE_TEST_APP_ID_FOR_PROCESS_MANAGEMENT is not set. Please create a test app for process management tests.");
+        }
+        // テスト開始前にプロセス管理を無効化してクリーンな状態にする
+        try {
+            app.updateProcessManagement(new ProcessManagementBuilder().enable(false)).deploy();
+        } catch (Exception e) {
+            // ignore if already disabled
+        }
+    }
+
+    @AfterEach
+    public void cleanupProcessManagement() {
+        if (app != null) {
+            try {
+                // プロセス管理を無効化してデプロイ（次のテストのためにクリーンな状態に戻す）
+                app.updateProcessManagement(new ProcessManagementBuilder().enable(false)).deploy();
+            } catch (Exception e) {
+                // ignore cleanup errors
+            }
+        }
+    }
+
     @Test
     public void getProcessManagement_getProcessManagementPreview() {
-        KintoneClient client = setupDefaultClient();
-        App app = App.create(client, "getProcessManagement_getProcessManagementPreview");
-        app.applyExampleProcessManagement().deploy();
-        long revision = app.getAppRevision(false);
-
+        // このテストでは、updateProcessManagementと同じステータス名を使用して
+        // テスト間の依存関係を避ける（kintoneは既存ステータスの先頭位置変更を許可しない）
         ProcessAssignee assignee = assignee(ProcessAssigneeType.ONE, Collections.emptyList());
         Map<String, ProcessState> states = new HashMap<>();
-        states.put(
-                "state A", new ProcessState().setName("state A").setIndex("0").setAssignee(assignee));
-        states.put(
-                "state B", new ProcessState().setName("state B").setIndex("1").setAssignee(assignee));
-        states.put(
-                "state C", new ProcessState().setName("state C").setIndex("2").setAssignee(assignee));
+        states.put("S0", new ProcessState().setName("S0").setIndex("0").setAssignee(assignee));
+        states.put("S1", new ProcessState().setName("S1").setIndex("1").setAssignee(assignee));
+        states.put("S2", new ProcessState().setName("S2").setIndex("2").setAssignee(assignee));
 
         List<ProcessAction> actions = new ArrayList<>();
         actions.add(
                 new ProcessAction()
-                        .setFrom("state A")
-                        .setTo("state B")
+                        .setFrom("S0")
+                        .setTo("S1")
                         .setName("action 1")
                         .setFilterCond("")
                         .setType(ProcessActionType.PRIMARY));
         actions.add(
                 new ProcessAction()
-                        .setFrom("state B")
-                        .setTo("state C")
+                        .setFrom("S1")
+                        .setTo("S2")
                         .setName("action 2")
                         .setFilterCond("")
                         .setType(ProcessActionType.PRIMARY));
+
+        // プロセス管理を有効化
+        UpdateProcessManagementRequest updateReq = new UpdateProcessManagementRequest();
+        updateReq.setApp(app.id());
+        updateReq.setEnable(true);
+        updateReq.setStates(states);
+        updateReq.setActions(actions);
+        client.app().updateProcessManagement(updateReq);
+        client.app().deployApp(app.id());
+        app.waitDeploy();
+
+        long revision = app.getAppRevision(false);
 
         GetProcessManagementRequest req1 = new GetProcessManagementRequest();
         req1.setApp(app.id());
@@ -70,9 +114,6 @@ public class ProcessManagementTest extends ApiTestBase {
 
     @Test
     public void updateProcessManagement() {
-        KintoneClient client = setupDefaultClient();
-        FieldProperty number = Fields.number();
-        App app = App.create(client, "updateProcessManagement").addFields(number);
         long revision = app.getAppRevision(true);
 
         List<ProcessEntity> entities = new ArrayList<>();
@@ -88,7 +129,7 @@ public class ProcessManagementTest extends ApiTestBase {
         states.put("S3", new ProcessState().setName("S3").setIndex("3").setAssignee(assignee3));
 
         List<ProcessAction> actions = new ArrayList<>();
-        String query = number.getCode() + " >= 10";
+        String query = NUMBER_FIELD_CODE + " >= 10";
         actions.add(
                 new ProcessAction()
                         .setFrom("S0")

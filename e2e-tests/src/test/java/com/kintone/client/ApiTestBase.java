@@ -85,10 +85,6 @@ public class ApiTestBase {
         return TestSettings.get();
     }
 
-    public Long getDefaultUserId() {
-        return getSettings().getDefaultUserId();
-    }
-
     public String getBaseURL() {
         return getSettings().getBaseUrl();
     }

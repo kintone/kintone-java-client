@@ -559,4 +559,13 @@ public class App {
     public List<Long> addRecords(List<Record> records) {
         return client.record().addRecords(appId, records);
     }
+
+    public void deleteAllRecords() {
+        List<Record> records = getRecords();
+        if (records.isEmpty()) {
+            return;
+        }
+        List<Long> ids = records.stream().map(Record::getId).collect(Collectors.toList());
+        client.record().deleteRecords(appId, ids);
+    }
 }

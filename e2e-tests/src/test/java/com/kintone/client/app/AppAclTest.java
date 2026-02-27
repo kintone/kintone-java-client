@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.kintone.client.ApiTestBase;
 import com.kintone.client.KintoneClient;
+import com.kintone.client.TestSettings;
 import com.kintone.client.api.app.*;
 import com.kintone.client.helper.App;
 import com.kintone.client.helper.AppAclBuilder;
@@ -12,14 +13,50 @@ import com.kintone.client.model.EntityType;
 import com.kintone.client.model.app.AppRightEntity;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /** AppClientのアプリアクセス権設定に関するテスト */
 public class AppAclTest extends ApiTestBase {
+
+    private KintoneClient client;
+    private App app;
+    private List<AppRightEntity> originalAppAcl;
+
+    @BeforeEach
+    public void setupApp() {
+        client = setupDefaultClient();
+        Long testAppId = TestSettings.get().getTestAppId();
+        if (testAppId != null) {
+            app = App.fromExisting(client, testAppId);
+        } else {
+            throw new IllegalStateException(
+                    "KINTONE_TEST_APP_ID is not set. Please create a test app and set the environment variable.");
+        }
+        // 元のACL設定を保存
+        originalAppAcl = app.getAppAcl(false);
+    }
+
+    @AfterEach
+    public void cleanupAcl() {
+        if (app != null) {
+            try {
+                // 元のACL設定に戻す
+                UpdateAppAclRequest req = new UpdateAppAclRequest();
+                req.setApp(app.id());
+                req.setRights(originalAppAcl);
+                client.app().updateAppAcl(req);
+                client.app().deployApp(app.id());
+                app.waitDeploy();
+            } catch (Exception e) {
+                // ignore cleanup errors
+            }
+        }
+    }
+
     @Test
     public void getAppAcl_getAppAclPreview() {
-        KintoneClient client = setupDefaultClient();
-        App app = App.create(client, "getAppAcl_getAppAclPreview");
 
         AppAclBuilder builder = new AppAclBuilder();
         builder.everyone().all(false);
@@ -56,8 +93,6 @@ public class AppAclTest extends ApiTestBase {
 
     @Test
     public void updateAppAcl() {
-        KintoneClient client = setupDefaultClient();
-        App app = App.create(client, "updateAppAcl").deploy();
         long revision = app.getAppRevision(true);
 
         Entity everyone = new Entity(EntityType.GROUP, "everyone");

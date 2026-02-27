@@ -5,22 +5,56 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.kintone.client.*;
 import com.kintone.client.api.app.*;
 import com.kintone.client.helper.App;
-import com.kintone.client.helper.Fields;
 import com.kintone.client.model.Entity;
 import com.kintone.client.model.app.*;
 import com.kintone.client.model.app.field.FieldProperty;
 import com.kintone.client.model.app.field.RelatedApp;
 import java.util.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /** AppClientのactions.jsonのテスト */
 public class ActionsTest extends ApiTestBase {
 
+    private static final String TEXT_FIELD_CODE = "文字列__1行_";
+    private static final String LINK_FIELD_CODE = "リンク__URL_";
+
+    private KintoneClient client;
+    private App app;
+    private Map<String, AppAction> originalActions;
+
+    @BeforeEach
+    public void setupApp() {
+        client = setupDefaultClient();
+        Long testAppId = TestSettings.get().getTestAppId();
+        if (testAppId != null) {
+            app = App.fromExisting(client, testAppId);
+        } else {
+            throw new IllegalStateException(
+                    "KINTONE_TEST_APP_ID is not set. Please create a test app and set the environment variable.");
+        }
+        // 元のアクション設定を保存
+        originalActions = app.getActions(false);
+    }
+
+    @AfterEach
+    public void cleanupActions() {
+        if (app != null) {
+            try {
+                // 元のアクション設定に戻す
+                client.app().updateAppActions(app.id(), originalActions);
+                client.app().deployApp(app.id());
+                app.waitDeploy();
+            } catch (Exception e) {
+                // ignore cleanup errors
+            }
+        }
+    }
+
     @Test
     public void getAppActions_getAppActionsPreview() {
-        KintoneClient client = setupDefaultClient();
-        FieldProperty text = Fields.text();
-        App app = App.create(client, "getAppActions_getAppActionsPreview").addFields(text);
+        FieldProperty text = app.field(TEXT_FIELD_CODE);
         AppAction action1 =
                 createAction(
                         0L,
@@ -65,11 +99,8 @@ public class ActionsTest extends ApiTestBase {
 
     @Test
     public void updateAppActions() {
-        KintoneClient client = setupDefaultClient();
-        FieldProperty text1 = Fields.text("text1");
-        FieldProperty text2 = Fields.text("text2");
-        FieldProperty link = Fields.link();
-        App app = App.create(client, "updateAppActions").addFields(text1, text2, link).deploy();
+        FieldProperty text = app.field(TEXT_FIELD_CODE);
+        FieldProperty link = app.field(LINK_FIELD_CODE);
         long revision = app.getAppRevision(true);
 
         AppAction action1 =
@@ -77,14 +108,14 @@ public class ActionsTest extends ApiTestBase {
                         0L,
                         "action1",
                         app.id(),
-                        Arrays.asList(createRecordURLMapping(link), createFieldMapping(text1, text2)),
+                        Arrays.asList(createRecordURLMapping(link), createFieldMapping(text, text)),
                         Collections.singletonList(Users.user1.toEntity()));
         AppAction action2 =
                 createAction(
                         1L,
                         "action2",
                         app.id(),
-                        Collections.singletonList(createFieldMapping(text1, text2)),
+                        Collections.singletonList(createFieldMapping(text, text)),
                         Arrays.asList(Groups.everyone.toEntity(), Orgs.org1.toEntity()));
         Map<String, AppAction> actions = new HashMap<>();
         actions.put("action1", action1);

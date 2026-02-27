@@ -9,25 +9,74 @@ import com.kintone.client.helper.App;
 import com.kintone.client.model.Entity;
 import com.kintone.client.model.EntityType;
 import com.kintone.client.model.app.*;
-import com.kintone.client.model.app.field.FieldProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /** AppClientのnotifications/*.jsonのテスト */
 public class NotificationTest extends ApiTestBase {
+
+    private static final String NUMBER_FIELD_CODE = "数値";
+    private static final String USER_SELECT_FIELD_CODE = "ユーザー選択";
+    private static final String DATE_FIELD_CODE = "日付";
+    private static final String DATETIME_FIELD_CODE = "日時";
+
+    private KintoneClient client;
+    private App app;
+    private App.GeneralNotifications originalGeneralNotifications;
+    private List<PerRecordNotification> originalPerRecordNotifications;
+    private App.ReminderNotifications originalReminderNotifications;
+
+    @BeforeEach
+    public void setupApp() {
+        client = setupDefaultClient();
+        Long testAppId = TestSettings.get().getTestAppId();
+        if (testAppId != null) {
+            app = App.fromExisting(client, testAppId);
+        } else {
+            throw new IllegalStateException(
+                    "KINTONE_TEST_APP_ID is not set. Please create a test app and set the environment variable.");
+        }
+        // 元の通知設定を保存
+        originalGeneralNotifications = app.getGeneralNotifications(false);
+        originalPerRecordNotifications = app.getRecordNotifications(false);
+        originalReminderNotifications = app.getReminderNotifications(false);
+    }
+
+    @AfterEach
+    public void cleanupNotifications() {
+        if (app != null) {
+            try {
+                // 元の通知設定に戻す
+                GeneralNotificationsBuilder genBuilder = new GeneralNotificationsBuilder();
+                genBuilder.notifyToCommenter(originalGeneralNotifications.isNotifyToCommenter());
+                app.updateGeneralNotifications(genBuilder);
+
+                ReminderNotificationsBuilder remBuilder = new ReminderNotificationsBuilder();
+                remBuilder.timezone(originalReminderNotifications.getTimezone());
+                app.updateReminderNotifications(remBuilder);
+
+                RecordNotificationsBuilder recBuilder = new RecordNotificationsBuilder();
+                app.updateRecordNotifications(recBuilder);
+
+                client.app().deployApp(app.id());
+                app.waitDeploy();
+            } catch (Exception e) {
+                // ignore cleanup errors
+            }
+        }
+    }
+
     @Test
     public void getGeneralNotifications_getGeneralNotificationsPreview() {
-        KintoneClient client = setupDefaultClient();
-        FieldProperty userSelect = Fields.userSelect();
-        App app = App.create(client, "getGeneralNotifications").addFields(userSelect);
-
         GeneralNotificationsBuilder builder = new GeneralNotificationsBuilder();
         builder.notifyToCommenter(true);
         builder.user(getDefaultUser()).all(true);
         builder.everyone().all(false);
         builder.org(Orgs.org1.getCode(), true).statusChanged(true);
-        builder.field(userSelect.getCode()).recordAdded(true);
+        builder.field(USER_SELECT_FIELD_CODE).recordAdded(true);
         app.updateGeneralNotifications(builder).deploy();
         long revision = app.getAppRevision(false);
 
@@ -35,7 +84,7 @@ public class NotificationTest extends ApiTestBase {
         Entity user = new Entity(EntityType.USER, getDefaultUser());
         Entity group = new Entity(EntityType.GROUP, "everyone");
         Entity org = new Entity(EntityType.ORGANIZATION, Orgs.org1.getCode());
-        Entity field = new Entity(EntityType.FIELD_ENTITY, userSelect.getCode());
+        Entity field = new Entity(EntityType.FIELD_ENTITY, USER_SELECT_FIELD_CODE);
         notifications.add(generalNotification(user, true, true, true, true, true));
         notifications.add(generalNotification(group, false, false, false, false, false));
         GeneralNotification n = generalNotification(org, false, false, false, true, false);
@@ -66,20 +115,15 @@ public class NotificationTest extends ApiTestBase {
 
     @Test
     public void getPerRecordNotifications_getPerRecordNotificationsPreview() {
-        KintoneClient client = setupDefaultClient();
-        FieldProperty number = Fields.number();
-        FieldProperty userSelect = Fields.userSelect();
-        App app = App.create(client, "getPerRecordNotifications").addFields(number, userSelect);
-
         RecordNotificationsBuilder builder = new RecordNotificationsBuilder();
-        builder.query(number.getCode() + " >= 1").title("n1").user(getDefaultUser());
-        builder.query(number.getCode() + " >= 2").title("n2").everyone().user(getDefaultUser());
+        builder.query(NUMBER_FIELD_CODE + " >= 1").title("n1").user(getDefaultUser());
+        builder.query(NUMBER_FIELD_CODE + " >= 2").title("n2").everyone().user(getDefaultUser());
         builder
-                .query(number.getCode() + " >= 3")
+                .query(NUMBER_FIELD_CODE + " >= 3")
                 .title("n3")
                 .org(Orgs.org1.getCode(), true)
                 .org(Orgs.org2.getCode(), false);
-        builder.query(number.getCode() + " >= 4").title("n4").field(userSelect.getCode());
+        builder.query(NUMBER_FIELD_CODE + " >= 4").title("n4").field(USER_SELECT_FIELD_CODE);
         app.updateRecordNotifications(builder).deploy();
         long revision = app.getAppRevision(false);
 
@@ -90,11 +134,11 @@ public class NotificationTest extends ApiTestBase {
         List<NotificationTarget> t3 =
                 makeTargets(EntityType.ORGANIZATION, Orgs.org1, EntityType.ORGANIZATION, Orgs.org2);
         t3.get(0).setIncludeSubs(true);
-        List<NotificationTarget> t4 = makeTargets(EntityType.FIELD_ENTITY, userSelect.getCode());
-        notifications.add(perRecordNotification("n1", number.getCode() + " >= 1", t1));
-        notifications.add(perRecordNotification("n2", number.getCode() + " >= 2", t2));
-        notifications.add(perRecordNotification("n3", number.getCode() + " >= 3", t3));
-        notifications.add(perRecordNotification("n4", number.getCode() + " >= 4", t4));
+        List<NotificationTarget> t4 = makeTargets(EntityType.FIELD_ENTITY, USER_SELECT_FIELD_CODE);
+        notifications.add(perRecordNotification("n1", NUMBER_FIELD_CODE + " >= 1", t1));
+        notifications.add(perRecordNotification("n2", NUMBER_FIELD_CODE + " >= 2", t2));
+        notifications.add(perRecordNotification("n3", NUMBER_FIELD_CODE + " >= 3", t3));
+        notifications.add(perRecordNotification("n4", NUMBER_FIELD_CODE + " >= 4", t4));
 
         GetPerRecordNotificationsRequest req1 = new GetPerRecordNotificationsRequest();
         req1.setApp(app.id());
@@ -105,8 +149,8 @@ public class NotificationTest extends ApiTestBase {
                 .usingRecursiveFieldByFieldElementComparator()
                 .isEqualTo(notifications);
 
-        builder.query(number.getCode() + " >= 5").title("n5").user(getDefaultUser());
-        notifications.add(perRecordNotification("n5", number.getCode() + " >= 5", t1));
+        builder.query(NUMBER_FIELD_CODE + " >= 5").title("n5").user(getDefaultUser());
+        notifications.add(perRecordNotification("n5", NUMBER_FIELD_CODE + " >= 5", t1));
         app.updateRecordNotifications(builder);
 
         GetPerRecordNotificationsPreviewRequest req2 = new GetPerRecordNotificationsPreviewRequest();
@@ -122,25 +166,21 @@ public class NotificationTest extends ApiTestBase {
 
     @Test
     public void getReminderNotifications_getReminderNotificationsPreview() {
-        KintoneClient client = setupDefaultClient();
-        FieldProperty number = Fields.number();
-        FieldProperty userSelect = Fields.userSelect();
-        FieldProperty date = Fields.date();
-        FieldProperty datetime = Fields.datetime();
-        App app = App.create(client, "getReminderNotifications");
-        app.addFields(number, userSelect, date, datetime);
-
         ReminderNotificationsBuilder builder = new ReminderNotificationsBuilder();
         builder.timezone("Asia/Tokyo");
         builder
-                .field(datetime, 3, "12:00")
+                .field(app.field(DATETIME_FIELD_CODE), 3, "12:00")
                 .title("n1")
-                .query(number.getCode() + " >= 1")
+                .query(NUMBER_FIELD_CODE + " >= 1")
                 .user(getDefaultUser());
-        builder.field(datetime, -2, 1).title("n2").everyone().user(getDefaultUser());
-        builder.field(datetime, 1, -3).title("n3").field(userSelect.getCode());
         builder
-                .field(date, -5, "23:50")
+                .field(app.field(DATETIME_FIELD_CODE), -2, 1)
+                .title("n2")
+                .everyone()
+                .user(getDefaultUser());
+        builder.field(app.field(DATETIME_FIELD_CODE), 1, -3).title("n3").field(USER_SELECT_FIELD_CODE);
+        builder
+                .field(app.field(DATE_FIELD_CODE), -5, "23:50")
                 .title("n4")
                 .org(Orgs.org1.getCode(), true)
                 .org(Orgs.org2.getCode(), false);
@@ -148,19 +188,19 @@ public class NotificationTest extends ApiTestBase {
         long revision = app.getAppRevision(false);
 
         List<ReminderNotification> notifications = new ArrayList<>();
-        ReminderTiming r1 = timingAbsolute(datetime.getCode(), 3, "12:00");
-        ReminderTiming r2 = timingRelative(datetime.getCode(), -2, 1);
-        ReminderTiming r3 = timingRelative(datetime.getCode(), 1, -3);
-        ReminderTiming r4 = timingDate(date.getCode(), -5, "23:50");
+        ReminderTiming r1 = timingAbsolute(DATETIME_FIELD_CODE, 3, "12:00");
+        ReminderTiming r2 = timingRelative(DATETIME_FIELD_CODE, -2, 1);
+        ReminderTiming r3 = timingRelative(DATETIME_FIELD_CODE, 1, -3);
+        ReminderTiming r4 = timingDate(DATE_FIELD_CODE, -5, "23:50");
 
         List<NotificationTarget> t1 = makeTargets(EntityType.USER, getDefaultUser());
         List<NotificationTarget> t2 =
                 makeTargets(EntityType.GROUP, "everyone", EntityType.USER, getDefaultUser());
-        List<NotificationTarget> t3 = makeTargets(EntityType.FIELD_ENTITY, userSelect.getCode());
+        List<NotificationTarget> t3 = makeTargets(EntityType.FIELD_ENTITY, USER_SELECT_FIELD_CODE);
         List<NotificationTarget> t4 =
                 makeTargets(EntityType.ORGANIZATION, Orgs.org1, EntityType.ORGANIZATION, Orgs.org2);
         t4.get(0).setIncludeSubs(true);
-        notifications.add(reminderNotification(r1, "n1", number.getCode() + " >= 1", t1));
+        notifications.add(reminderNotification(r1, "n1", NUMBER_FIELD_CODE + " >= 1", t1));
         notifications.add(reminderNotification(r2, "n2", "", t2));
         notifications.add(reminderNotification(r3, "n3", "", t3));
         notifications.add(reminderNotification(r4, "n4", "", t4));
@@ -191,16 +231,13 @@ public class NotificationTest extends ApiTestBase {
 
     @Test
     public void updateGeneralNotifications() {
-        KintoneClient client = setupDefaultClient();
-        FieldProperty userSelect = Fields.userSelect();
-        App app = App.create(client, "updateGeneralNotifications").addFields(userSelect);
         long revision = app.getAppRevision(true);
 
         List<GeneralNotification> notifications = new ArrayList<>();
         Entity user = new Entity(EntityType.USER, getDefaultUser());
         Entity group = new Entity(EntityType.GROUP, "everyone");
         Entity org = new Entity(EntityType.ORGANIZATION, Orgs.org1.getCode());
-        Entity field = new Entity(EntityType.FIELD_ENTITY, userSelect.getCode());
+        Entity field = new Entity(EntityType.FIELD_ENTITY, USER_SELECT_FIELD_CODE);
         notifications.add(generalNotification(user, true, true, true, true, true));
         notifications.add(generalNotification(group, false, false, false, false, false));
         notifications.add(
@@ -224,10 +261,6 @@ public class NotificationTest extends ApiTestBase {
 
     @Test
     public void updatePerRecordNotifications() {
-        KintoneClient client = setupDefaultClient();
-        FieldProperty number = Fields.number();
-        FieldProperty userSelect = Fields.userSelect();
-        App app = App.create(client, "updatePerRecordNotifications").addFields(number, userSelect);
         long revision = app.getAppRevision(true);
 
         List<PerRecordNotification> notifications = new ArrayList<>();
@@ -237,11 +270,11 @@ public class NotificationTest extends ApiTestBase {
         List<NotificationTarget> t3 =
                 makeTargets(EntityType.ORGANIZATION, Orgs.org1, EntityType.ORGANIZATION, Orgs.org2);
         t3.get(0).setIncludeSubs(true);
-        List<NotificationTarget> t4 = makeTargets(EntityType.FIELD_ENTITY, userSelect.getCode());
-        notifications.add(perRecordNotification("n1", number.getCode() + " >= 1", t1));
-        notifications.add(perRecordNotification("n2", number.getCode() + " >= 2", t2));
-        notifications.add(perRecordNotification("n3", number.getCode() + " >= 3", t3));
-        notifications.add(perRecordNotification("n4", number.getCode() + " >= 4", t4));
+        List<NotificationTarget> t4 = makeTargets(EntityType.FIELD_ENTITY, USER_SELECT_FIELD_CODE);
+        notifications.add(perRecordNotification("n1", NUMBER_FIELD_CODE + " >= 1", t1));
+        notifications.add(perRecordNotification("n2", NUMBER_FIELD_CODE + " >= 2", t2));
+        notifications.add(perRecordNotification("n3", NUMBER_FIELD_CODE + " >= 3", t3));
+        notifications.add(perRecordNotification("n4", NUMBER_FIELD_CODE + " >= 4", t4));
 
         UpdatePerRecordNotificationsRequest req = new UpdatePerRecordNotificationsRequest();
         req.setApp(app.id());
@@ -256,29 +289,22 @@ public class NotificationTest extends ApiTestBase {
 
     @Test
     public void updateReminderNotifications() {
-        KintoneClient client = setupDefaultClient();
-        FieldProperty number = Fields.number();
-        FieldProperty userSelect = Fields.userSelect();
-        FieldProperty date = Fields.date();
-        FieldProperty datetime = Fields.datetime();
-        App app = App.create(client, "updateReminderNotifications");
-        app.addFields(number, userSelect, date, datetime);
         long revision = app.getAppRevision(true);
 
         List<ReminderNotification> notifications = new ArrayList<>();
-        ReminderTiming r1 = timingAbsolute(datetime.getCode(), 3, "12:00");
-        ReminderTiming r2 = timingRelative(datetime.getCode(), -2, 1);
-        ReminderTiming r3 = timingRelative(datetime.getCode(), 1, -3);
-        ReminderTiming r4 = timingDate(date.getCode(), -5, "23:50");
+        ReminderTiming r1 = timingAbsolute(DATETIME_FIELD_CODE, 3, "12:00");
+        ReminderTiming r2 = timingRelative(DATETIME_FIELD_CODE, -2, 1);
+        ReminderTiming r3 = timingRelative(DATETIME_FIELD_CODE, 1, -3);
+        ReminderTiming r4 = timingDate(DATE_FIELD_CODE, -5, "23:50");
 
         List<NotificationTarget> t1 = makeTargets(EntityType.USER, getDefaultUser());
         List<NotificationTarget> t2 =
                 makeTargets(EntityType.GROUP, "everyone", EntityType.USER, getDefaultUser());
-        List<NotificationTarget> t3 = makeTargets(EntityType.FIELD_ENTITY, userSelect.getCode());
+        List<NotificationTarget> t3 = makeTargets(EntityType.FIELD_ENTITY, USER_SELECT_FIELD_CODE);
         List<NotificationTarget> t4 =
                 makeTargets(EntityType.ORGANIZATION, Orgs.org1, EntityType.ORGANIZATION, Orgs.org2);
         t4.get(0).setIncludeSubs(true);
-        notifications.add(reminderNotification(r1, "n1", number.getCode() + " >= 1", t1));
+        notifications.add(reminderNotification(r1, "n1", NUMBER_FIELD_CODE + " >= 1", t1));
         notifications.add(reminderNotification(r2, "n2", "", t2));
         notifications.add(reminderNotification(r3, "n3", "", t3));
         notifications.add(reminderNotification(r4, "n4", "", t4));

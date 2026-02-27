@@ -4,10 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.kintone.client.ApiTestBase;
 import com.kintone.client.KintoneClient;
+import com.kintone.client.TestSettings;
 import com.kintone.client.api.app.*;
 import com.kintone.client.helper.App;
 import com.kintone.client.helper.FieldAclBuilder;
-import com.kintone.client.helper.Fields;
 import com.kintone.client.model.Entity;
 import com.kintone.client.model.EntityType;
 import com.kintone.client.model.app.FieldAccessibility;
@@ -16,18 +16,57 @@ import com.kintone.client.model.app.FieldRightEntity;
 import com.kintone.client.model.app.field.FieldProperty;
 import java.util.Arrays;
 import java.util.List;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /** AppClientのフィールドアクセス権設定に関するテスト */
 public class FieldAclTest extends ApiTestBase {
+
+    private static final String TEXT_FIELD_CODE = "文字列__1行_";
+    private static final String NUMBER_FIELD_CODE = "数値";
+    private static final String USER_SELECT_FIELD_CODE = "ユーザー選択";
+
+    private KintoneClient client;
+    private App app;
+    private List<FieldRight> originalFieldAcl;
+
+    @BeforeEach
+    public void setupApp() {
+        client = setupDefaultClient();
+        Long testAppId = TestSettings.get().getTestAppId();
+        if (testAppId != null) {
+            app = App.fromExisting(client, testAppId);
+        } else {
+            throw new IllegalStateException(
+                    "KINTONE_TEST_APP_ID is not set. Please create a test app and set the environment variable.");
+        }
+        // 元のACL設定を保存
+        originalFieldAcl = app.getFieldAcl(false);
+    }
+
+    @AfterEach
+    public void cleanupAcl() {
+        if (app != null) {
+            try {
+                // 元のACL設定に戻す
+                UpdateFieldAclRequest req = new UpdateFieldAclRequest();
+                req.setApp(app.id());
+                req.setRights(originalFieldAcl);
+                client.app().updateFieldAcl(req);
+                client.app().deployApp(app.id());
+                app.waitDeploy();
+            } catch (Exception e) {
+                // ignore cleanup errors
+            }
+        }
+    }
+
     @Test
     public void getFieldAcl_getFieldAclPreview() {
-        KintoneClient client = setupDefaultClient();
-        FieldProperty text = Fields.text();
-        FieldProperty number = Fields.number();
-        FieldProperty userSelect = Fields.userSelect();
-        App app = App.create(client, "getFieldAcl_getFieldAclPreview");
-        app.addFields(text, number, userSelect);
+        FieldProperty text = app.field(TEXT_FIELD_CODE);
+        FieldProperty number = app.field(NUMBER_FIELD_CODE);
+        FieldProperty userSelect = app.field(USER_SELECT_FIELD_CODE);
 
         FieldAclBuilder builder = new FieldAclBuilder();
         builder.target(text).user(getDefaultUser(), true, true).everyone(false, false);
@@ -65,12 +104,9 @@ public class FieldAclTest extends ApiTestBase {
 
     @Test
     public void updateFieldAcl() {
-        KintoneClient client = setupDefaultClient();
-        FieldProperty text = Fields.text();
-        FieldProperty number = Fields.number();
-        FieldProperty userSelect = Fields.userSelect();
-        App app = App.create(client, "updateFieldAcl");
-        app.addFields(text, number, userSelect).deploy();
+        FieldProperty text = app.field(TEXT_FIELD_CODE);
+        FieldProperty number = app.field(NUMBER_FIELD_CODE);
+        FieldProperty userSelect = app.field(USER_SELECT_FIELD_CODE);
         long revision = app.getAppRevision(true);
 
         FieldRight r1 =

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.kintone.client.ApiTestBase;
 import com.kintone.client.KintoneClient;
+import com.kintone.client.TestSettings;
 import com.kintone.client.api.plugin.GetInstalledPluginsRequest;
 import com.kintone.client.api.plugin.GetInstalledPluginsResponseBody;
 import com.kintone.client.api.plugin.InstallPluginRequest;
@@ -157,6 +158,8 @@ public class PluginApiTest extends ApiTestBase {
 
     @Test
     public void getApps() throws IOException {
+        Long testAppId = TestSettings.get().getTestAppIdForPlugin();
+
         Path path = new File(PluginApiTest.class.getResource("plugin-a.zip").getFile()).toPath();
         String fileKey = client.file().uploadFile(path, "multipart/form-data");
         InstallPluginRequest req = new InstallPluginRequest();
@@ -167,30 +170,27 @@ public class PluginApiTest extends ApiTestBase {
         assertThat(pluginId).isNotNull();
         assertThat(resp.getVersion()).isNotNull();
 
-        int numberOfApps = client.plugin().getApps(pluginId).size();
+        try {
+            client.app().addPlugins(testAppId, Arrays.asList(pluginId));
 
-        String appName = "test-app";
-        long appId = client.app().addApp(appName);
-        client.app().addPlugins(appId, Arrays.asList(pluginId));
-
-        List<App> respApps2 = client.plugin().getApps(pluginId);
-        assertThat(respApps2).hasSize(numberOfApps + 1);
-        assertThat(respApps2.stream().map(App::getId)).contains(appId);
-        assertThat(respApps2.stream().map(App::getName)).contains(appName);
-
-        client.plugin().uninstallPlugin(pluginId);
+            List<App> apps = client.plugin().getApps(pluginId);
+            assertThat(apps.stream().map(App::getId)).contains(testAppId);
+        } finally {
+            client.plugin().uninstallPlugin(pluginId);
+        }
     }
 
     @Test
     public void getRequiredPlugins() throws InterruptedException, IOException {
+        Long testAppId = TestSettings.get().getTestAppIdForPlugin();
+
         Path path = new File(PluginApiTest.class.getResource("plugin-a.zip").getFile()).toPath();
         String fileKey = client.file().uploadFile(path, "multipart/form-data");
         InstallPluginResponseBody installResp = client.plugin().installPlugin(fileKey);
         String pluginId = installResp.getId();
 
-        long appId = client.app().addApp("test-app-for-required-plugins");
-        client.app().addPlugins(appId, Arrays.asList(pluginId));
-        waitForDeployApp(client, appId);
+        client.app().addPlugins(testAppId, Arrays.asList(pluginId));
+        waitForDeployApp(client, testAppId);
 
         client.plugin().uninstallPlugin(pluginId);
 

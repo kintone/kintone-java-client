@@ -4,25 +4,58 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.kintone.client.ApiTestBase;
 import com.kintone.client.KintoneClient;
+import com.kintone.client.TestSettings;
 import com.kintone.client.api.app.*;
 import com.kintone.client.helper.App;
-import com.kintone.client.helper.Fields;
 import com.kintone.client.model.Order;
-import com.kintone.client.model.app.field.FieldProperty;
 import com.kintone.client.model.app.report.*;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /** AppClientのreports.jsonのテスト */
 public class ReportsTest extends ApiTestBase {
+
+    private static final String NUMBER_FIELD_CODE = "数値";
+
+    private KintoneClient client;
+    private App app;
+    private Map<String, Report> originalReports;
+
+    @BeforeEach
+    public void setupApp() {
+        client = setupDefaultClient();
+        Long testAppId = TestSettings.get().getTestAppId();
+        if (testAppId != null) {
+            app = App.fromExisting(client, testAppId);
+        } else {
+            throw new IllegalStateException(
+                    "KINTONE_TEST_APP_ID is not set. Please create a test app and set the environment variable.");
+        }
+        // 元のレポート設定を保存
+        originalReports = app.getReports(false);
+    }
+
+    @AfterEach
+    public void cleanupReports() {
+        if (app != null) {
+            try {
+                // 元のレポート設定に戻す
+                client.app().updateReports(app.id(), originalReports);
+                client.app().deployApp(app.id());
+                app.waitDeploy();
+            } catch (Exception e) {
+                // ignore cleanup errors
+            }
+        }
+    }
+
     @Test
     public void getReports_getReportsPreview() {
-        KintoneClient client = setupDefaultClient();
-        FieldProperty number = Fields.number();
-        Report report = barGraph(0, "棒グラフ", number.getCode() + " >= 1");
-        App app = App.create(client, "getReports_getReportsPreview").addFields(number);
+        Report report = barGraph(0, "棒グラフ", NUMBER_FIELD_CODE + " >= 1");
         app.updateReports(report).deploy();
         long revision = app.getAppRevision(false);
 
@@ -60,9 +93,6 @@ public class ReportsTest extends ApiTestBase {
 
     @Test
     public void updateReports() {
-        KintoneClient client = setupDefaultClient();
-        FieldProperty number = Fields.number();
-        App app = App.create(client, "updateReports").addFields(number);
         long revision = app.getAppRevision(true);
 
         // グラフ0件
@@ -73,7 +103,7 @@ public class ReportsTest extends ApiTestBase {
         assertThat(resp1.getReports()).isEmpty();
 
         revision += 1;
-        String query = number.getCode() + " >= 1";
+        String query = NUMBER_FIELD_CODE + " >= 1";
         Map<String, Report> reports = new HashMap<>();
         reports.put("棒グラフ", barGraph(0, "棒グラフ", query));
         reports.put("毎年", barGraph(1, "毎年", query).setPeriodicReport(everyYear(12, 31, 23, 59)));

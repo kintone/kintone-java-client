@@ -4,26 +4,50 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.kintone.client.ApiTestBase;
 import com.kintone.client.KintoneClient;
+import com.kintone.client.TestSettings;
 import com.kintone.client.api.common.DownloadFileRequest;
 import com.kintone.client.api.common.DownloadFileResponseBody;
 import com.kintone.client.api.common.UploadFileRequest;
 import com.kintone.client.api.common.UploadFileResponseBody;
 import com.kintone.client.helper.App;
-import com.kintone.client.helper.Fields;
 import com.kintone.client.model.FileBody;
 import com.kintone.client.model.app.field.FieldProperty;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /** FileClientのテスト */
 public class FileApiTest extends ApiTestBase {
+
+    private static final String FILE_FIELD_CODE = "添付ファイル";
+
+    private KintoneClient client;
+    private App app;
+
+    @BeforeEach
+    public void setupApp() {
+        client = setupDefaultClient();
+        Long testAppId = TestSettings.get().getTestAppId();
+        if (testAppId != null) {
+            app = App.fromExisting(client, testAppId);
+        } else {
+            throw new IllegalStateException(
+                    "KINTONE_TEST_APP_ID is not set. Please create a test app and set the environment variable.");
+        }
+    }
+
+    @AfterEach
+    public void cleanupRecords() {
+        if (app != null) {
+            app.deleteAllRecords();
+        }
+    }
+
     @Test
     public void uploadFile_downloadFile() {
-        KintoneClient client = setupDefaultClient();
-        FieldProperty file = Fields.file();
-        App app = App.create(client, "uploadFile_downloadFile");
-        app.addFields(file).deploy();
+        FieldProperty file = app.field(FILE_FIELD_CODE);
 
         UploadFileResponseBody resp1;
         try (ByteArrayInputStream in = new ByteArrayInputStream("test".getBytes())) {
@@ -37,7 +61,7 @@ public class FileApiTest extends ApiTestBase {
         }
 
         long recordId = app.addRecord(file, resp1.getFileKey());
-        FileBody value = app.getRecord(recordId).getFileFieldValue(file.getCode()).get(0);
+        FileBody value = app.getRecord(recordId).getFileFieldValue(FILE_FIELD_CODE).get(0);
         assertThat(value.getName()).isEqualTo("test.txt");
         assertThat(value.getContentType()).isEqualTo("text/plain");
         assertThat(value.getSize()).isEqualTo(4);

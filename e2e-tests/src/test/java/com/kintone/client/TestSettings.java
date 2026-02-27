@@ -53,6 +53,13 @@ public class TestSettings {
     private final Long multiThreadDefaultThreadId;
     private final Long guestSpaceId;
     private final Long templateId;
+    private final Long testAppId;
+    private final Long testSpaceAppId;
+    private final Long testAppIdForGetPluginsPreview;
+    private final Long testAppIdForGetFormLayoutPreview;
+    private final Long testAppIdForProcessManagement;
+    private final Long testAppIdForUpdateAppSettings;
+    private final Long testAppIdForPlugin;
 
     private static final TestSettings INSTANCE = new TestSettings();
 
@@ -85,6 +92,14 @@ public class TestSettings {
         multiThreadDefaultThreadId = getLongEnv("KINTONE_MULTI_THREAD_DEFAULT_THREAD_ID");
         guestSpaceId = getLongEnv("KINTONE_GUEST_SPACE_ID");
         templateId = getLongEnv("KINTONE_TEMPLATE_ID");
+        testAppId = getLongEnv("KINTONE_TEST_APP_ID");
+        testSpaceAppId = getLongEnv("KINTONE_TEST_SPACE_APP_ID");
+        testAppIdForGetPluginsPreview = getLongEnv("KINTONE_TEST_APP_ID_FOR_GET_PLUGINS_PREVIEW");
+        testAppIdForGetFormLayoutPreview =
+                getLongEnv("KINTONE_TEST_APP_ID_FOR_GET_FORM_LAYOUT_PREVIEW");
+        testAppIdForProcessManagement = getLongEnv("KINTONE_TEST_APP_ID_FOR_PROCESS_MANAGEMENT");
+        testAppIdForUpdateAppSettings = getLongEnv("KINTONE_TEST_APP_ID_FOR_UPDATE_APP_SETTINGS");
+        testAppIdForPlugin = getLongEnv("KINTONE_TEST_APP_ID_FOR_PLUGIN");
 
         proxyHost = Objects.equals(proxyUrl, "") ? null : createProxyHost(URI.create(proxyUrl));
     }
