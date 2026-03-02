@@ -42,12 +42,12 @@ public class AppApiTest extends ApiTestBase {
         Long testAppId = TestSettings.get().getTestAppId();
         if (testAppId != null) {
             app = App.fromExisting(client, testAppId);
-            originalCustomize = app.getAppCustomize(false);
-            originalSettings = app.getAppSettings(false);
         } else {
             throw new IllegalStateException(
                     "KINTONE_TEST_APP_ID is not set. Please create a test app and set the environment variable.");
         }
+        originalCustomize = app.getAppCustomize(false);
+        originalSettings = app.getAppSettings(false);
     }
 
     @AfterEach

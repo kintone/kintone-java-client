@@ -72,11 +72,13 @@ public class TestSettings {
 
         String defaultUserCode = getEnv("KINTONE_DEFAULT_USER", "cybozu");
         String defaultUserPassword = getEnv("KINTONE_DEFAULT_PASSWORD", "cybozu");
-        defaultUser = new UserSetting(defaultUserCode, defaultUserCode, defaultUserPassword);
+        String defaultUserName = getEnv("KINTONE_DEFAULT_USER_NAME", defaultUserCode);
+        defaultUser = new UserSetting(defaultUserCode, defaultUserPassword, defaultUserName);
 
         String testUserCode = getEnv("KINTONE_TEST_USER", "user1");
         String testUserPassword = getEnv("KINTONE_TEST_PASSWORD", "user1");
-        testUser = new UserSetting(testUserCode, testUserCode, testUserPassword);
+        String testUserName = getEnv("KINTONE_TEST_USER_NAME", testUserCode);
+        testUser = new UserSetting(testUserCode, testUserPassword, testUserName);
 
         basicAuthUser = getEnv("KINTONE_BASIC_USER", "");
         basicAuthPass = getEnv("KINTONE_BASIC_PASS", "");

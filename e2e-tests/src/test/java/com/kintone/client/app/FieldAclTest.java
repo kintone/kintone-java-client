@@ -41,7 +41,6 @@ public class FieldAclTest extends ApiTestBase {
             throw new IllegalStateException(
                     "KINTONE_TEST_APP_ID is not set. Please create a test app and set the environment variable.");
         }
-        // 元のACL設定を保存
         originalFieldAcl = app.getFieldAcl(false);
     }
 

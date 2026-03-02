@@ -7,11 +7,9 @@ import lombok.Getter;
 @Getter
 public class GroupSetting {
     private final String code;
-    private final String name;
 
-    public GroupSetting(String code, String name) {
+    public GroupSetting(String code) {
         this.code = code;
-        this.name = name;
     }
 
     public Entity toEntity() {

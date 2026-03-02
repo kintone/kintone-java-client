@@ -34,7 +34,6 @@ public class ActionsTest extends ApiTestBase {
             throw new IllegalStateException(
                     "KINTONE_TEST_APP_ID is not set. Please create a test app and set the environment variable.");
         }
-        // 元のアクション設定を保存
         originalActions = app.getActions(false);
     }
 

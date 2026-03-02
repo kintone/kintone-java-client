@@ -7,13 +7,9 @@ import lombok.Getter;
 @Getter
 public class OrgSetting {
     private final String code;
-    private final String name;
-    private final String parent;
 
-    public OrgSetting(String code, String name, String parent) {
+    public OrgSetting(String code) {
         this.code = code;
-        this.name = name;
-        this.parent = parent;
     }
 
     public Entity toEntity() {

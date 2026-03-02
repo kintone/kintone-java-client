@@ -22,7 +22,7 @@ public class FormFieldsTest extends ApiTestBase {
 
     private KintoneClient client;
     private App app;
-    private Set<String> addedFieldCodes = new HashSet<>();
+    private Set<String> fieldCodesToCleanup = new HashSet<>();
 
     @BeforeEach
     public void setupApp() {
@@ -34,14 +34,14 @@ public class FormFieldsTest extends ApiTestBase {
             throw new IllegalStateException(
                     "KINTONE_TEST_APP_ID is not set. Please create a test app and set the environment variable.");
         }
-        addedFieldCodes.clear();
+        fieldCodesToCleanup.clear();
     }
 
     @AfterEach
     public void cleanupFields() {
-        if (app != null && !addedFieldCodes.isEmpty()) {
+        if (app != null && !fieldCodesToCleanup.isEmpty()) {
             try {
-                client.app().deleteFormFields(app.id(), new ArrayList<>(addedFieldCodes));
+                client.app().deleteFormFields(app.id(), new ArrayList<>(fieldCodesToCleanup));
                 client.app().deployApp(app.id());
                 app.waitDeploy();
             } catch (Exception e) {
@@ -67,8 +67,8 @@ public class FormFieldsTest extends ApiTestBase {
         AddFormFieldsResponseBody resp = client.app().addFormFields(req);
         assertThat(resp.getRevision()).isEqualTo(revision + 1);
 
-        addedFieldCodes.add(textCode);
-        addedFieldCodes.add(numberCode);
+        fieldCodesToCleanup.add(textCode);
+        fieldCodesToCleanup.add(numberCode);
 
         Map<String, FieldProperty> updatedFields = app.getFields(true);
         assertThat(updatedFields).containsKeys(textCode, numberCode);
@@ -94,7 +94,7 @@ public class FormFieldsTest extends ApiTestBase {
         assertThat(resp.getRevision()).isEqualTo(revision + 1);
 
         // numberCodeは削除されていないのでクリーンアップ対象
-        addedFieldCodes.add(numberCode);
+        fieldCodesToCleanup.add(numberCode);
 
         Map<String, FieldProperty> updatedFields = app.getFields(true);
         assertThat(updatedFields).containsKeys(numberCode);
@@ -109,8 +109,8 @@ public class FormFieldsTest extends ApiTestBase {
         FieldProperty text = Fields.text(textCode).setExpression("\"ABC\"");
         FieldProperty number = Fields.number(numberCode).setDefaultValue(BigDecimal.valueOf(100));
         app.addFields(text, number).deploy();
-        addedFieldCodes.add(textCode);
-        addedFieldCodes.add(numberCode);
+        fieldCodesToCleanup.add(textCode);
+        fieldCodesToCleanup.add(numberCode);
         long revision = app.getAppRevision(false);
 
         GetFormFieldsRequest req1 = new GetFormFieldsRequest();
@@ -124,7 +124,7 @@ public class FormFieldsTest extends ApiTestBase {
         assertThat(p2.getDefaultValue()).isEqualTo(BigDecimal.valueOf(100));
 
         app.deleteFields(textCode);
-        addedFieldCodes.remove(textCode);
+        fieldCodesToCleanup.remove(textCode);
         GetFormFieldsPreviewRequest req2 = new GetFormFieldsPreviewRequest();
         req2.setApp(app.id());
         GetFormFieldsPreviewResponseBody resp2 = client.app().getFormFieldsPreview(req2);
@@ -161,9 +161,9 @@ public class FormFieldsTest extends ApiTestBase {
         assertThat(resp.getRevision()).isEqualTo(revision + 1);
 
         // 更新後のフィールドコードをクリーンアップ対象に
-        addedFieldCodes.add(newTextCode);
-        addedFieldCodes.add(newNumberCode);
-        addedFieldCodes.add(userSelectCode);
+        fieldCodesToCleanup.add(newTextCode);
+        fieldCodesToCleanup.add(newNumberCode);
+        fieldCodesToCleanup.add(userSelectCode);
 
         Map<String, FieldProperty> updatedFields = app.getFields(true);
         assertThat(updatedFields).containsKeys(newTextCode, newNumberCode, userSelectCode);
