@@ -96,6 +96,27 @@ Run the following command to build a JAR file of this library.
 $ ./gradlew clean jar
 ```
 
+## E2E Tests
+
+E2E tests require a kintone environment. Set the following environment variables and run:
+
+```bash
+# Required environment variables
+export KINTONE_BASE_URL=https://your-domain.cybozu.com
+export KINTONE_DEFAULT_USER=your-user
+export KINTONE_DEFAULT_PASSWORD=your-password
+export KINTONE_TEST_USER=test-user
+export KINTONE_TEST_PASSWORD=test-password
+export KINTONE_SPACE_ID=your-space-id
+export KINTONE_GUEST_SPACE_ID=your-guest-space-id
+
+# Run all E2E tests
+./gradlew :e2e-tests:test
+
+# Run a specific test class
+./gradlew :e2e-tests:test --tests "*.YourTestClass"
+```
+
 ## Contribution Guide
 
 - [CONTRIBUTING.md](CONTRIBUTING.md)
