@@ -1,12 +1,11 @@
-.gradle/
-.idea/
-build/
 # bin/ is used for scripts, not Eclipse build output
 !bin/
 bin/test/
-/client/
+
+# Local environment
 .env
-kintone-java-client.jar
+
+# Eclipse
 .classpath
 .project
 .settings/
