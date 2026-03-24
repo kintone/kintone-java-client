@@ -1,0 +1,55 @@
+name: E2E Tests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+    inputs:
+      test_class:
+        description: 'Specific test class to run (e.g., DummyTest). Leave empty to run all.'
+        required: false
+        type: string
+
+concurrency:
+  group: e2e-tests
+  cancel-in-progress: true
+
+jobs:
+  e2e-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'corretto'
+          java-version: '8'
+          cache: 'gradle'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Run E2E tests
+        env:
+          KINTONE_BASE_URL: ${{ secrets.KINTONE_BASE_URL }}
+          KINTONE_DEFAULT_USER: ${{ secrets.KINTONE_DEFAULT_USER }}
+          KINTONE_DEFAULT_PASSWORD: ${{ secrets.KINTONE_DEFAULT_PASSWORD }}
+          KINTONE_TEST_USER: ${{ secrets.KINTONE_TEST_USER }}
+          KINTONE_TEST_PASSWORD: ${{ secrets.KINTONE_TEST_PASSWORD }}
+          KINTONE_SPACE_ID: ${{ secrets.KINTONE_SPACE_ID }}
+          KINTONE_GUEST_SPACE_ID: ${{ secrets.KINTONE_GUEST_SPACE_ID }}
+          KINTONE_BASIC_USER: ${{ secrets.KINTONE_BASIC_USER }}
+          KINTONE_BASIC_PASS: ${{ secrets.KINTONE_BASIC_PASS }}
+          TEST_CLASS: ${{ inputs.test_class }}
+        run: |
+          if [ -n "$TEST_CLASS" ]; then
+            ./gradlew :e2e-tests:test --tests "*.$TEST_CLASS"
+          else
+            ./gradlew :e2e-tests:test
+          fi
