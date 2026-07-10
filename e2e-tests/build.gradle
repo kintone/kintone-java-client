@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'com.diffplug.spotless' version '6.13.0'
+    id 'com.github.hierynomus.license' version '0.16.1'
 }
 
 sourceCompatibility = 1.8
@@ -12,13 +14,34 @@ repositories {
 dependencies {
     implementation project(':')
 
+    testCompileOnly 'org.projectlombok:lombok:1.18.34'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.34'
+
+    testImplementation 'org.apache.httpcomponents.client5:httpclient5:5.3.1'
+    testImplementation 'ch.qos.logback:logback-classic:1.3.14'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.3'
     testImplementation 'org.assertj:assertj-core:3.26.0'
 
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.3'
+    testRuntimeOnly 'mysql:mysql-connector-java:8.0.33'
+}
+
+spotless {
+    java {
+        googleJavaFormat()
+        indentWithTabs(2)
+        indentWithSpaces(4)
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
 }
 
 test {
     useJUnitPlatform()
     jvmArgs '-Duser.timezone=Asia/Tokyo'
+}
+
+downloadLicenses {
+    dependencyConfiguration = "testRuntimeClasspath"
 }

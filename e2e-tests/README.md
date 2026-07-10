@@ -1,29 +1,32 @@
-# E2E Tests
+# kintone-java-client E2E Tests
 
-End-to-end tests for kintone-java-client that run against a real kintone environment.
+End-to-end tests that send actual requests to a kintone environment using kintone-java-client.
 
 ## Prerequisites
 
-- Java 8 or later
-- A kintone environment for testing
+These tests use **pre-created kintone resources** (apps, spaces, users) instead of creating new ones for each test run. This approach:
+- Prevents accumulation of test apps that cannot be deleted via API
+- Enables consistent test execution in CI
 
-## Environment Variables
+You need to set up the following in your kintone environment before running tests:
+- Test apps with required fields
+- Spaces (single-thread, multi-thread, guest)
+- Test users and groups
 
-Set the following environment variables before running tests:
+See `.env.example` for the full list of required resources.
 
-| Variable | Description |
-|----------|-------------|
-| `KINTONE_BASE_URL` | Base URL of your kintone environment |
-| `KINTONE_DEFAULT_USER` | Default user login name |
-| `KINTONE_DEFAULT_PASSWORD` | Default user password |
-| `KINTONE_TEST_USER` | Test user login name |
-| `KINTONE_TEST_PASSWORD` | Test user password |
-| `KINTONE_SPACE_ID` | Space ID for testing |
-| `KINTONE_GUEST_SPACE_ID` | Guest space ID for testing |
-| `KINTONE_BASIC_USER` | Basic auth username (if enabled) |
-| `KINTONE_BASIC_PASS` | Basic auth password (if enabled) |
+## How to Run
 
-## Running Tests
+### Setup
+
+1. Copy `.env.example` to `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Edit `.env` with your kintone environment settings
+
+### Running Tests
 
 From the project root directory:
 
@@ -31,22 +34,83 @@ From the project root directory:
 # Run all E2E tests
 ./gradlew :e2e-tests:test
 
-# Run a specific test class
-./gradlew :e2e-tests:test --tests "*.RecordApiTest"
+# Run specific test class
+./gradlew :e2e-tests:test --tests "RecordApiTest"
 
-# Run with environment variables inline
-KINTONE_BASE_URL=https://example.cybozu.com \
-KINTONE_DEFAULT_USER=user \
-KINTONE_DEFAULT_PASSWORD=pass \
-./gradlew :e2e-tests:test
+# Run specific test method
+./gradlew :e2e-tests:test --tests "RecordApiTest.addRecord"
 ```
 
-## CI/CD
+### Running from IntelliJ
 
-Tests are automatically run via GitHub Actions:
+- Run test classes or methods as usual
+- Ensure environment variables are configured (use EnvFile plugin or run configuration)
 
-- On push to `master` branch
-- On pull requests to `master` branch
-- Manually via workflow dispatch (with optional specific test class)
+## Environment Variables
 
-See `.github/workflows/e2e.yml` for the workflow configuration.
+### Required
+
+| Variable | Description |
+|----------|-------------|
+| `KINTONE_BASE_URL` | URL of the kintone environment (e.g., `https://example.cybozu.com`) |
+| `KINTONE_DEFAULT_USER` | Login name for the default user |
+| `KINTONE_DEFAULT_PASSWORD` | Password for the default user |
+| `KINTONE_TEST_APP_ID` | Pre-created app ID for general tests |
+| `KINTONE_SPACE_ID` | Single-thread space ID |
+
+See `.env.example` for the complete list.
+
+### Optional (Basic Auth / Client Cert)
+
+| Variable | Description |
+|----------|-------------|
+| `KINTONE_BASIC_USER` | Basic authentication username |
+| `KINTONE_BASIC_PASS` | Basic authentication password |
+| `KINTONE_CLIENT_CERT` | Path to client certificate file |
+| `KINTONE_CLIENT_CERT_PASS` | Client certificate password |
+
+## Proxy Tests
+
+Proxy configuration is supported via the `KINTONE_PROXY_URL` environment variable.
+
+A Squid container for testing is available in `docker/proxy/`.
+
+```bash
+# Build and run the proxy server
+docker build -t test-proxy docker/proxy
+docker run --rm -p3128:3128 test-proxy
+
+# (In another terminal) Run tests via proxy
+KINTONE_PROXY_URL=http://localhost:3128 ./gradlew :e2e-tests:test
+```
+
+### Authenticated Proxy
+
+```bash
+# Start proxy with Basic authentication
+docker run --rm -p3128:3128 -e proxy_auth=basic \
+  -e proxy_user=user1 -e proxy_pass=password1 test-proxy
+
+# Run tests with proxy credentials
+KINTONE_PROXY_URL=http://localhost:3128 \
+  KINTONE_PROXY_USER=user1 \
+  KINTONE_PROXY_PASS=password1 \
+  ./gradlew :e2e-tests:test
+```
+
+## Package Structure
+
+```
+com.kintone.client
+  + app/       AppClient API tests (settings, ACL, fields, views, etc.)
+  + bulk/      bulkRequest API tests
+  + file/      FileClient API tests (upload/download)
+  + plugin/    PluginClient API tests
+  + record/    RecordClient API tests (CRUD, comments, cursor)
+  + schema/    SchemaClient API tests
+  + space/     SpaceClient API tests
+  + helper/    Test setup helpers (App, Space, Fields, builders)
+```
+
+Tests focus on APIs that take `*Request` objects and return `*ResponseBody` objects. Convenience method variations are covered by unit tests.
+

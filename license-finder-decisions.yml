@@ -92,3 +92,24 @@
     :versions:
     - 1.6.2
     :when: 2021-06-03 00:56:26.027980587 Z
+- - :approve
+  - logback-classic
+  - :who:
+    :why: EPL 1.0/LGPL - Test dependency only
+    :versions:
+    - 1.3.14
+    :when: 2026-03-25 00:00:00.000000000 Z
+- - :approve
+  - logback-core
+  - :who:
+    :why: EPL 1.0/LGPL - Test dependency only
+    :versions:
+    - 1.3.14
+    :when: 2026-03-25 00:00:00.000000000 Z
+- - :approve
+  - mysql-connector-j
+  - :who:
+    :why: GPL v2 with FOSS Exception - Test dependency only
+    :versions:
+    - 8.0.33
+    :when: 2026-03-25 00:00:00.000000000 Z

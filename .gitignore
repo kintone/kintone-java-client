@@ -7,3 +7,12 @@ build
 .idea
 
 .mise.toml.local
+
+e2e-tests/.env
+e2e-tests/build/
+e2e-tests/bin/test/
+e2e-tests/*.jar
+e2e-tests/.classpath
+e2e-tests/.project
+e2e-tests/.settings/
+
