@@ -112,10 +112,7 @@ jobs:
           cache: 'gradle'
 
       - name: Grant execute permission
-        run: |
-          chmod +x gradlew
-          chmod +x e2e-tests/gradlew
-          chmod +x e2e-tests/bin/*.sh
+        run: chmod +x gradlew
 
       - name: Build and start proxy container
         run: |
@@ -131,9 +128,7 @@ jobs:
           done
 
       - name: Run SmokeTest via proxy
-        run: |
-          cd e2e-tests
-          ./bin/run-test.sh --tests SmokeTest
+        run: ./gradlew :e2e-tests:test --tests "*.SmokeTest"
         env:
           KINTONE_PROXY_URL: http://localhost:3128
 
@@ -176,10 +171,7 @@ jobs:
           cache: 'gradle'
 
       - name: Grant execute permission
-        run: |
-          chmod +x gradlew
-          chmod +x e2e-tests/gradlew
-          chmod +x e2e-tests/bin/*.sh
+        run: chmod +x gradlew
 
       - name: Build and start proxy container with auth
         run: |
@@ -199,9 +191,7 @@ jobs:
           done
 
       - name: Run SmokeTest via authenticated proxy
-        run: |
-          cd e2e-tests
-          ./bin/run-test.sh --tests SmokeTest
+        run: ./gradlew :e2e-tests:test --tests "*.SmokeTest"
         env:
           KINTONE_PROXY_URL: http://localhost:3128
           KINTONE_PROXY_USER: user1
